@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
-import globalStyles from '../styles/styles';
+import globalStyles from '../../styles/styles';
+import { commonFunctions } from '../../utils';
 
 const ForgotPasswordScreen = () => {
-
+    
     const [email, setEmail] = useState('');
 
-    const navigation = useNavigation();
-
-    const navigateBack = () => {
-        navigation.goBack();
-    };
+    const createAlert = () =>
+    Alert.alert(
+      "No encontrammos tu cuenta",
+      'El mail que ingresaste parece no estar registrado. Revisrá que esté bien escribo o probá con otro diferente',
+      [
+        { text: "OK", onPress: () => {} }
+      ]
+    );
 
     return (
 
@@ -21,12 +24,13 @@ const ForgotPasswordScreen = () => {
             behavior="padding"
         >
 
+            {/* BACK ARROW */}
             <View
-                style={globalStyles.arrowContainer}
+                style={ [globalStyles.arrowContainer, styles.arrowSpace] }
             >
 
                 <TouchableOpacity
-                    onPress={navigateBack}
+                    onPress={ commonFunctions.navigateBack() }
                     style={globalStyles.backArrow}
                 >
                     <MaterialIcons name="arrow-back-ios" style={globalStyles.arrow} />
@@ -47,11 +51,11 @@ const ForgotPasswordScreen = () => {
                 style={globalStyles.inputContainer}
             >
 
-                <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>EMAIL / NOMBRE DE USUARIO</Text>
+                <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>EMAIL</Text>
                 <View style={globalStyles.inputRow}>
                     <AntDesign name="mail" style={globalStyles.icons} />
                     <TextInput
-                        placeholder=""
+                        placeholder="Email"
                         value={email}
                         keyboardType="email-address"
                         icon="mail"
@@ -65,7 +69,7 @@ const ForgotPasswordScreen = () => {
             <View style={[styles.buttonContainer, globalStyles.widthEightyFive]}>
 
                 <TouchableOpacity
-                    // onPress={handleLogin}
+                    onPress={ commonFunctions.navigateToPage('Home') }
                     style={[globalStyles.button, globalStyles.primary, globalStyles.widthFluid]}
                 >
                     <Text style={globalStyles.textWhite}>Iniciar sesión</Text>

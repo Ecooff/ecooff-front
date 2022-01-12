@@ -8,13 +8,12 @@ export default StyleSheet.create({
 
     scrollContainer: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     arrowContainer: {
         width: '85%',
-        marginTop: 50,
-        marginBottom: 60
+        marginTop: 50
     },
 
     backArrow: {
@@ -53,19 +52,6 @@ export default StyleSheet.create({
 
     widthEightyFive: {
         width: '85%'
-    },
-
-    titleContainer: {
-        width: '85%',
-        marginBottom: 50
-    },
-
-    title: {
-        marginBottom: 10
-    },
-
-    subTitle: {
-        color: '#888888'
     },
 
     inputContainer: {
@@ -109,3 +95,10 @@ export default StyleSheet.create({
     },
 
 });
+{/*
+
+"¡Encontramos tu cuenta!",
+'Revisa tu correo donde vas a encontrar las instrucciones para cambiar tu contraseña. De no encontrarlo revisa la carpeta de "Spam o no deseado"',
+[
+
+*/}
