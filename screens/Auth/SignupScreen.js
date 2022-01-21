@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import globalStyles from '../../styles/styles';
 import authStyles from '../../styles/authStyles';
-import { commonFunctions } from '../../utils';
+import { useNavigation } from '@react-navigation/native';
+
+{/* COMPONENTS */}
+import { AuthMenuComponent } from '../../components';
 
 const SignupScreen = () => {
 
@@ -14,16 +16,13 @@ const SignupScreen = () => {
     const [password, setPassword] = useState('');
     const [repetePassword, setRepetePassword] = useState('');
 
-    const navigation = useNavigation();
+    const navigator = useNavigation();
 
-    const navigateToPage = page => {
-        navigation.navigate(page);
-    };
 
     return (
 
         <ScrollView
-            style={[globalStyles.widthFluid, styles.scrollViewContains]}
+            style={[globalStyles.widthFluid]}
         >
 
             <KeyboardAvoidingView
@@ -34,15 +33,19 @@ const SignupScreen = () => {
 
                 {/* BACK ARROW */}
                 <View
-                    style={[globalStyles.arrowContainer, styles.arrowSpace]}
+                    style={[styles.arrowSpace, globalStyles.arrowContainer, globalStyles.row, globalStyles.alignItemsCenter]}
                 >
 
                     <TouchableOpacity
-                        onPress={commonFunctions.navigateBack()}
+                        onPress={navigator.goBack}
                         style={globalStyles.backArrow}
                     >
                         <MaterialIcons name="arrow-back-ios" style={globalStyles.arrow} />
                     </TouchableOpacity>
+
+                    <Image
+                        style={[authStyles.logoInline, globalStyles.menuLogo]}
+                        source={require('../../assets/icon-long.png')} />
 
                 </View>
 
@@ -58,7 +61,7 @@ const SignupScreen = () => {
 
                 {/* INPUTS */}
                 <View
-                    style={globalStyles.inputContainer}
+                    style={globalStyles.widthEightyFive}
                 >
                     <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>NOMBRE Y APELLIDO</Text>
 
@@ -144,7 +147,7 @@ const SignupScreen = () => {
 
                 {/* FINAL LABEL */}
                 <TouchableOpacity
-                    onPress={() => navigateToPage('Login')}
+                    onPress={() => navigator.navigate('Login')}
                     style={[styles.finalLabel, authStyles.registerContainter]}
                 >
 
@@ -172,9 +175,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
 
-    scrollViewContains: {
-    },
-
     arrowSpace: {
         marginBottom: 40
     },
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     inputCols: {
         width: '48%',
         flexDirection: 'row',
-        backgroundColor: 'white',
+        backgroundColor: '#F9FAFB',
         borderRadius: 3,
         marginBottom: 25,
         alignItems: 'center'

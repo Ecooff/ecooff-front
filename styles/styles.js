@@ -3,7 +3,11 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   
     primary: {
-        backgroundColor: '#979797'
+        backgroundColor: '#6CAA7A'
+    },
+  
+    secondary: {
+        backgroundColor: '#4DB591'
     },
 
     scrollContainer: {
@@ -13,7 +17,7 @@ export default StyleSheet.create({
 
     arrowContainer: {
         width: '85%',
-        marginTop: 50
+        marginTop: 40
     },
 
     backArrow: {
@@ -42,8 +46,16 @@ export default StyleSheet.create({
         fontSize: 14,
     },
 
+    fontXSmall: {
+        fontSize: 12,
+    },
+
     fontBold: {
         fontWeight: 'bold'
+    },
+
+    textCenter: {
+        textAlign: 'center'
     },
 
     widthFluid: {
@@ -54,8 +66,24 @@ export default StyleSheet.create({
         width: '85%'
     },
 
-    inputContainer: {
-        width: '85%'
+    row: {
+        flexDirection: 'row',
+    },
+
+    justifyContentCenter: {
+        justifyContent: 'center'
+    },
+
+    justifyContentBetween: {
+        justifyContent: 'space-between'
+    },
+
+    justifyContentAround: {
+        justifyContent: 'space-around'
+    },
+
+    alignItemsCenter: {
+        alignItems: 'center'
     },
 
     inputLabel: {
@@ -65,7 +93,7 @@ export default StyleSheet.create({
 
     inputRow: {
         flexDirection: 'row',
-        backgroundColor: 'white',
+        backgroundColor: '#F9FAFB',
         borderRadius: 3,
         marginBottom: 25,
         alignItems: 'center'
@@ -94,11 +122,9 @@ export default StyleSheet.create({
         color: 'white'
     },
 
+    menuLogo: {
+        width: 100,
+        height: 60
+    },
+
 });
-{/*
-
-"¡Encontramos tu cuenta!",
-'Revisa tu correo donde vas a encontrar las instrucciones para cambiar tu contraseña. De no encontrarlo revisa la carpeta de "Spam o no deseado"',
-[
-
-*/}

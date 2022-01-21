@@ -1,36 +1,58 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import commonFunctions from './utils/CommonFunctions';
 
 
 // AUTHENTICATION
+import AuthHomeScreen from './screens/Auth/AuthHomeScreen';
 import LoginScreen from './screens/Auth/LoginScreen';
 import SignupScreen from './screens/Auth/SignupScreen';
 import ForgotPasswordScreen from './screens/Auth/ForgotPasswordScreen';
 import ForgotSuccess from './screens/Auth/ForgotSuccessful';
+import RestorePassword from './screens/Auth/RestorePassword';
 
 // SCREENS
 import HomeScreen from './screens/HomeScreen';
+
+// SCREENS -> USER
+import ProfileScreen from './screens/User/ProfileScreen';
+
+// SCREENS -> SHOP
+import CartScreen from './screens/Shop/CartScreen';
+import OrdersScreen from './screens/Shop/OrdersScreen';
+
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 
+  const navTheme = DefaultTheme;
+  navTheme.colors.background = '#FFF';
+
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={navTheme}
+    >
       <Stack.Navigator>
 
         {/* AUTH */}
+        <Stack.Screen options={{ headerShown: false }} name="AuthHome" component={AuthHomeScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Signup" component={SignupScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Forgot" component={ForgotPasswordScreen} />
         <Stack.Screen options={{ headerShown: false }} name="ForgotSuccess" component={ForgotSuccess} />
+        <Stack.Screen options={{ headerShown: false }} name="Restore" component={RestorePassword} />
 
         {/* HOME */}
-        <Stack.Screen name="Home" component={HomeScreen} />
-        
+        <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
+
+        {/* PROFILE */}
+        <Stack.Screen options={{ headerShown: false }} name="Profile" component={ProfileScreen} />
+
+        {/* CART */}
+        <Stack.Screen options={{ headerShown: false }} name="Cart" component={CartScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Orders" component={OrdersScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

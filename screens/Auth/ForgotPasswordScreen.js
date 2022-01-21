@@ -1,54 +1,48 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import globalStyles from '../../styles/styles';
-import { commonFunctions } from '../../utils';
+import authStyles from '../../styles/authStyles';
+import { useNavigation } from '@react-navigation/native';
+
+{/* COMPONENTS */}
+import { AuthMenuComponent } from '../../components';
 
 const ForgotPasswordScreen = () => {
-    
+
     const [email, setEmail] = useState('');
+    const navigator = useNavigation();
 
     const createAlert = () =>
-    Alert.alert(
-      "No encontrammos tu cuenta",
-      'El mail que ingresaste parece no estar registrado. Revisrá que esté bien escribo o probá con otro diferente',
-      [
-        { text: "OK", onPress: () => {} }
-      ]
-    );
+        Alert.alert(
+            "No encontrammos tu cuenta",
+            'El mail que ingresaste parece no estar registrado. Revisrá que esté bien escribo o probá con otro diferente',
+            [
+                { text: "OK", onPress: () => { } }
+            ]
+        );
 
     return (
 
         <KeyboardAvoidingView
-            style={globalStyles.scrollContainer}
+            style={[globalStyles.scrollContainer]}
             behavior="padding"
         >
 
             {/* BACK ARROW */}
+            <AuthMenuComponent />
+
             <View
-                style={ [globalStyles.arrowContainer, styles.arrowSpace] }
+                style={authStyles.titleContainer}
             >
 
-                <TouchableOpacity
-                    onPress={ commonFunctions.navigateBack() }
-                    style={globalStyles.backArrow}
-                >
-                    <MaterialIcons name="arrow-back-ios" style={globalStyles.arrow} />
-                </TouchableOpacity>
+                <Text style={[authStyles.title, globalStyles.fontLarge]}>¿Olvidate tu contraseña?</Text>
+                <Text style={[authStyles.subTitle, globalStyles.fontMedium]}>Ingresa tu email para recuperarla</Text>
 
             </View>
 
             <View
-                style={globalStyles.titleContainer}
-            >
-
-                <Text style={[globalStyles.title, globalStyles.fontLarge]}>¿Olvidate tu contraseña?</Text>
-                <Text style={[globalStyles.subTitle, globalStyles.fontMedium]}>Ingresa tu email para recuperarla</Text>
-
-            </View>
-
-            <View
-                style={globalStyles.inputContainer}
+                style={globalStyles.widthEightyFive}
             >
 
                 <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>EMAIL</Text>
@@ -66,13 +60,25 @@ const ForgotPasswordScreen = () => {
 
             </View>
 
-            <View style={[styles.buttonContainer, globalStyles.widthEightyFive]}>
+            <View style={ [ styles.buttonContainer, authStyles.buttonContainer, globalStyles.widthEightyFive] }>
 
                 <TouchableOpacity
-                    onPress={ commonFunctions.navigateToPage('Home') }
-                    style={[globalStyles.button, globalStyles.primary, globalStyles.widthFluid]}
+                    onPress={ () => navigator.navigate('ForgotSuccess') }
+                    style={ [globalStyles.button, globalStyles.primary, globalStyles.widthFluid] }
                 >
-                    <Text style={globalStyles.textWhite}>Iniciar sesión</Text>
+                    <Text style={ globalStyles.textWhite }>Enviar código</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                onPress={() => navigator.navigate('Restore')}
+                    style={ styles.headerContainer }
+                >
+
+                    <Text style={[styles.headerTitle, globalStyles.fontSmall]}>
+                        ¿No tenés cuenta?
+                        <Text style={globalStyles.fontBold}> Registrate</Text>
+                    </Text>
+
                 </TouchableOpacity>
 
             </View>
@@ -86,10 +92,16 @@ export default ForgotPasswordScreen
 
 const styles = StyleSheet.create({
 
-    buttonContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    arrowSpace: {
         marginBottom: 30
+    },
+
+    buttonContainer: {
+        marginTop: 150
+    },
+
+    headerContainer: {
+        marginTop:20
     }
 
 })

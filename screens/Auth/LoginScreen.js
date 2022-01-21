@@ -1,45 +1,34 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import { KeyboardAvoidingView, StatusBar, StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import globalStyles from '../../styles/styles';
 import authStyles from '../../styles/authStyles';
-import { commonFunctions } from '../../utils';
+import { useNavigation } from '@react-navigation/native';
+
+{/* COMPONENTS */ }
+import { AuthMenuComponent } from '../../components';
 
 const LoginScreen = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const navigation = useNavigation();
-
-    const handleLogin = () => {
-        navigation.navigate("Home");
-    };
-
-    const navigateToPage = page => {
-        navigation.navigate(page);
-    };
+    const navigator = useNavigation();
 
     return (
+
         <KeyboardAvoidingView
-            style={globalStyles.scrollContainer}
+            style={[globalStyles.scrollContainer]}
             behavior="padding"
         >
 
+            <StatusBar
+                barStyle="dark-content"
+            />
+
             {/* BACK ARROW */}
-            <View
-                style={[globalStyles.arrowContainer, styles.arrowSpace]}
-            >
-
-                <TouchableOpacity
-                    onPress={ commonFunctions.navigateBack() }
-                    style={globalStyles.backArrow}
-                >
-                    <MaterialIcons name="arrow-back-ios" style={globalStyles.arrow} />
-                </TouchableOpacity>
-
-            </View>
+            <AuthMenuComponent />
 
             {/* WELCOME MESSAGE */}
             <View
@@ -47,13 +36,13 @@ const LoginScreen = () => {
             >
 
                 <Text style={[authStyles.title, globalStyles.fontLarge]}>¡Bienvenidx de vuelta!</Text>
-                <Text style={[authStyles.subTitle, globalStyles.fontMedium]}>Accede a tu cuenta</Text>
+                <Text style={[styles.subTitle, authStyles.subTitle, globalStyles.fontMedium]}>Accede a tu cuenta</Text>
 
             </View>
 
             {/* INPUTS */}
             <View
-                style={globalStyles.inputContainer}
+                style={globalStyles.widthEightyFive}
             >
 
                 <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>EMAIL / NOMBRE DE USUARIO</Text>
@@ -84,17 +73,48 @@ const LoginScreen = () => {
             </View>
 
             <TouchableOpacity
-                onPress={() => navigateToPage('Forgot')}
+                onPress={() => navigator.navigate('Forgot')}
                 style={styles.forgotContainer}
             >
                 <Text style={[styles.headerTitle, globalStyles.fontSmall, globalStyles.fontBold]}>¿Olvidaste tu contraseña?</Text>
             </TouchableOpacity>
 
+            {/* SOCIAL BUTTONS */}
+            <View
+                style={[styles.socialRow, globalStyles.row, globalStyles.alignItemsCenter]}
+            >
+
+                {/* APPLE */}
+                <TouchableOpacity
+                    onPress={() => navigator.navigate('Home')}
+                    style={styles.socialIcon}
+                >
+                    <AntDesign name="apple1" size={22} style={styles.socialColor} />
+                </TouchableOpacity>
+
+                {/* FACEBOOK */}
+                <TouchableOpacity
+                    onPress={() => navigator.navigate('Home')}
+                    style={[styles.socialIcon, styles.facebook]}
+                >
+                    <FontAwesome name="facebook-f" size={22} style={styles.socialColor} color="#1777F2" />
+                </TouchableOpacity>
+
+                {/* GOOGLE */}
+                <TouchableOpacity
+                    onPress={() => navigator.navigate('Home')}
+                    style={[styles.socialIcon, styles.google]}
+                >
+                    <AntDesign name="google" size={22} style={styles.socialColor} color="#ef4432" />
+                </TouchableOpacity>
+
+            </View>
+
             {/* BUTTON */}
-            <View style={[styles.buttonContainer, globalStyles.widthEightyFive]}>
+            <View style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}>
 
                 <TouchableOpacity
-                    onPress={handleLogin}
+                    onPress={() => navigator.navigate('Home')}
                     style={[globalStyles.button, globalStyles.primary, globalStyles.widthFluid]}
                 >
                     <Text style={globalStyles.textWhite}>Iniciar sesión</Text>
@@ -103,7 +123,7 @@ const LoginScreen = () => {
             </View>
 
             <TouchableOpacity
-                onPress={() => navigateToPage('Signup')}
+                onPress={() => navigator.navigate('Signup')}
                 style={styles.registerContainter}
             >
 
@@ -123,13 +143,17 @@ export default LoginScreen
 const styles = StyleSheet.create({
 
     arrowSpace: {
-        marginBottom: 60
+        marginBottom: 28
     },
 
     forgotContainer: {
         width: '80%',
-        marginTop: 15,
+        marginTop: 5,
         marginBottom: 30,
+    },
+
+    subTitle: {
+        marginBottom: -5,
     },
 
     headerTitle: {
@@ -138,10 +162,22 @@ const styles = StyleSheet.create({
         color: '#121515'
     },
 
-    buttonContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 30
+    socialRow: {
+        width: '50%',
+        justifyContent: 'space-around',
+        marginBottom: 25
     },
+
+    socialIcon: {
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 10
+    },
+
+    facebook: {
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+    },
+
 
 })

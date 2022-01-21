@@ -24,13 +24,18 @@ export default StyleSheet.create({
         height: 100
     },
 
+    logoInline: {
+        marginLeft: 20
+    },
+
     titleContainer: {
         width: '85%',
         marginBottom: 50
     },
 
     title: {
-        marginBottom: 10
+        marginBottom: 10,
+        fontWeight: 'bold'
     },
 
     subTitle: {

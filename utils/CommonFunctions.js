@@ -1,10 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 
-const navigateToPage = () => {
-    return useNavigation().navigate('Home');
+function navigateToPage(page) {
+    console.log(page);
+    useNavigation().navigate(page);
 };
 
 const navigateBack = () => {
+    console.log('2');
     return useNavigation().goBack;
 };
 
