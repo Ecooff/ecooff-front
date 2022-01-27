@@ -140,8 +140,8 @@ const styles = StyleSheet.create({
 
     banner: {
         top: -100,
-        borderBottomEndRadius: 500,
-        borderBottomStartRadius: 500,
+        borderBottomLeftRadius: 500,
+        borderBottomRightRadius: 500,
     }
 
 })

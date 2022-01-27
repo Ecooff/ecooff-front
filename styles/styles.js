@@ -54,12 +54,24 @@ export default StyleSheet.create({
         fontWeight: 'bold'
     },
 
+    fontMain: {
+        // fontFamily: 'Poppins'
+    },
+
+    fontSecondary: {
+        fontFamily: 'Karla'
+    },
+
     textCenter: {
         textAlign: 'center'
     },
 
     widthFluid: {
         width: '100%'
+    },
+
+    widthHalf: {
+        width: '50%'
     },
 
     widthEightyFive: {
@@ -80,6 +92,10 @@ export default StyleSheet.create({
 
     justifyContentAround: {
         justifyContent: 'space-around'
+    },
+
+    alignItemsStart: {
+        alignItems: 'flex-start'
     },
 
     alignItemsCenter: {
@@ -125,6 +141,13 @@ export default StyleSheet.create({
     menuLogo: {
         width: 100,
         height: 60
+    },
+
+    sellIcons: {
+        borderRadius: 5,
+        borderWidth: 1,
+        paddingHorizontal: 6,
+        paddingVertical: 3
     },
 
 });

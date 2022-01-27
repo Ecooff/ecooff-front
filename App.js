@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
 
 // AUTHENTICATION
@@ -13,6 +14,11 @@ import RestorePassword from './screens/Auth/RestorePassword';
 
 // SCREENS
 import HomeScreen from './screens/HomeScreen';
+
+// PRODUCTS
+import ProductScreen from './screens/Products/ProductScreen';
+import ListScreen from './screens/Products/ListScreen';
+import GroupListScreen from './screens/Products/GroupListScreen';
 
 // SCREENS -> USER
 import ProfileScreen from './screens/User/ProfileScreen';
@@ -53,7 +59,14 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="Cart" component={CartScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Orders" component={OrdersScreen} />
 
+        {/* Product */}
+        <Stack.Screen options={{ headerShown: false }} name="Product" component={ProductScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="List" component={ListScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="GroupList" component={GroupListScreen} />
+
       </Stack.Navigator>
+
     </NavigationContainer>
+    
   );
 }

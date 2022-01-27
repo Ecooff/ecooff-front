@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
-import { ScrollView, StatusBar, StyleSheet, Image, Text, View, TextInput } from 'react-native'
+import { ScrollView, StatusBar, StyleSheet, Image, Text, View, TextInput, TouchableOpacity } from 'react-native'
 import globalStyles from '../styles/styles';
 import { EvilIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { FontAwesome5 } from '@expo/vector-icons';
+
 
 {/* COMPONENTS */ }
 import { MenuComponent, FooterComponent } from '../components';
@@ -11,72 +14,109 @@ const HomeScreen = () => {
 
     const [search, setQuery] = useState('');
 
+    const shadowStyle = {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.15,
+        shadowRadius: 3.84,
+    };
+
     const listOfProducts = ['Próximos a vencer', 'Pensados para vos', 'Comercios'];
+
     const products = [
         [
             {
-                url: 'https://hiperlibertad.vteximg.com.br/arquivos/ids/155869-1000-1000/Gaseosa-Coca-Cola-sin-azucar-500-Cc-COCA-COLA-S-AZ----X500ML-1-3057.jpg?v=637236235046500000',
+                url: 'http://assets.stickpng.com/thumbs/580b57fbd9996e24bc43c0de.png',
                 title: 'Coca Cola',
-                price: '340'
+                price: '340',
+                expirationDate: '7 días',
+                seller: {
+                    url: 'http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png',
+                    title: 'Carrefour'
+                },
             },
             {
-                url: 'https://jumboargentina.vteximg.com.br/arquivos/ids/582120-750-750/Pan-Blanco-Bimbo-550-Gr-1-848509.jpg?v=637231218428570000',
+                url: 'https://bimbocentroamerica-com-assets.s3.amazonaws.com/s3fs-public/inline-images/1-Pan-Blanco.png?gYmTW593ZNv45iX3zRB7iV9pQ7Njocpj',
                 title: 'Pan Lactal Bimbo',
-                price: '230'
+                price: '230',
+                expirationDate: '4 días',
+                seller: {
+                    url: 'http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png',
+                    title: 'Carrefour'
+                },
             },
             {
-                url: 'https://media.istockphoto.com/photos/banana-bunch-picture-id173242750?k=20&m=173242750&s=612x612&w=0&h=dgXrAP6otDeY5h6fhy-SRmW-2dFOCKx1_hNS1lLWF7Y=',
+                url: 'https://sicarfarms.com/wp-content/uploads/2021/01/Platano.png',
                 title: 'Bananas',
-                price: '404'
+                price: '404',
+                expirationDate: '5 días',
+                seller: {
+                    url: 'http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png',
+                    title: 'Carrefour'
+                },
             },
             {
                 url: 'https://cepadevinos.com/wp-content/uploads/2018/06/Santa-Julia-Reserva-Malbec-Cabernet-Franc.jpg',
                 title: 'Santa Julia Malbec',
-                price: '478'
+                price: '478',
+                expirationDate: '1 día',
+                seller: {
+                    url: 'http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png',
+                    title: 'Carrefour'
+                },
             },
             {
                 url: 'https://www.casa-segal.com/wp-content/uploads/2019/10/chocolate-taza-aguila-semi-amargo-100-gramos-reposteria-mendoza-casa-segal.jpg',
                 title: 'Chocolate aguila',
-                price: '239'
+                price: '239',
+                expirationDate: '7 días',
+                seller: {
+                    url: 'http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png',
+                    title: 'Carrefour'
+                },
             },
         ],
         [
             {
                 url: 'https://www.distribuidorapop.com.ar/wp-content/uploads/2019/05/galletitas-oreo-venta-ml.jpg',
                 title: 'Oreo',
-                price: '187'
+                price: '187',
+                expirationDate: '2 días'
             },
             {
                 url: 'https://hiperlibertad.vteximg.com.br/arquivos/ids/160060-600-600/345303-01.a.jpg?v=637248023600270000',
                 title: 'Fideos Matarazzo',
-                price: '146'
+                price: '146',
+                expirationDate: '5 días'
             },
             {
                 url: 'https://elsuperweb.com/wp-content/uploads/2020/07/GARBANZO-768x768.png',
                 title: 'GArbanzos en lata',
-                price: '86'
+                price: '86',
+                expirationDate: '4 días'
             },
             {
                 url: 'https://statics.dinoonline.com.ar/imagenes/full_600x600_ma/2120128_f.jpg',
                 title: 'Pan dulce',
-                price: '530'
+                price: '530',
+                expirationDate: '4 días'
             },
             {
                 url: 'https://http2.mlstatic.com/D_NQ_NP_698348-MLA44886982846_022021-O.jpg',
                 title: 'Tofu soyana',
-                price: '326'
-        }],
+                price: '326',
+                expirationDate: '7 días'
+            }],
         [
             {
-                url: 'https://promosdelbanco.com/wp-content/uploads/2017/04/Carrefour-Supermercados.png',
+                url: 'http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png',
                 title: 'Carrefour'
             },
             {
-                url: 'https://cdn.theorg.com/ba262ed8-039d-41f9-b7dd-053c75d4d48d_thumb.jpg',
-                title: 'Farmacity'
-            },
-            {
-                url: 'https://www.coto.com.ar/images/avatar_coto.png',
+                url: 'http://www.dogoseguridad.com.ar/images/logos-clientes/logo1.png',
                 title: 'Coto'
             },
             {
@@ -84,20 +124,23 @@ const HomeScreen = () => {
                 title: 'Día'
             },
             {
+                url: 'https://cdn.theorg.com/ba262ed8-039d-41f9-b7dd-053c75d4d48d_thumb.jpg',
+                title: 'Farmacity'
+            },
+            {
                 url: 'https://www.gaf-franquicias.com/images/notas/logos/1606400097_365kioscos_franquicia.jpg',
                 title: '365'
-        }]
+            }]
     ];
 
     const items = [
-        { url: "../assets/logo-hamburger.png", title: 'Panificados' },
-        { url: "../assets/logo-hamburger.png", title: 'Verduras' },
-        { url: "../assets/logo-hamburger.png", title: 'Fruta' },
-        { url: "../assets/logo-hamburger.png", title: 'Bebidas' },
-        { url: "../assets/logo-hamburger.png", title: 'Alcohol' },
-        { url: "../assets/logo-hamburger.png", title: 'Galletas' },
-        { url: "../assets/logo-hamburger.png", title: 'Basicos' }
+        { icon: require("../assets/icons/store.png"), title: 'Mercado' },
+        { icon: require("../assets/icons/cosmetic.png"), title: 'Cosmetica' },
+        { icon: require("../assets/icons/pharmacy.png"), title: 'Farmacia' },
+        { icon: require("../assets/icons/surprice.png"), title: 'Sorpresas' }
     ];
+
+    const navigator = useNavigation();
 
     return (
 
@@ -118,28 +161,28 @@ const HomeScreen = () => {
                 <MenuComponent />
 
                 {/* CATEGORIES SCROLL */}
-                <ScrollView
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.categoryScroll}
-                    horizontal={true}
+                <View
+                    style={[styles.categoryScroll, globalStyles.row, globalStyles.alignItemsCenter, globalStyles.justifyContentBetween]}
                 >
                     {
 
-                        items.map(item => {
+                        items.map((item, index) => {
 
                             return (
 
-                                <View
+                                <TouchableOpacity
+                                    key={index}
+                                    onPress={() => navigator.navigate('List', { item })}
                                     style={styles.iconsContainer}
                                 >
 
                                     <Image
                                         style={styles.icons}
-                                        source={require('../assets/logo-hamburger.png')} />
+                                        source={item.icon} />
 
                                     <Text style={globalStyles.fontXSmall}>{item.title}</Text>
 
-                                </View>
+                                </TouchableOpacity>
 
                             );
 
@@ -147,7 +190,7 @@ const HomeScreen = () => {
 
                     }
 
-                </ScrollView>
+                </View>
 
                 <View
                     style={styles.products}
@@ -155,7 +198,7 @@ const HomeScreen = () => {
 
                     {/* SEARCHER */}
                     <View
-                        style={[styles.searchContainer, globalStyles.row, globalStyles.alignItemsCenter]}
+                        style={[styles.searchContainer, globalStyles.row, globalStyles.alignItemsCenter, shadowStyle]}
                     >
 
                         <View style={styles.inputSearch}>
@@ -195,7 +238,8 @@ const HomeScreen = () => {
                             return (
 
                                 <View
-                                    style={ styles.productsListContainer }
+                                    key={index}
+                                    style={styles.productsListContainer}
                                 >
 
                                     <View
@@ -204,34 +248,45 @@ const HomeScreen = () => {
 
                                         <Text style={[globalStyles.fontMedium]}>{list}</Text>
 
-                                        <Text style={globalStyles.fontSmall}>Ver todos</Text>
+                                        <TouchableOpacity
+                                            onPress={() => navigator.navigate('GroupList')}
+                                            style={globalStyles.fontSmall}>
+                                            <Text>Ver todos</Text>
+                                        </TouchableOpacity>
 
                                     </View>
 
                                     <ScrollView
                                         showsHorizontalScrollIndicator={false}
-                                        style={styles.categoryScroll}
+                                        style={styles.productScroll}
                                         horizontal={true}
                                     >
                                         {
 
-                                            products[index].map((product) => {
+                                            products[index].map((product, y) => {
 
                                                 return (
 
-                                                    <View
+                                                    <TouchableOpacity
+                                                        key={y}
+                                                        onPress={() => navigator.navigate('Cart', { product })}
                                                         style={styles.productsContainer}
                                                     >
 
-                                                        <Image
-                                                            style={styles.productOfList}
-                                                            source={{ uri: product.url }} />
+                                                        <View
+                                                            style={shadowStyle}
+                                                        >
+                                                            <Image
+                                                                style={index < 2 ? styles.productOfList : styles.commerceOfList}
+                                                                source={{ uri: product.url }} />
 
-                                                        <Text style={[styles.alignTextStart, globalStyles.fontSmall, globalStyles.fontBold]}>{product.title}</Text>
-                                                        { index < 2 ? <Text style={[styles.alignTextStart, styles.secondLabel, globalStyles.fontSmall]}>$ {product.price}</Text> : null
+                                                        </View>
+
+                                                        <Text style={[styles.alignTextStart, globalStyles.fontSmall, globalStyles.fontBold, globalStyles.widthFluid, index >= 2 ? globalStyles.textCenter : null]}>{product.title}</Text>
+                                                        {index < 2 ? <Text style={[styles.alignTextStart, styles.secondLabel, globalStyles.fontSmall]}>$ {product.price}</Text> : null
                                                         }
 
-                                                    </View>
+                                                    </TouchableOpacity>
 
                                                 );
 
@@ -298,9 +353,8 @@ const styles = StyleSheet.create({
     inputSearch: {
         width: '83%',
         flexDirection: 'row',
-        backgroundColor: 'white',
+        backgroundColor: '#F9FAFB',
         alignItems: 'center',
-        borderWidth: 0.5,
         borderRadius: 12,
     },
 
@@ -311,14 +365,17 @@ const styles = StyleSheet.create({
     },
 
     filterContainer: {
-        backgroundColor: 'white',
+        backgroundColor: '#F9FAFB',
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         width: 45,
         paddingVertical: 10,
-        borderWidth: 0.5,
         borderRadius: 12,
+    },
+
+    productsListContainer: {
+        marginBottom: 25
     },
 
     productsContainer: {
@@ -329,10 +386,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
     },
 
-    productsListContainer: {
-        marginBottom: 25
-    },
-
     listTitle: {
         marginBottom: 25
     },
@@ -341,11 +394,27 @@ const styles = StyleSheet.create({
         width: 110,
         height: 110,
         marginBottom: 15,
-        borderRadius: 20
+        borderBottomLeftRadius: 50,
+        borderBottomRightRadius: 50,
+        borderTopLeftRadius: 50,
+        backgroundColor: '#F4F4F4'
+    },
+
+    commerceOfList: {
+        width: 110,
+        height: 110,
+        marginBottom: 15,
+        borderRadius: 100,
+        backgroundColor: '#F4F4F4'
     },
 
     secondLabel: {
         marginTop: 10,
+    },
+
+    productScroll: {
+        marginHorizontal: -20,
+        paddingHorizontal: 10
     },
 
 })
