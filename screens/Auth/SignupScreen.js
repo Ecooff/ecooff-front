@@ -1,23 +1,78 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
+import {
+    KeyboardAvoidingView,
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    TouchableOpacity,
+    ScrollView,
+    Image,
+    ActivityIndicator,
+    Alert
+} from 'react-native';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import globalStyles from '../../styles/styles';
 import authStyles from '../../styles/authStyles';
 import { useNavigation } from '@react-navigation/native';
 
-{/* COMPONENTS */}
+{/* COMPONENTS */ }
 import { AuthMenuComponent } from '../../components';
+
+// SERVICES
+import { AuthService } from '../../services';
 
 const SignupScreen = () => {
 
-    const [userName, setUserName] = useState('');
+    const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repetePassword, setRepetePassword] = useState('');
+    const [loader, setLoader] = useState('');
 
     const navigator = useNavigation();
 
+
+    const signUp = () => {
+
+        setLoader(true);
+
+        let newUser = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password
+        };
+
+        if (password == repetePassword) {
+
+            AuthService.signUp(newUser).then(response => {
+
+                if (response.message) {
+                    createAlert(response.message);
+                } else {
+                    navigator.navigate('ValidateUser')
+                }
+
+            });
+
+        }else {
+            createAlert('Las contraseñas no coinciden');
+        }
+        
+        setLoader(false);
+
+    }
+
+    const createAlert = (message) =>
+        Alert.alert(
+            "Verifica los datos",
+            message,
+            [
+                { text: "OK", onPress: () => console.log() }
+            ]
+        );
 
     return (
 
@@ -73,10 +128,10 @@ const SignupScreen = () => {
                             <AntDesign name="user" style={globalStyles.icons} />
                             <TextInput
                                 placeholder="Nombre"
-                                value={userName}
+                                value={firstName}
                                 keyboardType="email-address"
                                 icon="mail"
-                                onChangeText={text => setUserName(text)}
+                                onChangeText={text => setFirstName(text)}
                                 style={globalStyles.input}
                             />
                         </View>
@@ -137,10 +192,17 @@ const SignupScreen = () => {
                 <View style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}>
 
                     <TouchableOpacity
-                        // onPress={ handleLogin }
+                        onPress={ () => signUp() }
+                        // disabled={firstName != null && lastName != null && email != null && password != null && repetePassword != null && loader != null}
                         style={[globalStyles.button, globalStyles.primary, globalStyles.widthFluid]}
                     >
-                        <Text style={globalStyles.textWhite}>Resgistrarme</Text>
+                        {loader == false < 2 ?
+                            < View style={[globalStyles.container, globalStyles.horizontal]}>
+                                <ActivityIndicator size="small" color="#FFF" />
+                            </View>
+                            :
+                            <Text style={[styles.loginText, globalStyles.textWhite]}>Resgistrarme</Text>
+                        }
                     </TouchableOpacity>
 
                 </View>
@@ -196,6 +258,10 @@ const styles = StyleSheet.create({
 
     finalLabel: {
         marginBottom: 40
+    },
+
+    loginText: {
+        paddingVertical: 1
     }
 
 })

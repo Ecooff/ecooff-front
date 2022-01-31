@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import globalStyles from '../styles/styles';
 import authStyles from '../styles/authStyles';
 
 export class AuthMenuComponent extends Component {
+    
     render() {
         return (
             <View
@@ -12,7 +14,7 @@ export class AuthMenuComponent extends Component {
             >
 
                 <TouchableOpacity
-                    onPress={() => navigator.goBack()}
+                    onPress={() => useNavigation().goBack()}
                     style={globalStyles.backArrow}
                 >
                     <MaterialIcons name="arrow-back-ios" style={globalStyles.arrow} />

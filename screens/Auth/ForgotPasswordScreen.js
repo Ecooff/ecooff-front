@@ -70,7 +70,7 @@ const ForgotPasswordScreen = () => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                onPress={() => navigator.navigate('Restore')}
+                onPress={() => navigator.navigate('Register')}
                     style={ styles.headerContainer }
                 >
 

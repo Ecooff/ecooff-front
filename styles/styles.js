@@ -150,4 +150,14 @@ export default StyleSheet.create({
         paddingVertical: 3
     },
 
+    container: {
+        flex: 1,
+        justifyContent: "center"
+    },
+
+    horizontal: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+    },
+
 });

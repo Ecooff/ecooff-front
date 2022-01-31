@@ -11,6 +11,7 @@ import SignupScreen from './screens/Auth/SignupScreen';
 import ForgotPasswordScreen from './screens/Auth/ForgotPasswordScreen';
 import ForgotSuccess from './screens/Auth/ForgotSuccessful';
 import RestorePassword from './screens/Auth/RestorePassword';
+import ValidateUserScreen from './screens/Auth/ValidateUserScreen';
 
 // SCREENS
 import HomeScreen from './screens/HomeScreen';
@@ -48,6 +49,7 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="Forgot" component={ForgotPasswordScreen} />
         <Stack.Screen options={{ headerShown: false }} name="ForgotSuccess" component={ForgotSuccess} />
         <Stack.Screen options={{ headerShown: false }} name="Restore" component={RestorePassword} />
+        <Stack.Screen options={{ headerShown: false }} name="ValidateUser" component={ValidateUserScreen} />
 
         {/* HOME */}
         <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />

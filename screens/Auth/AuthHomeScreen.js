@@ -60,7 +60,7 @@ const AuthHomeScreen = () => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => navigator.navigate('Signup')}
+                    onPress={() => navigator.navigate('ValidateUser')}
                     style={[globalStyles.button, globalStyles.secondary, globalStyles.widthFluid]}
                 >
                     <Text style={globalStyles.textWhite}>Registrarme</Text>

@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StatusBar, StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import {
+    KeyboardAvoidingView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    TouchableOpacity,
+    Alert,
+    ActivityIndicator
+} from 'react-native';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import globalStyles from '../../styles/styles';
 import authStyles from '../../styles/authStyles';
 import { useNavigation } from '@react-navigation/native';
+
+// SERVICES
+import { AuthService } from '../../services';
 
 {/* COMPONENTS */ }
 import { AuthMenuComponent } from '../../components';
@@ -13,8 +26,44 @@ const LoginScreen = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loader, setLoader] = useState('');
 
     const navigator = useNavigation();
+
+    const login = () => {
+
+        setLoader(true);
+
+        let user = {
+            email: email,
+            password: password
+        };
+
+        AuthService.login(user).then(response => {
+
+
+            if (response.message) {
+                createAlert(response.message);
+            } else if (!response.verified) {
+                createAlert(response.message);
+            } else {
+                navigator.navigate('Home')
+            }
+
+            setLoader(false);
+
+        });
+
+    }
+
+    const createAlert = (message) =>
+        Alert.alert(
+            "Acceso denegado",
+            message,
+            [
+                { text: "OK", onPress: () => console.log() }
+            ]
+        );
 
     return (
 
@@ -114,13 +163,22 @@ const LoginScreen = () => {
             <View style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}>
 
                 <TouchableOpacity
-                    onPress={() => navigator.navigate('Home')}
+                    onPress={() => login()}
                     style={[globalStyles.button, globalStyles.primary, globalStyles.widthFluid]}
                 >
-                    <Text style={globalStyles.textWhite}>Iniciar sesión</Text>
+
+                    { loader == false < 2 ?
+
+                        < View style={[globalStyles.container, globalStyles.horizontal]}>
+                            <ActivityIndicator size="small" color="#FFF" />
+                        </View>
+
+                        : <Text style={[styles.loginText, globalStyles.textWhite]}>Iniciar sesión</Text>
+                    }
+
                 </TouchableOpacity>
 
-            </View>
+            </View >
 
             <TouchableOpacity
                 onPress={() => navigator.navigate('Signup')}
@@ -134,7 +192,8 @@ const LoginScreen = () => {
 
             </TouchableOpacity>
 
-        </KeyboardAvoidingView>
+        </KeyboardAvoidingView >
+
     )
 }
 
@@ -179,5 +238,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
 
+    loginText: {
+        paddingVertical: 1
+    }
 
 })
