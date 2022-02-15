@@ -41,6 +41,7 @@ export default function App() {
       theme={navTheme}
     >
       <Stack.Navigator>
+      {/* <Stack.Navigator initialRouteName="List"> */}
 
         {/* AUTH */}
         <Stack.Screen options={{ headerShown: false }} name="AuthHome" component={AuthHomeScreen} />
