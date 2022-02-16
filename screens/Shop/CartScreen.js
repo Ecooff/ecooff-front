@@ -7,12 +7,15 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { FooterComponent, MenuComponent } from "../../components";
 import { StatusBar } from "expo-status-bar";
+import { useNavigation } from "@react-navigation/native";
+
+import { MenuComponent } from "../../components";
 import globalStyles from "../../styles/styles";
 import authStyles from "../../styles/authStyles";
-import { useNavigation } from "@react-navigation/native";
 import Checkout from "./Checkout";
+import { productsList } from "../../utils/Products";
+import productStyles from "../../styles/productStyles";
 
 const CartScreen = () => {
   // const [user, setUser] = useState("");//should by global state
@@ -20,59 +23,6 @@ const CartScreen = () => {
 
   // const { title } = route.params.item;
   const navigator = useNavigation();
-
-  const shadowStyle = {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 3.84,
-  };
-
-  const shadowStyleProducts = {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  };
-
-  const productsList = [
-    {
-      url: "http://assets.stickpng.com/thumbs/580b57fbd9996e24bc43c0de.png",
-      title: "Coca Cola",
-      price: "340",
-      expirationDate: "7 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://bimbocentroamerica-com-assets.s3.amazonaws.com/s3fs-public/inline-images/1-Pan-Blanco.png?gYmTW593ZNv45iX3zRB7iV9pQ7Njocpj",
-      title: "Pan Lactal Bimbo",
-      price: "230",
-      expirationDate: "4 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://sicarfarms.com/wp-content/uploads/2021/01/Platano.png",
-      title: "Bananas",
-      price: "404",
-      expirationDate: "5 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-  ];
 
   useEffect(() => {
     setBasket(productsList);
@@ -84,13 +34,13 @@ const CartScreen = () => {
     return basket.map((product, i) => {
       console.log(`checking PRODUCT n${i}--> `, product);
       return (
-        <View key={i} style={shadowStyleProducts}>
+        <View key={i} style={productStyles.shadowProducts}>
           <TouchableOpacity
             onPress={() => navigator.navigate("Product", { product })}
             style={[
               styles.productCard,
               globalStyles.row,
-              shadowStyle,
+              // productStyles.shadow,
               globalStyles.alignItemsCenter,
             ]}
           >
@@ -156,53 +106,41 @@ const CartScreen = () => {
     });
   };
 
-  return (
-    <View>
-      {/* <StatusBar backgroundColor="blue" barStyle="dark-content" /> */}
-      <ScrollView style={styles.menuContainer}>
-        <MenuComponent />
-        <Text style={[authStyles.title, globalStyles.fontLarge]}>
-          Tu carrito
-        </Text>
-
-        <MyBasket />
-        {/* <View style={{justifyContent: 'space-between'}}>
-            <Text style={[authStyles.title, globalStyles.fontLarge]}>
-              Total
-            </Text>
-            <Text style={[authStyles.title, globalStyles.fontLarge]}>$850</Text>
+  const Total = () => {
+    return (
+      <View>
+        <View style={styles.footerContainer}>
+          <Text style={[styles.footerMainText]}>Total</Text>
+          <Text style={[styles.footerMainText]}>$850</Text>
         </View>
         <View>
-          <Text>
-            <Text style={[authStyles.title, globalStyles.fontLarge]}>
-              Delivery
-            </Text>
-            <Text style={[authStyles.title, globalStyles.fontLarge]}>$200</Text>
-          </Text>
-          <Text>
-            <Text style={[authStyles.title, globalStyles.fontLarge]}>
-              Productos
-            </Text>
-            <Text style={[authStyles.title, globalStyles.fontLarge]}>$650</Text>
-          </Text>
-        </View> */}
-        <Checkout />
-
-        {/* <View style={globalStyles.widthHalf}>
-          <View
-            style={[
-              styles.bannerLargeMargin,
-              globalStyles.row,
-              globalStyles.alignItemsCenter,
-            ]}
-          >
-            <Text style={globalStyles.sellIcons}>-</Text>
-            <Text style={{ marginHorizontal: 15 }}>1</Text>
-            <Text style={globalStyles.sellIcons}>+</Text>
+          <View style={styles.footerContainer}>
+            <Text style={styles.footerSecondaryText}>Delivery</Text>
+            <Text style={styles.footerSecondaryText}>$200</Text>
           </View>
-        </View> */}
+          <View style={styles.footerContainer}>
+            <Text style={styles.footerSecondaryText}>Productos</Text>
+            <Text style={styles.footerSecondaryText}>$650</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  return (
+    <View>
+      <StatusBar backgroundColor="white" barStyle="dark-content" />
+      <ScrollView style={styles.menuContainer}>
+        <MenuComponent />
+
+        <Text style={styles.header}>Tu carrito</Text>
+
+        <MyBasket />
+
+        <Total />
+
+        <Checkout />
       </ScrollView>
-      {/* <FooterComponent /> */}
     </View>
   );
 };
@@ -210,6 +148,33 @@ const CartScreen = () => {
 export default CartScreen;
 
 const styles = StyleSheet.create({
+  header: {
+    fontWeight: "bold",
+    fontSize: 38,
+    alignSelf: "center",
+    marginBottom: 20,
+  },
+
+  footerContainer: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    marginHorizontal: 20,
+    marginVertical: 3,
+    // width: '80%',
+  },
+
+  footerMainText: {
+    fontWeight: "bold",
+    fontSize: 28,
+  },
+
+  footerSecondaryText: {
+    fontWeight: "bold",
+    fontSize: 12,
+  },
+
+  //-------------
+
   homeContainer: {
     flex: 1,
   },

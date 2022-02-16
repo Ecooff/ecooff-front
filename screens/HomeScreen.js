@@ -159,7 +159,7 @@ const HomeScreen = () => {
 
   return (
     <View style={[styles.homeContainer]}>
-      <StatusBar backgroundColor="blue" barStyle="dark-content" />
+      <StatusBar backgroundColor="white" barStyle="dark-content" />
 
       <ScrollView style={styles.scrollContainer}>
         {/* MENU */}

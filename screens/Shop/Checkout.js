@@ -1,9 +1,19 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 import CheckoutContent from './CheckoutContent';
 
 const Checkout = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [orderNum, setOrderNum] = useState(0); //it could be in CheckoutContent
+  const [total, setTotal] = useState(0); //it could be in CheckoutContent
+  const navigator = useNavigation();
+
+  const confirmOrder = () => {
+      setModalVisible(!modalVisible);
+      navigator.navigate("Orders");
+  }
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -16,26 +26,29 @@ const Checkout = () => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {/* <Text style={styles.modalText}>Hello World!</Text> */}
+            <Text style={styles.modalHeaderText}>Compra Nº {!orderNum ? "..." : orderNum}</Text>
+
             <CheckoutContent />
+            
+            <Text style={styles.modalFooterText}>Total ${!total ? 850 : total}</Text>
             <View style={styles.footerModal}>
-            <Pressable
-              style={[styles.button, styles.cancelModelButton]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.cancelModelText}>Cancelar</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.confirmModelButton]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Confirmar</Text>
-            </Pressable>
+              <Pressable
+                style={[styles.button, styles.cancelModelButton]}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.cancelModelText}>Cancelar</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.confirmModelButton]}
+                onPress={() => confirmOrder()}>
+                <Text style={styles.textStyle}>Confirmar</Text>
+              </Pressable>
             </View>
           </View>
         </View>
       </Modal>
       <Pressable style={[styles.button]} onPress={() => setModalVisible(true)}>
         <View style={styles.buttonContainer}>
-        <Text style={styles.textStyle}>Confirmar compra</Text>
+        <Text style={styles.textStyle}>Confirmar pago</Text>
           <Text style={styles.textStyle}>$850</Text>
         </View>
       </Pressable>
@@ -77,9 +90,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  modalText: {
+  modalHeaderText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    margin: 10,
+  },
+  modalFooterText: {
     marginBottom: 15,
     textAlign: 'center',
+    fontWeight: 'bold',
+    margin: 10,
   },
   buttonContainer: {
       justifyContent: 'space-between',
@@ -89,17 +109,16 @@ const styles = StyleSheet.create({
   footerModal: {
       justifyContent: 'space-between',
       flexDirection: 'row',
-      width: '30%'
+      width: '30%',
+      marginTop: 10,
   },
   cancelModelButton: {
-    // justifyContent: 'space-around',
     color: '#3D9D5D',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    marginHorizontal: 4
-//     border: 0.7px solid #3D9D5D;
-// box-sizing: border-box;
-// border-radius: 8px;
+    marginHorizontal: 4,
+    borderColor: '#3D9D5D',
+    borderWidth: 0.5
   },
   cancelModelText: {
     color: '#3D9D5D',
@@ -107,7 +126,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   confirmModelButton: {
-    // justifyContent: 'space-around',
     borderRadius: 10,
     marginHorizontal: 4
   }
