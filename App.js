@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
-
+import { LogBox } from 'react-native';
 
 // AUTHENTICATION
 import AuthHomeScreen from './screens/Auth/AuthHomeScreen';
@@ -32,6 +32,7 @@ import OrdersScreen from './screens/Shop/OrdersScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  LogBox.ignoreAllLogs(true);
 
   const navTheme = DefaultTheme;
   navTheme.colors.background = '#FFF';
