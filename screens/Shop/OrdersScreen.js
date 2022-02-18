@@ -10,9 +10,9 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import { MenuComponent } from "../../components";
-import authStyles from "../../styles/authStyles";
 import globalStyles from "../../styles/styles";
 import productStyles from "../../styles/productStyles";
 import { productsList } from "../../utils/Products";
@@ -67,9 +67,24 @@ const OrdersScreen = () => {
 
   const DeliveryAndPayment = () => {
     return (
-      <View>
-        <Text style={styles.textStyle}>Delivery a dirección</Text>
-        <Text style={styles.textStyle}>Método de pago</Text>
+      <View style={styles.deliveryMainContainer}>
+        <View style={styles.deliveryContainer}>
+          <MaterialCommunityIcons name="truck-fast-outline" size={33} color="#3D9D5D" />
+          <View style={styles}>
+            <Text style={styles.deliveryMainText}>Delivery a dirección</Text>
+            <Text style={styles.deliverySmallText}>Order de más de $7000 tiene envío gratis</Text>
+          </View>
+          <Pressable onPress={() => navigator.navigate("Profile")}>
+              <Text style={styles.editText}>Editar</Text>
+          </Pressable>
+        </View>
+        <View style={styles.deliveryContainer}>
+          <MaterialIcons name="payment" size={33} color="#3D9D5D" />
+          <View style={styles}>
+            <Text style={styles.deliveryMainText}>Método de pago</Text>
+            <Text style={styles.deliverySmallText}>Efectivo</Text>
+          </View>
+        </View>
       </View>
     );
   };
@@ -120,18 +135,41 @@ const OrdersScreen = () => {
 export default OrdersScreen;
 
 const styles = StyleSheet.create({
+  
+  content: {
+    margin: 15,
+  },
+  
   header: {
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: 38,
     alignSelf: 'center',
     marginBottom: 20,
   },
-
+  deliveryMainContainer: {
+    margin: 10,
+  },
+  deliveryContainer: {
+    flexDirection: 'row',
+    margin: 4,
+    marginHorizontal: 10
+  },
+  deliveryMainText: {
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+  deliverySmallText: {
+    fontSize: 12,
+    marginLeft: 10,
+  },
+  editText: {
+    textDecorationLine: "underline",
+  },
+  
   savingContainer: {
     alignItems: "baseline",
     justifyContent: "space-between",
   },
-
   button: {
     borderRadius: 10,
     padding: 10,
@@ -141,26 +179,21 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 10,
   },
-
   buttonText: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
   },
-
   savingHeader: {
     fontWeight: 'bold',
     fontSize: 24,
     alignSelf: 'center',
     marginTop: 20,
-
   },
-
   savingTextContainer: {
     justifyContent: "space-between",
     flexDirection: "row",
   },
-
   savingText: {
     fontWeight: 'bold',
     margin: 10,

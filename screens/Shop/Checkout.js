@@ -1,18 +1,66 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
-import CheckoutContent from './CheckoutContent';
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+// import CheckoutContent from './CheckoutContent';
 
 const Checkout = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [orderNum, setOrderNum] = useState(0); //it could be in CheckoutContent
-  const [total, setTotal] = useState(0); //it could be in CheckoutContent
+  const [order, setOrder] = useState({});
+  const [total, setTotal] = useState(0);
   const navigator = useNavigation();
 
+  // useEffect(() => {
+  //   // setOrder and setTotal
+  // },[])
+
   const confirmOrder = () => {
-      setModalVisible(!modalVisible);
-      navigator.navigate("Orders");
-  }
+    setModalVisible(!modalVisible);
+    navigator.navigate("Orders");
+  };
+
+  const goToEdit = () => {
+    setModalVisible(!modalVisible);
+    navigator.navigate("Profile"); // NOTE: should go to the edit view
+  };
+
+  const CheckoutContent = () => {
+    return (
+      <View style={styles.content}>
+        <View style={styles.container}>
+          <MaterialCommunityIcons name="shopping-outline" size={18} color="#3D9D5D" />
+          <View style={styles.mainText}>
+            <Text style={styles.baseText}>Cantindad de productos: </Text>
+            <Text>{order.products?.length ? order.products.length : 3}</Text>
+          </View>
+        </View>
+        <View style={styles.container}>
+          <Ionicons name="location-outline" size={18} color="#3D9D5D" />
+          <View style={styles.mainText}>
+            <Text style={styles.baseText}>Dirección: </Text>
+            <Text>{order.address ? order.address : "Libertador 1100"}</Text>
+          </View>
+          <Pressable onPress={goToEdit}>
+            <Text style={styles.editText}> Editar</Text>
+          </Pressable>
+        </View>
+        <View style={styles.container}>
+          <MaterialCommunityIcons name="truck-fast-outline" size={18} color="#3D9D5D" />
+          <View style={styles.mainText}>
+            <Text style={styles.baseText}>Entrega estimada: </Text>
+            <Text>{order.deliveryTime ? order.deliveryTime : "90 mins" }</Text>
+          </View>
+        </View>
+        <View style={styles.container}>
+          <MaterialIcons name="payment" size={18} color="#3D9D5D" />
+          <View style={styles.mainText}>
+            <Text style={styles.baseText}>Método de pago: </Text>
+            <Text>{order.payment ? order.payment : "Effectivo"}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.centeredView}>
@@ -21,34 +69,44 @@ const Checkout = () => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
-        }}>
+        }}
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalHeaderText}>Compra Nº {!orderNum ? "..." : orderNum}</Text>
+            <Text style={styles.modalHeaderText}>
+              Compra Nº {!order.id ? "..." : order.id}
+            </Text>
 
             <CheckoutContent />
-            
-            <Text style={styles.modalFooterText}>Total ${!total ? 850 : total}</Text>
+
+            <Text style={styles.modalFooterText}>
+              Total ${!total ? 850 : total}
+            </Text>
             <View style={styles.footerModal}>
               <Pressable
                 style={[styles.button, styles.cancelModelButton]}
-                onPress={() => setModalVisible(!modalVisible)}>
+                onPress={() => setModalVisible(!modalVisible)}
+              >
                 <Text style={styles.cancelModelText}>Cancelar</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, styles.confirmModelButton]}
-                onPress={() => confirmOrder()}>
+                onPress={() => confirmOrder()}
+              >
                 <Text style={styles.textStyle}>Confirmar</Text>
               </Pressable>
             </View>
           </View>
         </View>
       </Modal>
-      <Pressable style={[styles.button]} onPress={() => setModalVisible(true)}>
+      <Pressable
+        style={styles.buttonPurchase}
+        onPress={() => setModalVisible(true)}
+      >
         <View style={styles.buttonContainer}>
-        <Text style={styles.textStyle}>Confirmar pago</Text>
+          <Text style={styles.textStyle}>Confirmar pago</Text>
           <Text style={styles.textStyle}>$850</Text>
         </View>
       </Pressable>
@@ -57,19 +115,39 @@ const Checkout = () => {
 };
 
 const styles = StyleSheet.create({
+  mainText: {
+    marginHorizontal: 4,
+    flexDirection: "row",
+  },
+  content: {
+    margin: 15,
+  },
+  baseText: {
+    fontWeight: "bold",
+  },
+  editText: {
+    textDecorationLine: "underline",
+  },
+  editDisabledText: {
+    textDecorationLine: "underline",
+  },
+  container: {
+    flexDirection: "row",
+    margin: 2,
+  },
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 15,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -82,53 +160,61 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    width: '100%',
-    backgroundColor: '#3D9D5D',
+    width: "100%",
+    backgroundColor: "#3D9D5D",
+  },
+  buttonPurchase: {
+    borderTopStartRadius: 20,
+    borderTopEndRadius: 20,
+    padding: 15,
+    elevation: 2,
+    width: "100%",
+    backgroundColor: "#3D9D5D",
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   modalHeaderText: {
-    textAlign: 'center',
-    fontWeight: 'bold',
+    textAlign: "center",
+    fontWeight: "bold",
     margin: 10,
   },
   modalFooterText: {
     marginBottom: 15,
-    textAlign: 'center',
-    fontWeight: 'bold',
+    textAlign: "center",
+    fontWeight: "bold",
     margin: 10,
   },
   buttonContainer: {
-      justifyContent: 'space-between',
-      flexDirection: 'row',
-      padding: 4,
+    justifyContent: "space-between",
+    flexDirection: "row",
+    padding: 4,
   },
   footerModal: {
-      justifyContent: 'space-between',
-      flexDirection: 'row',
-      width: '30%',
-      marginTop: 10,
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width: "30%",
+    marginTop: 10,
   },
   cancelModelButton: {
-    color: '#3D9D5D',
-    backgroundColor: '#FFFFFF',
+    color: "#3D9D5D",
+    backgroundColor: "#FFFFFF",
     borderRadius: 10,
     marginHorizontal: 4,
-    borderColor: '#3D9D5D',
-    borderWidth: 0.5
+    borderColor: "#3D9D5D",
+    borderWidth: 0.5,
   },
   cancelModelText: {
-    color: '#3D9D5D',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "#3D9D5D",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   confirmModelButton: {
     borderRadius: 10,
-    marginHorizontal: 4
-  }
+    marginHorizontal: 4,
+  },
 });
 
 export default Checkout;

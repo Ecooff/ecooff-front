@@ -12,7 +12,6 @@ import { useNavigation } from "@react-navigation/native";
 
 import { MenuComponent } from "../../components";
 import globalStyles from "../../styles/styles";
-import authStyles from "../../styles/authStyles";
 import Checkout from "./Checkout";
 import { productsList } from "../../utils/Products";
 import productStyles from "../../styles/productStyles";
@@ -29,10 +28,8 @@ const CartScreen = () => {
   }, []);
 
   const MyBasket = () => {
-    console.log("checking BASKET-->", basket);
     if (basket.length === 0) return <Text>Nada en el carrito</Text>;
     return basket.map((product, i) => {
-      console.log(`checking PRODUCT n${i}--> `, product);
       return (
         <View key={i} style={productStyles.shadowProducts}>
           <TouchableOpacity
@@ -128,7 +125,7 @@ const CartScreen = () => {
   };
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       <ScrollView style={styles.menuContainer}>
         <MenuComponent />
@@ -138,9 +135,9 @@ const CartScreen = () => {
         <MyBasket />
 
         <Total />
-
-        <Checkout />
       </ScrollView>
+
+      <Checkout />
     </View>
   );
 };
@@ -296,7 +293,7 @@ const styles = StyleSheet.create({
   cardImage: {
     padding: 5,
     backgroundColor: "#F6F6F6",
-    borderRadius: 10,
+    borderRadius: 50,
   },
 
   product: {
