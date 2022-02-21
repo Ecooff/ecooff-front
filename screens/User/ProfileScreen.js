@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { Entypo, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, Entypo, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import globalStyles from "../../styles/styles";
@@ -69,11 +69,11 @@ const ProfileScreen = () => {
         <Entypo name={"back-in-time"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Pedidos</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigator.navigate("Home")} style={ styles.listItem }>
-        <MaterialIcons name={"location-on"} size={24} style={styles.icons} />
-        <Text style={globalStyles.fontMedium}>Direcciónes para delivery</Text>
+      <TouchableOpacity onPress={() => navigator.navigate("Addresses")} style={ styles.listItem }>
+        <Ionicons name="location-outline" size={24} style={styles.icons} />
+        <Text style={globalStyles.fontMedium}>Direcciones para delivery</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigator.navigate("Home")} style={ styles.listItem }>
+      <TouchableOpacity onPress={() => navigator.navigate("Payments")} style={ styles.listItem }>
         <MaterialIcons name={"payment"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Método de pago</Text>
       </TouchableOpacity>
