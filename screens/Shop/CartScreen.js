@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MenuComponent } from "../../components";
 import globalStyles from "../../styles/styles";
 import Checkout from "./Checkout";
-import { productsList } from "../../utils/Products";
+import { fakeData } from "../../utils/fakeData";
 import productStyles from "../../styles/productStyles";
 
 const CartScreen = () => {
@@ -24,7 +24,7 @@ const CartScreen = () => {
   const navigator = useNavigation();
 
   useEffect(() => {
-    setBasket(productsList);
+    setBasket(fakeData.productsList);
   }, []);
 
   const MyBasket = () => {

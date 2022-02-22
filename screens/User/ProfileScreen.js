@@ -65,7 +65,7 @@ const ProfileScreen = () => {
   const Options = () => {
     return (
       <View>
-      <TouchableOpacity onPress={() => navigator.navigate("Home")} style={ styles.listItem}>
+      <TouchableOpacity onPress={() => navigator.navigate("OrderHistory")} style={ styles.listItem}>
         <Entypo name={"back-in-time"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Pedidos</Text>
       </TouchableOpacity>

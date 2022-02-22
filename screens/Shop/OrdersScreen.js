@@ -15,7 +15,7 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { MenuComponent } from "../../components";
 import globalStyles from "../../styles/styles";
 import productStyles from "../../styles/productStyles";
-import { productsList } from "../../utils/Products";
+import { fakeData } from "../../utils/fakeData";
 
 const OrdersScreen = () => {
   const [order, setOrder] = useState([]);
@@ -24,7 +24,7 @@ const OrdersScreen = () => {
   const navigator = useNavigation();
 
   useEffect(() => {
-    setOrder(productsList);
+    setOrder(fakeData.productsList);
   }, []);
 
   const MyOrder = () => {
