@@ -1,5 +1,6 @@
 import {
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -8,20 +9,16 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { useNavigation } from "@react-navigation/native";
 
 import { MenuComponent } from "../../components";
-import globalStyles from "../../styles/styles";
 import Checkout from "./Checkout";
 import { fakeData } from "../../utils/fakeData";
-import productStyles from "../../styles/productStyles";
+import { FontAwesome5 } from '@expo/vector-icons'; 
+
 
 const CartScreen = () => {
   // const [user, setUser] = useState("");//should by global state
   const [basket, setBasket] = useState([]);
-
-  // const { title } = route.params.item;
-  const navigator = useNavigation();
 
   useEffect(() => {
     setBasket(fakeData.productsList);
@@ -29,75 +26,56 @@ const CartScreen = () => {
 
   const MyBasket = () => {
     if (basket.length === 0) return <Text>Nada en el carrito</Text>;
+    
     return basket.map((product, i) => {
+      const [counter, setCounter] = useState(1);
+
+      const decreaseAmount = () => {
+        return counter > 1 ? setCounter(counter - 1) : "";
+      }
+
+      const increaseAmount = () => {
+        return setCounter(counter + 1);
+      }
+
+      const removeProduct = () => {
+        console.log("removeProduct is working")
+      }
+
       return (
-        <View key={i} style={productStyles.shadowProducts}>
-          <TouchableOpacity
-            onPress={() => navigator.navigate("Product", { product })}
-            style={[
-              styles.productCard,
-              globalStyles.row,
-              // productStyles.shadow,
-              globalStyles.alignItemsCenter,
-            ]}
-          >
+        <View key={i} style={styles.productCard}>
             <View style={styles.cardImage}>
-              <Image style={styles.product} source={{ uri: product.url }} />
+              <Image style={styles.productImage} source={{ uri: product.url }} />
             </View>
 
-            <View>
-              <Text
-                style={[
-                  { paddingLeft: 15 },
-                  styles.cardTitles,
-                  globalStyles.fontSmall,
-                  globalStyles.fontBold,
-                ]}
-              >
-                {product.title}
-              </Text>
-
-              <View style={[{ width: "100%" }, globalStyles.row]}>
-                <View style={[styles.cardBody, { width: "50%" }]}>
-                  <Text style={[styles.cardTitles, globalStyles.fontSmall]}>
-                    $ {product.price}
-                  </Text>
-                  <Text style={[styles.cardTitles, globalStyles.fontSmall]}>
-                    {product.expirationDate}
-                  </Text>
-
-                  <View
-                    style={[
-                      styles.cardTitles,
-                      styles.seller,
-                      globalStyles.row,
-                      globalStyles.alignItemsCenter,
-                      globalStyles.fontSmall,
-                    ]}
-                  >
-                    <Image
-                      style={styles.productListSeller}
-                      source={{ uri: product.seller.url }}
-                    />
-
-                    <Text>{product.seller.title}</Text>
-                  </View>
-                </View>
-
-                <View
-                  style={[
-                    styles.bannerLargeMargin,
-                    globalStyles.row,
-                    globalStyles.alignItemsCenter,
-                  ]}
-                >
-                  <Text style={globalStyles.sellIcons}>-</Text>
-                  <Text style={{ marginHorizontal: 10 }}>1</Text>
-                  <Text style={globalStyles.sellIcons}>+</Text>
-                </View>
+            <View style={styles.dataContainer}>
+              <View style={styles.productHeader}>
+                <Text style={styles.productHeaderText}>
+                  {product.title}
+                </Text>
+                <Text style={styles.productHeaderText}>
+                  $ {product.price*counter}
+                </Text>
               </View>
+
+                  <Text style={styles.subHeaderText}>
+                    {product.date}
+                  </Text>
+                  
+                  {/* BOTONERA */}
+                  <View style={styles.botonera}>
+                    <Pressable onPress={() => increaseAmount()}>
+                      <FontAwesome5 name="plus-square" size={20} color="#3D9D5D" />
+                    </Pressable>
+                    <Text style={{ marginHorizontal: 10 }}>{counter}</Text>
+                    <Pressable onPress={() => decreaseAmount()}>
+                      <FontAwesome5 name="minus-square" size={20} color="#3D9D5D" />
+                    </Pressable>                    
+                    <Pressable onPress={() => removeProduct()}>
+                      <FontAwesome5 name="trash-alt" size={20} color="#3D9D5D" style={styles.trashIcon}/>
+                    </Pressable>
+                  </View>
             </View>
-          </TouchableOpacity>
         </View>
       );
     });
@@ -125,7 +103,7 @@ const CartScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.homeContainer}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       <ScrollView style={styles.menuContainer}>
         <MenuComponent />
@@ -157,7 +135,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: 20,
     marginVertical: 3,
-    // width: '80%',
   },
 
   footerMainText: {
@@ -170,124 +147,40 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
 
-  //-------------
-
-  homeContainer: {
-    flex: 1,
+  productHeaderText: {
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 
-  products: {
+  productHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  dataContainer: {
     paddingHorizontal: 10,
-    marginBottom: 150,
+    paddingVertical: 5,
+    width: "75%"
+  },
+
+  botonera: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "55%",
+  },
+
+  trashIcon: {
+    marginLeft: 40,
+  },
+
+  // ............
+  homeContainer: {
+    flex: 1,
   },
 
   menuContainer: {
     paddingTop: 40,
     paddingHorizontal: 10,
-  },
-
-  scrollContainer: {
-    paddingHorizontal: 10,
-  },
-
-  categoryScroll: {
-    marginHorizontal: -20,
-    paddingLeft: 10,
-  },
-
-  scrollTitle: {
-    marginTop: 30,
-    marginBottom: 30,
-  },
-
-  iconsContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 10,
-  },
-
-  icons: {
-    width: 60,
-    height: 60,
-    marginBottom: 10,
-  },
-
-  searchContainer: {
-    justifyContent: "space-between",
-    marginTop: 10,
-  },
-
-  inputSearch: {
-    width: "83%",
-    flexDirection: "row",
-    backgroundColor: "#F9FAFB",
-    alignItems: "center",
-    borderRadius: 12,
-  },
-
-  filterContainerBox: {
-    width: "10%",
-    justifyContent: "flex-end",
-    marginRight: 10,
-  },
-
-  filterContainer: {
-    backgroundColor: "#F9FAFB",
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 45,
-    paddingVertical: 10,
-    borderRadius: 12,
-  },
-
-  productsListContainer: {
-    marginBottom: 25,
-  },
-
-  productsContainer: {
-    justifyContent: "flex-start",
-    alignItems: "center",
-    maxWidth: 110,
-    marginHorizontal: 10,
-    alignItems: "flex-start",
-  },
-
-  listTitle: {
-    marginBottom: 25,
-  },
-
-  productOfList: {
-    width: 110,
-    height: 110,
-    marginBottom: 15,
-    borderBottomEndRadius: 50,
-    borderBottomStartRadius: 50,
-    borderTopStartRadius: 50,
-    backgroundColor: "#F4F4F4",
-  },
-
-  commerceOfList: {
-    width: 110,
-    height: 110,
-    marginBottom: 15,
-    borderRadius: 100,
-    backgroundColor: "#F4F4F4",
-  },
-
-  secondLabel: {
-    marginTop: 10,
-  },
-
-  productScroll: {
-    marginHorizontal: -20,
-    paddingHorizontal: 20,
-  },
-
-  productCard: {
-    borderRadius: 10,
-    marginBottom: 20,
-    backgroundColor: "white",
   },
 
   cardImage: {
@@ -296,27 +189,26 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
 
-  product: {
-    width: 90,
-    height: 90,
+  productImage: {
+    width: 60,
+    height: 60,
+  },
+
+  subHeaderText: {
+    marginVertical: 5,
+    fontSize: 14,
+  },
+
+  productCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 10,
+    marginBottom: 20,
+    backgroundColor: "white",
   },
 
   cardBody: {
     paddingHorizontal: 15,
-  },
-
-  cardTitles: {
-    marginBottom: 5,
-  },
-
-  bannerLargeMargin: {
-    width: "30%",
-    justifyContent: "flex-end",
-    marginBottom: 20,
-  },
-
-  productListSeller: {
-    width: 30,
-    height: 30,
+    width: "60%",
   },
 });

@@ -60,6 +60,7 @@ const AddPaymentComponent = () => {
     );
   };
   
+  // BOTONERA (Cancel / Confirm)
   const ModalFooter = () => {
     return (
       <View style={styles.footerModal}>
@@ -87,7 +88,6 @@ const AddPaymentComponent = () => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   footerModal: {
     justifyContent: "space-between",
     flexDirection: "row",
-    width: "30%",
+    width: "40%",
     marginTop: 10,
   },
   cancelModalButton: {

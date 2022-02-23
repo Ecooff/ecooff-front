@@ -26,7 +26,8 @@ import ProfileScreen from './screens/User/ProfileScreen';
 import AddressesScreen from './screens/User/AddressesScreen';
 import PaymentsScreen from './screens/User/PaymentsScreen';
 import OrderHistoryScreen from './screens/User/OrderHistoryScreen';
-import OrderDetail from './screens/User/OrderDetail';
+import OrderDetailScreen from './screens/User/OrderDetailScreen';
+import EditProfileScreen from './screens/User/EditProfileScreen';
 
 // SCREENS -> SHOP
 import CartScreen from './screens/Shop/CartScreen';
@@ -63,8 +64,10 @@ export default function App() {
         {/* PROFILE */}
         <Stack.Screen options={{ headerShown: false }} name="Profile" component={ProfileScreen} />
         <Stack.Screen options={{ headerShown: false }} name="OrderHistory" component={OrderHistoryScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="OrderDetail" component={OrderDetailScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Addresses" component={AddressesScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Payments" component={PaymentsScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Edit" component={EditProfileScreen} />
 
         {/* CART */}
         <Stack.Screen options={{ headerShown: false }} name="Cart" component={CartScreen} />
@@ -75,8 +78,6 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="List" component={ListScreen} />
         <Stack.Screen options={{ headerShown: false }} name="GroupList" component={GroupListScreen} />
 
-        {/* TESTING */}
-        <Stack.Screen options={{ headerShown: false }} name="OrderDetail" component={OrderDetail} />
       </Stack.Navigator>
 
     </NavigationContainer>

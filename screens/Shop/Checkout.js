@@ -63,16 +63,17 @@ const Checkout = () => {
   };
 
   return (
+    // <View style={{flex:1, marginBottom: -15}}>
+
     <View style={styles.centeredView}>
       <Modal
         animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
-      >
+        >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalHeaderText}>
@@ -88,29 +89,31 @@ const Checkout = () => {
               <Pressable
                 style={[styles.button, styles.cancelModelButton]}
                 onPress={() => setModalVisible(!modalVisible)}
-              >
+                >
                 <Text style={styles.cancelModelText}>Cancelar</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, styles.confirmModelButton]}
                 onPress={() => confirmOrder()}
-              >
+                >
                 <Text style={styles.textStyle}>Confirmar</Text>
               </Pressable>
             </View>
           </View>
-        </View>
+        </View>    
       </Modal>
+      
       <Pressable
         style={styles.buttonPurchase}
         onPress={() => setModalVisible(true)}
-      >
+        >
         <View style={styles.buttonContainer}>
           <Text style={styles.textStyle}>Confirmar pago</Text>
           <Text style={styles.textStyle}>$850</Text>
         </View>
       </Pressable>
     </View>
+        // </View>
   );
 };
 
@@ -166,10 +169,11 @@ const styles = StyleSheet.create({
   buttonPurchase: {
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
-    padding: 15,
+    padding: 20,
     elevation: 2,
     width: "100%",
     backgroundColor: "#3D9D5D",
+    bottom: -20,
   },
   textStyle: {
     color: "white",
@@ -190,7 +194,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: "space-between",
     flexDirection: "row",
-    padding: 4,
   },
   footerModal: {
     justifyContent: "space-between",

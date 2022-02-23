@@ -77,11 +77,11 @@ const ProfileScreen = () => {
         <MaterialIcons name={"payment"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Método de pago</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigator.navigate("Home")} style={ styles.listItem }>
+      <TouchableOpacity onPress={() => navigator.navigate("Edit")} style={ styles.listItem }>
         <MaterialCommunityIcons name={"account-edit-outline"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Detalles del perfíl</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigator.navigate("Home")} style={[ styles.listItem, styles.lastListItem ]}>
+      <TouchableOpacity onPress={() => navigator.navigate("Login")} style={[ styles.listItem, styles.lastListItem ]}>
         <MaterialIcons name={"logout"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Cerrar sesión</Text>
       </TouchableOpacity>
@@ -104,7 +104,7 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   homeConteiner: {
-    paddingTop: 40,
+    // paddingTop: 40,
     paddingHorizontal: 10,
   },
 

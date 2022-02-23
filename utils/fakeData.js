@@ -1,4 +1,22 @@
 export const fakeData = {
+
+  cartItems: [
+    {
+      title: "Pan lactal",
+      date: "09/10/2022",
+      price: 100,
+    },
+    {
+      title: "Paleta Loreal",
+      date: "09/10/2022",
+      price: 500,
+    },
+    {
+      title: "Botella de Agua",
+      date: "09/10/2022",
+      price: 50,
+    }
+  ],
   
   productsList: [
     {
@@ -10,6 +28,7 @@ export const fakeData = {
         url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
         title: "Carrefour",
       },
+      date: "09/10/2022",
     },
     {
       url: "https://bimbocentroamerica-com-assets.s3.amazonaws.com/s3fs-public/inline-images/1-Pan-Blanco.png?gYmTW593ZNv45iX3zRB7iV9pQ7Njocpj",
@@ -20,6 +39,7 @@ export const fakeData = {
         url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
         title: "Carrefour",
       },
+      date: "09/10/2022",
     },
     {
       url: "https://sicarfarms.com/wp-content/uploads/2021/01/Platano.png",
@@ -30,6 +50,7 @@ export const fakeData = {
         url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
         title: "Carrefour",
       },
+      date: "09/10/2022",
     },
   ],
   

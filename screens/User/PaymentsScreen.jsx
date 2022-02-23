@@ -75,7 +75,6 @@ export default AddressesScreen;
 
 const styles = StyleSheet.create({
   homeConteiner: {
-    paddingTop: 40,
     paddingHorizontal: 20,
   },
   title: {

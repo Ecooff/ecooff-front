@@ -1,35 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, Pressable, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import globalSyles from "../../styles/styles"
+import globalSyles from "../../styles/styles";
 
-const OrderDetail = () => {
+const OrderDetailScreen = ({ route }) => {
+  const { date, totalPrice, deliveryTime, deliveryAddress, description } =
+    route.params.order;
+  // const [order, setOrder] = useState({});
   const navigator = useNavigation();
+
+  // useEffect(() => {
+  //   setOrder()
+  // }, [])
 
   const Content = () => {
     return (
       <View>
         <View>
-          <Text style={[globalSyles.fontBold, globalSyles.fontMedium]}>Detalles</Text>
+          <Text style={[globalSyles.fontBold, globalSyles.fontMedium]}>
+            Detalles
+          </Text>
           <View style={styles.listItem}>
             <Text>Tiempo estimado de entrega</Text>
-            <Text style={globalSyles.fontXSmall}>90 MINS</Text>
+            <Text style={globalSyles.fontXSmall}>{deliveryTime}</Text>
           </View>
           <View style={styles.listItem}>
-            <Text>Direccón</Text>
-            <Text style={globalSyles.fontXSmall}>Libertador 1100</Text>
+            <Text>Dirección</Text>
+            <Text style={globalSyles.fontXSmall}>{deliveryAddress}</Text>
           </View>
-          <View style={[styles.listItem, styles.lastListItem]}>
+          <View style={styles.listItem}>
             <Text>Precio total</Text>
-            <Text style={globalSyles.fontXSmall}>$850</Text>
+            <Text style={globalSyles.fontXSmall}>${totalPrice}</Text>
           </View>
         </View>
 
         <View>
-          <Text style={[globalSyles.fontBold, globalSyles.fontMedium]}>Descripción</Text>
-          <Text style={globalSyles.fontXSmall}>1x Pan lactal</Text>
-          <Text style={globalSyles.fontXSmall}>1x Paleta Loreal</Text>
-          <Text style={globalSyles.fontXSmall}>1x Botella de Agua</Text>
+          <Text style={[globalSyles.fontBold, globalSyles.fontMedium]}>
+            Descripción
+          </Text>
+          {description.map((product, i) => {
+            return (
+              <Text key={i} style={globalSyles.fontXSmall}>
+                {product.amount}x {product.title}
+              </Text>
+            );
+          })}
         </View>
       </View>
     );
@@ -64,14 +79,12 @@ const OrderDetail = () => {
 
   return (
     <View style={styles.centeredView}>
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.heading}>Pedido --/--/----</Text>
+      <View style={styles.container}>
+        <Text style={styles.heading}>Pedido {date}</Text>
 
-          <Content />
+        <Content />
 
-          <FooterBtns />
-        </View>
+        <FooterBtns />
       </View>
     </View>
   );
@@ -83,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  modalView: {
+  container: {
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -108,22 +121,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  modalText: {
-    fontSize: 12,
-    marginBottom: 40,
-  },
   listItem: {
-    // flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderTopWidth: 1,
-    borderColor: "rgba(0, 0, 0, .2)",
-    marginHorizontal: -20,
-    // flexDirection: "column",
-    // justifyContent: "space-between",
-  },
-  lastListItem: {
-    borderBottomWidth: 1,
+    marginVertical: 6,
   },
 
   //------ to styles (modal btn)
@@ -160,4 +159,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OrderDetail;
+export default OrderDetailScreen;

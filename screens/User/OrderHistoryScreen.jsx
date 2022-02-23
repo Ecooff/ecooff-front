@@ -26,20 +26,20 @@ const OrderHistoyScreen = () => {
         <View style={styles.mainContainer} key={i}>
           <View>
             <View style={styles.leftTextContainer}>
-              <Text>{order.date}</Text>
-              <Text style={{color: statusColor}}>
+              <Text style={styles.leftText}>{order.date}</Text>
+              <Text style={[styles.leftText, {color: statusColor}]}>
                 {order.status}
               </Text>
             </View>
             <View style={styles.icons}>
-              <AntDesign name="edit" size={20} color={statusColor} />
-              <Ionicons name="trash-outline" size={20} color={statusColor} />
+              <AntDesign name="edit" size={18} color={statusColor} />
+              <Ionicons name="trash-outline" size={18} color={statusColor} />
             </View>
           </View>
 
           <View style={styles.rightSide}>
             <Text style={styles.priceText}>${order.totalPrice}</Text>
-            <Pressable onPress={() => navigator.navigate("OrderDetail")}>
+            <Pressable onPress={() => navigator.navigate("OrderDetail", {order})}>
               <Text style={styles.editText}>Ver detalle</Text>
             </Pressable>
           </View>
@@ -79,26 +79,29 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   mainContainer: {
-    borderWidth: .8,
     margin: 10,
-    padding: 8,
+    padding: 10,
     borderRadius: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingBottom: 12,
-
-    borderColor: "#979797",
-    borderBottomColor: "rgba(0, 0, 0, 0.25)",
-    borderBottomWidth: 3,
-    borderStartColor: "rgba(0, 0, 0, 0.25)",
-    borderStartWidth: 2,
-    borderEndColor: "rgba(0, 0, 0, 0.25)",
-    borderEndWidth: 2,
+    backgroundColor:"white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   leftTextContainer: {
     alignItems: 'center',
     marginBottom: 8,
+  },
+  leftText: {
+    fontSize: 12,
   },
   icons: {
     flexDirection: "row",
@@ -108,11 +111,12 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   editText: {
+    fontSize: 12,
     textDecorationLine: "underline",
     textAlign: "center",
   },
   priceText: {
-    fontSize: 22,
+    fontSize: 18,
     textAlign: "center",
   },
 });
