@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StatusBar,
@@ -19,9 +19,15 @@ import { FontAwesome5 } from "@expo/vector-icons";
   /* COMPONENTS */
 }
 import { MenuComponent, FooterComponent } from "../components";
+import OrderOnRequestComponent from "../components/OrderOnRequestComponent";
 
 const HomeScreen = () => {
   const [search, setQuery] = useState("");
+  const [orderOnRequest, setOrderOnRequest] = useState(true);
+
+  // useEffect(() => {
+  //   setOrderOnRequest()
+  // }, []);
 
   const shadowStyle = {
     shadowColor: "#000",
@@ -164,6 +170,9 @@ const HomeScreen = () => {
       <ScrollView style={styles.scrollContainer}>
         {/* MENU */}
         <MenuComponent />
+
+        {/* ORDER ON REQUEST (IN CASE THERE IS ONE) */}
+        {orderOnRequest ? <OrderOnRequestComponent /> : <View/>}
 
         {/* CATEGORIES SCROLL */}
         <View
