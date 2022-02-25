@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
-import globalSyles from "../styles/styles";
 const FilterComponent = ({ visible }) => {
   const [modalVisible, setModalVisible] = useState(visible);
   const [minPrice, onChangeMinPrice] = useState(0);
@@ -24,21 +23,19 @@ const FilterComponent = ({ visible }) => {
 
   const navigator = useNavigation();
 
-  console.log("component");
-
   const applyFilter = () => {
     navigator.navigate("Home");
   };
 
-  const selectFilter = () => {
-    switch (key) {
-      case value:
-        break;
+  // const selectFilter = () => {
+  //   switch (key) {
+  //     case value:
+  //       break;
 
-      default:
-        break;
-    }
-  };
+  //     default:
+  //       break;
+  //   }
+  // };
 
   const OrderBy = () => {
     return (
@@ -180,7 +177,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     padding: 25,
-    // paddingVertical: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
