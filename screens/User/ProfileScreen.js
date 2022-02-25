@@ -81,7 +81,7 @@ const ProfileScreen = () => {
         <MaterialCommunityIcons name={"account-edit-outline"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Detalles del perfíl</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigator.navigate("Login")} style={[ styles.listItem, styles.lastListItem ]}>
+      <TouchableOpacity onPress={() => navigator.navigate("AuthHome")} style={[ styles.listItem, styles.lastListItem ]}>
         <MaterialIcons name={"logout"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Cerrar sesión</Text>
       </TouchableOpacity>

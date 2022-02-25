@@ -8,6 +8,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Pressable,
+  Modal,
 } from "react-native";
 import globalStyles from "../styles/styles";
 import { EvilIcons } from "@expo/vector-icons";
@@ -20,10 +22,11 @@ import { FontAwesome5 } from "@expo/vector-icons";
 }
 import { MenuComponent, FooterComponent } from "../components";
 import OrderOnRequestComponent from "../components/OrderOnRequestComponent";
+import FilterComponent from "../components/FilterComponent";
 
 const HomeScreen = () => {
   const [search, setQuery] = useState("");
-  const [orderOnRequest, setOrderOnRequest] = useState(true);
+  const [orderOnRequest, setOrderOnRequest] = useState(false);
 
   // useEffect(() => {
   //   setOrderOnRequest()
@@ -172,7 +175,7 @@ const HomeScreen = () => {
         <MenuComponent />
 
         {/* ORDER ON REQUEST (IN CASE THERE IS ONE) */}
-        {orderOnRequest ? <OrderOnRequestComponent /> : <View/>}
+        {orderOnRequest ? <OrderOnRequestComponent /> : <View />}
 
         {/* CATEGORIES SCROLL */}
         <View
@@ -221,11 +224,14 @@ const HomeScreen = () => {
               />
             </View>
 
-            <View style={styles.filterContainerBox}>
+            <Pressable
+              style={styles.filterContainerBox}
+              onPress={() => navigator.navigate('Filter')} //Testing(FilterComponet)
+            >
               <View style={styles.filterContainer}>
                 <AntDesign name="filter" size={24} color="#979797" />
               </View>
-            </View>
+            </Pressable>
           </View>
 
           {/* ROW PRODUCTS */}

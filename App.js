@@ -33,6 +33,9 @@ import EditProfileScreen from './screens/User/EditProfileScreen';
 import CartScreen from './screens/Shop/CartScreen';
 import OrdersScreen from './screens/Shop/OrdersScreen';
 
+// TESTING
+import FilterComponent from './components/FilterComponent';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -77,6 +80,9 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="Product" component={ProductScreen} />
         <Stack.Screen options={{ headerShown: false }} name="List" component={ListScreen} />
         <Stack.Screen options={{ headerShown: false }} name="GroupList" component={GroupListScreen} />
+
+        {/* TESTING */}
+        <Stack.Screen options={{ headerShown: false }} name="Filter" component={FilterComponent} />
 
       </Stack.Navigator>
 
