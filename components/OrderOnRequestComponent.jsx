@@ -49,11 +49,11 @@ const OrderOnRequestComponent = () => {
 
   const BigOrderView = () => {
     return (
-      <Pressable
-        style={[styles.smallView, styles.bigView, globalSyles.shadow]}
-        onPress={() => setDetailView(false)}
-      >
-        {/* <View style={[styles.smallView, styles.bigView, globalSyles.shadow]}> */}
+      // <Pressable
+      //   style={[styles.smallView, styles.bigView, globalSyles.shadow]}
+      //   onPress={() => setDetailView(false)}
+      // >
+         <View style={[styles.smallView, styles.bigView, globalSyles.shadow]}> 
         <Text style={styles.title}>Pedido en curso...</Text>
 
         <View style={styles.container}>
@@ -86,14 +86,14 @@ const OrderOnRequestComponent = () => {
           <Text style={styles.textStyle}>${order.totalPrice}</Text>
         </View>
 
-        {/* <Pressable
+        <Pressable
           style={[styles.button, styles.buttonOpen]}
           onPress={() => setDetailView(false)}
         >
           <Text style={styles.textBtn}>Ocultar Detalle</Text>
         </Pressable> 
-        </View> */}
-      </Pressable>
+        </View>
+      // </Pressable>
     );
   };
 
