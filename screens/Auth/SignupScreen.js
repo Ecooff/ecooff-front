@@ -23,6 +23,7 @@ import { AuthMenuComponent } from "../../components";
 
 // SERVICES
 import { AuthService } from "../../services";
+import axios from "axios";
 
 const SignupScreen = () => {
 //   const initialRouteName = "Home";
@@ -45,6 +46,8 @@ const SignupScreen = () => {
       email: email,
       password: password,
     };
+
+    // axios
 
     if (password === repetePassword) {
       AuthService.signUp(newUser).then(response => {

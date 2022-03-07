@@ -5,7 +5,7 @@ function login(user) {
     return fetch(
         URLPath.login, {
         method: 'POST',
-        headers: setHeader(),
+        headers: setHeader(user.token),
         body: JSON.stringify(user)
     })
         .then((response) => response.json())
