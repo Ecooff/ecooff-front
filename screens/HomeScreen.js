@@ -25,17 +25,30 @@ import { MenuComponent, FooterComponent } from "../components";
 import OrderOnRequestComponent from "../components/OrderOnRequestComponent";
 import FilterComponent from "../components/FilterComponent";
 import { fakeData } from "../utils/fakeData";
+import { useSelector } from "react-redux";
+import { selectUser } from "../store/userSlice";
 
 const HomeScreen = () => {
   const [search, setQuery] = useState("");
+  const user = useSelector(selectUser);
   const [orderOnRequest, setOrderOnRequest] = useState(false); // set true to see OrderOnRequestComponent
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    console.log("CHECKING STORE USER STATE --> ",user)
+
     // setProducts(fakeData.productsBigList)
-    axios.get(`http://${localhost}/api/products/`)
-    .then(({data}) => setProducts(data)) //check w console.log(data)
-    .catch(() => setProducts(fakeData.productsBigList)) //check w console.log(e)
+    axios.get(`http://${localhost}/api/products/`, {
+      headers: {
+        // 'Authorization': `Bearer ${user?.token}`
+      }
+    })
+    // .then(({data}) => setProducts(data)) //check w console.log(data)
+    .then(({ data }) => console.log("DATA", data)) //tst line, delete then
+    .catch((err) => {
+      console.log("something was wrong", err)
+      setProducts(fakeData.productsBigList)
+    }) //check w console.log(e)
   }, []);
 
   // useEffect(() => {

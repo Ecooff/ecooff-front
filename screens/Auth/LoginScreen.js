@@ -15,6 +15,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import globalStyles from "../../styles/styles";
 import authStyles from "../../styles/authStyles";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/userSlice";
 
 // SERVICES
 import { AuthService } from "../../services";
@@ -27,11 +29,12 @@ import { AuthMenuComponent } from "../../components";
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loader, setLoader] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const navigator = useNavigation();
+  const dispatch = useDispatch();
 
-  const login = () => {
+  const handleLogin = () => {
     setLoader(true);
 
     let user = {
@@ -39,25 +42,37 @@ const LoginScreen = () => {
       password: password,
     };
 
+    // AuthService.login(user) //NOTE: comment to delete
+    //   .then((res) => {
+    //     console.log("LOGIN LOGIN LOGIN---> ", res); // line to delete
+
+    //     // if (response.message) {
+    //     //     createAlert(response.message);
+    //     // } else if (!response.verified) {
+    //     //     createAlert(response.message);
+    //     // } else {
+    //     //     navigator.navigate('Home')
+    //     // }
+
+    //     res.verified
+    //       ? navigator.navigate("Home")
+    //       : createAlert(res.message || "Por favor verifique su cuenta");
+
+    //     setLoader(false);
+    //   })
+    //   .catch((err) => console.log("something was wrong", err))
+
     AuthService.login(user)
-      .then((res) => {
-        console.log("login---> ", res); // line to delete
-
-        // if (response.message) {
-        //     createAlert(response.message);
-        // } else if (!response.verified) {
-        //     createAlert(response.message);
-        // } else {
-        //     navigator.navigate('Home')
-        // }
-
-        res.verified
-          ? navigator.navigate("Home")
-          : createAlert(res.message || "Por favor verifique su cuenta");
-          
-        setLoader(false);
+      .then((user) => {
+        if (user.verified) {
+          dispatch(login(user));
+          navigator.navigate("Home");
+        } else {
+          return createAlert(user.message || "Por favor verifique su cuenta");
+        }
       })
       .catch((err) => console.log("something was wrong", err))
+      .finally(() => setLoader(false));
   };
 
   const createAlert = (message) =>
@@ -184,7 +199,7 @@ const LoginScreen = () => {
       {/* BUTTON */}
       <View style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}>
         <TouchableOpacity
-          onPress={() => login()}
+          onPress={() => handleLogin()}
           style={[
             globalStyles.button,
             globalStyles.primary,

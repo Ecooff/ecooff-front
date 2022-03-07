@@ -3,6 +3,8 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import { LogBox } from 'react-native';
+import { Provider } from 'react-redux';
+import store from './store';
 
 // AUTHENTICATION
 import AuthHomeScreen from './screens/Auth/AuthHomeScreen';
@@ -46,9 +48,10 @@ export default function App() {
   navTheme.colors.background = '#FFF';
 
   return (
-    <NavigationContainer
-      theme={navTheme}
-    >
+    <Provider store={store}>
+
+    <NavigationContainer theme={navTheme}>
+
       <Stack.Navigator>
       {/* <Stack.Navigator initialRouteName="List"> */}
 
@@ -87,6 +90,8 @@ export default function App() {
       </Stack.Navigator>
 
     </NavigationContainer>
+
+    </Provider>
     
   );
 }
