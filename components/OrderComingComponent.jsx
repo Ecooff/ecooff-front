@@ -7,14 +7,13 @@ import {
 } from "@expo/vector-icons";
 import globalSyles from "../styles/styles";
 import { fakeData } from "../utils/fakeData";
+import { useSelector } from "react-redux";
+import { selectOrder } from "../store/orderSlice";
 
-const OrderOnRequestComponent = () => {
+const OrderComingComponent = () => {
   const [detailView, setDetailView] = useState(false);
-  const [order, setOrder] = useState({});
-
-  useEffect(() => {
-    setOrder(fakeData.orderHistory[0]);
-  }, []);
+  const order = useSelector(selectOrder);
+  console.log("ORDER STATE ORDERCOMINGCOMP", order)
 
   const SmallOrderView = () => {
     return (
@@ -159,4 +158,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OrderOnRequestComponent;
+export default OrderComingComponent;

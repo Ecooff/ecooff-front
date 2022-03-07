@@ -297,4 +297,27 @@ export const fakeData = {
       },
     ],
   ],
+
+  providers: [
+    {
+      url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
+      title: "Carrefour",
+    },
+    {
+      url: "http://www.dogoseguridad.com.ar/images/logos-clientes/logo1.png",
+      title: "Coto",
+    },
+    {
+      url: "https://3.bp.blogspot.com/-5VIGChwPq0I/W3Qs0e8KX7I/AAAAAAAAHCs/Ms18CWXimAkJvEKpPUSfA61rUAF5xQiYwCKgBGAs/s640/DIA%2525.png",
+      title: "Día",
+    },
+    {
+      url: "https://cdn.theorg.com/ba262ed8-039d-41f9-b7dd-053c75d4d48d_thumb.jpg",
+      title: "Farmacity",
+    },
+    {
+      url: "https://www.gaf-franquicias.com/images/notas/logos/1606400097_365kioscos_franquicia.jpg",
+      title: "365",
+    },
+  ],
 }

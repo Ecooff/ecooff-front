@@ -16,44 +16,73 @@ import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import {localhost} from "../localhost.json"
+import { localhost } from "../localhost.json";
 
 {
   /* COMPONENTS */
 }
 import { MenuComponent, FooterComponent } from "../components";
-import OrderOnRequestComponent from "../components/OrderOnRequestComponent";
+import OrderComingComponent from "../components/OrderComingComponent";
 import FilterComponent from "../components/FilterComponent";
 import { fakeData } from "../utils/fakeData";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
+import { myOrder } from "../store/orderSlice";
 
 const HomeScreen = () => {
   const [search, setQuery] = useState("");
   const user = useSelector(selectUser);
-  const [orderOnRequest, setOrderOnRequest] = useState(false); // set true to see OrderOnRequestComponent
+  const [orderComing, setOrderComing] = useState(true); // set true to see OrderOnRequestComponent
   const [products, setProducts] = useState([]);
+  const [providers, setProviders] = useState([])
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("CHECKING STORE USER STATE --> ",user)
+    console.log("CHECKING STORE USER STATE --> ", user);
 
     // setProducts(fakeData.productsBigList)
-    axios.get(`http://${localhost}/api/products/`, {
-      headers: {
-        // 'Authorization': `Bearer ${user?.token}`
-      }
-    })
-    // .then(({data}) => setProducts(data)) //check w console.log(data)
-    .then(({ data }) => console.log("DATA", data)) //tst line, delete then
-    .catch((err) => {
-      console.log("something was wrong", err)
-      setProducts(fakeData.productsBigList)
-    }) //check w console.log(e)
+    axios
+      .get(`http://${localhost}/api/products/`, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      })
+      // .then(({data}) => setProducts(data)) //check w console.log(data)
+      .then(({ data }) => console.log("PRODUCTS DATA FROM USE EFFECT HOME SCREEN", data)) //tst line, delete then
+      .catch((err) => {
+        console.log(err);
+        setProducts(fakeData.productsBigList);
+      });
   }, []);
 
-  // useEffect(() => {
-  //   setOrderOnRequest()
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(`http://${localhost}/api/orders/`, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      })
+      .then(({ data }) => console.log("ORDERS DATA FROM USE EFFECT HOME SCREEN", data))
+      .catch((err) => {
+        console.log(err);
+        dispatch(myOrder(fakeData.orderHistory[0]))
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://${localhost}/api/orders/`, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      })
+      .then(({ data }) => console.log("PROVIDERS DATA FROM USE EFFECT HOME SCREEN", data))
+      .catch((err) => {
+        console.log(err);
+        setProviders(fakeData.providers)
+      });
+  }, []);
 
   const shadowStyle = {
     shadowColor: "#000",
@@ -89,7 +118,7 @@ const HomeScreen = () => {
         <MenuComponent />
 
         {/* ORDER ON REQUEST (IN CASE THERE IS ONE) */}
-        {orderOnRequest ? <OrderOnRequestComponent /> : <View />}
+        {orderComing ? <OrderComingComponent /> : <View />}
 
         {/* CATEGORIES SCROLL */}
         <View
@@ -140,7 +169,7 @@ const HomeScreen = () => {
 
             <Pressable
               style={styles.filterContainerBox}
-              onPress={() => navigator.navigate('Filter')} //Testing(FilterComponet)
+              onPress={() => navigator.navigate("Filter")} //Testing(FilterComponet)
             >
               <View style={styles.filterContainer}>
                 <AntDesign name="filter" size={24} color="#979797" />
