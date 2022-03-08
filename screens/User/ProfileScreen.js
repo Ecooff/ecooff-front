@@ -14,14 +14,14 @@ import { useNavigation } from "@react-navigation/native";
 
 import globalStyles from "../../styles/styles";
 import { MenuComponent } from "../../components";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/userSlice";
 
 const ProfileScreen = () => {
-  const [user, setUser] = useState({});
+  const user = useSelector(selectUser);
   const navigator = useNavigation();
 
-  // useEffect(() => {
-  //   setUser()
-  // },[]);
+  console.log("USER PROFILE SCREEM", user)
 
   const shadowStyleProducts = {
     shadowColor: "#000",
@@ -51,7 +51,7 @@ const ProfileScreen = () => {
       </View>
 
       <View>
-        <Text style={globalStyles.fontLarge}>{user.name ? user.name : "Nombre Apellido"}</Text>
+        <Text style={globalStyles.fontLarge}>{user.firstName ? `${user.firstName}, ${user.lastName}` : "Nombre Apellido"}</Text>
 
         <Text style={globalStyles.fontMedium}>
           {user.email ? user.email : "tobias.matarasso@gmail.com"}

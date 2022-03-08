@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { TextInput, StyleSheet, Text, Pressable, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import globalSyles from "../../styles/styles";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/userSlice";
 
 const EditProfileScreen = () => {
-  // const [user, setUser] = useState({});
+  const user = useSelector(selectUser);
   const navigator = useNavigation();
 
 //   const [name, setName] = useState("");
@@ -12,8 +14,8 @@ const EditProfileScreen = () => {
 //   const [password, setPassword] = useState("");
 //   const [picture, setPicture] = useState("");
 
-    const [name, onChangeName] = useState("Tobias");
-    const [email, onChangeEmail] = useState("user@gmail.com");
+    const [name, onChangeName] = useState(`${user.firstName}, ${user.lastName}`);
+    const [email, onChangeEmail] = useState(user.email);
     const [password, onChangePassword] = useState("********");
 
   // useEffect(() => {

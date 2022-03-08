@@ -45,7 +45,7 @@ const HomeScreen = () => {
     axios
       .get(`http://${localhost}/api/products/`, {
         headers: {
-          Authorization: `Bearer ${user?.token}`,
+          Authorization: `Bearer ${user?.token}`, // NOTE: uncomment then
         },
       })
       // .then(({data}) => setProducts(data)) //check w console.log(data)
