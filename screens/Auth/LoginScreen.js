@@ -17,6 +17,7 @@ import authStyles from "../../styles/authStyles";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/userSlice";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // SERVICES
 import { AuthService } from "../../services";
@@ -34,7 +35,15 @@ const LoginScreen = () => {
   const navigator = useNavigation();
   const dispatch = useDispatch();
 
+  
   const handleLogin = () => {
+    const storeData = async (value) => {
+      try {
+        await AsyncStorage.setItem('@me', value)
+      } catch (e) {
+        console.log(e)
+      }
+    }
     setLoader(true);
 
     let user = {
@@ -65,6 +74,7 @@ const LoginScreen = () => {
     AuthService.login(user)
       .then((user) => {
         if (user.verified) {
+          storeData(user.token);
           dispatch(login(user));
           navigator.navigate("Home");
         } else {
