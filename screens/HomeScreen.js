@@ -32,20 +32,22 @@ import { myOrder } from "../store/orderSlice";
 const HomeScreen = () => {
   const [search, setQuery] = useState("");
   const user = useSelector(selectUser);
-  const [orderComing, setOrderComing] = useState(true); // set true to see OrderOnRequestComponent
+
+  const [orderComing, setOrderComing] = useState({});
+
   const [products, setProducts] = useState([]);
+
+  const [productsCloseToExp, setProductsCloseToExp] = useState([]);
+  const [productsForYou, setProductsForYou] = useState([]);
   const [providers, setProviders] = useState([])
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log("CHECKING STORE USER STATE --> ", user);
-
-    // setProducts(fakeData.productsBigList)
+  useEffect(() => { // NOTE: it will be out of service ----------
     axios
       .get(`http://${localhost}/api/products/`, {
         headers: {
-          Authorization: `Bearer ${user?.token}`, // NOTE: uncomment then
+          Authorization: `Bearer ${user?.token}`,
         },
       })
       // .then(({data}) => setProducts(data)) //check w console.log(data)
@@ -57,13 +59,14 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
+    console.log( 'CHECKING USER USEEFFECT',user)
     axios
-      .get(`http://${localhost}/api/orders/`, {
+      .get(`http://${localhost}/api/orders/getByUserId`, {userId: user.id}, {
         headers: {
           Authorization: `Bearer ${user?.token}`,
         },
       })
-      .then(({ data }) => console.log("ORDERS DATA FROM USE EFFECT HOME SCREEN", data))
+      .then(({ data }) => data ? setOrderComing(data) : "")
       .catch((err) => {
         console.log(err);
         dispatch(myOrder(fakeData.orderHistory[0]))
@@ -71,17 +74,18 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`http://${localhost}/api/orders/`, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      })
-      .then(({ data }) => console.log("PROVIDERS DATA FROM USE EFFECT HOME SCREEN", data))
-      .catch((err) => {
-        console.log(err);
-        setProviders(fakeData.providers)
-      });
+    axios // PRODUCTS CLOSE TO EXP
+      .get(`http://${localhost}/api/stock/closeToExp`, { headers: { Authorization: `Bearer ${user?.token}` } })
+      .then(({ data }) => data ? setProductsCloseToExp(data) : "")
+      .catch((err) => console.log(err));
+    axios  // PRODUCTS FOR YOU
+      .get(`http://${localhost}/api/stock/forYou`, { headers: { Authorization: `Bearer ${user?.token}` } })
+      .then(({ data }) => data ? setProductsForYou(data) : "")
+      .catch((err) => console.log(err));
+    axios // PROVIDERS
+      .get(`http://${localhost}/api/providers`, { headers: { Authorization: `Bearer ${user?.token}` } })
+      .then(({ data }) => data ? setProviders(data) : "")
+      .catch((err) => console.log(err));
   }, []);
 
   const shadowStyle = {
@@ -118,7 +122,7 @@ const HomeScreen = () => {
         <MenuComponent />
 
         {/* ORDER ON REQUEST (IN CASE THERE IS ONE) */}
-        {orderComing ? <OrderComingComponent /> : <View />}
+        {orderComing?.status === 'Pending' ? <OrderComingComponent /> : <View />}
 
         {/* CATEGORIES SCROLL */}
         <View
@@ -176,6 +180,8 @@ const HomeScreen = () => {
               </View>
             </Pressable>
           </View>
+          
+          {/*  */}
 
           {/* ROW PRODUCTS */}
           {listOfProducts.map((list, index) => {

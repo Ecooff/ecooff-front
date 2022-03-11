@@ -300,24 +300,24 @@ export const fakeData = {
 
   providers: [
     {
-      url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-      title: "Carrefour",
+      provider: "Carrefour",
+      img: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
     },
     {
-      url: "http://www.dogoseguridad.com.ar/images/logos-clientes/logo1.png",
-      title: "Coto",
+      provider: "Coto",
+      img: "http://www.dogoseguridad.com.ar/images/logos-clientes/logo1.png",
     },
     {
-      url: "https://3.bp.blogspot.com/-5VIGChwPq0I/W3Qs0e8KX7I/AAAAAAAAHCs/Ms18CWXimAkJvEKpPUSfA61rUAF5xQiYwCKgBGAs/s640/DIA%2525.png",
-      title: "Día",
+      provider: "Día",
+      img: "https://3.bp.blogspot.com/-5VIGChwPq0I/W3Qs0e8KX7I/AAAAAAAAHCs/Ms18CWXimAkJvEKpPUSfA61rUAF5xQiYwCKgBGAs/s640/DIA%2525.png",
     },
     {
-      url: "https://cdn.theorg.com/ba262ed8-039d-41f9-b7dd-053c75d4d48d_thumb.jpg",
-      title: "Farmacity",
+      provider: "Farmacity",
+      img: "https://cdn.theorg.com/ba262ed8-039d-41f9-b7dd-053c75d4d48d_thumb.jpg",
     },
     {
-      url: "https://www.gaf-franquicias.com/images/notas/logos/1606400097_365kioscos_franquicia.jpg",
-      title: "365",
+      provider: "365",
+      img: "https://www.gaf-franquicias.com/images/notas/logos/1606400097_365kioscos_franquicia.jpg",
     },
   ],
 }
