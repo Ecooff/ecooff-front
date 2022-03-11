@@ -14,12 +14,14 @@ import { useNavigation } from "@react-navigation/native";
 
 import globalStyles from "../../styles/styles";
 import { MenuComponent } from "../../components";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../../store/userSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = () => {
   const user = useSelector(selectUser);
   const navigator = useNavigation();
+  const dispatch = useDispatch();
 
   console.log("USER PROFILE SCREEM", user)
 
@@ -32,6 +34,12 @@ const ProfileScreen = () => {
     shadowOpacity: 0.25,
     shadowRadius: 4,
   };
+
+  const handleLogout = () => {
+    dispatch(logout())
+    AsyncStorage.removeItem('@me')
+    navigator.navigate("AuthHome")
+  }
 
   // to Components then
   const Profile = () => {
@@ -81,7 +89,7 @@ const ProfileScreen = () => {
         <MaterialCommunityIcons name={"account-edit-outline"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Detalles del perfíl</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigator.navigate("AuthHome")} style={[ styles.listItem, styles.lastListItem ]}>
+      <TouchableOpacity onPress={() => handleLogout()} style={[ styles.listItem, styles.lastListItem ]}>
         <MaterialIcons name={"logout"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Cerrar sesión</Text>
       </TouchableOpacity>

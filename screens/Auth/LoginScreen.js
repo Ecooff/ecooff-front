@@ -25,7 +25,7 @@ import { AuthService } from "../../services";
 {
   /* COMPONENTS */
 }
-import { AuthMenuComponent } from "../../components";
+import AuthMenuComponent from "../../components/AuthMenuComponent";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
