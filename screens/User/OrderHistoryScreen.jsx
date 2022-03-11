@@ -14,14 +14,19 @@ const OrderHistoyScreen = () => {
   const [orders, setOrders] = useState([]);
   const navigator = useNavigation();
 
+  /* FOR DEMO ONLY */
   useEffect(() => {
-    axios.get(`http://${localhost}/api/orders`, {
-      headers: { Authorization: `Bearer ${user?.token}` },
-    }) //it shoud get only user's orders
-    .then(({ data }) => data?.length > 0 ? setOrders(data) : setOrders(fakeData.orderHistory))
-    .catch((err) => console.log(err))
-    // setOrders(fakeData.orderHistory);
-  }, []);
+    setOrders(fakeData.orderHistory)
+  }, [])
+  //-------------------------
+
+  // useEffect(() => {
+  //   axios.get(`http://${localhost}/api/orders`, {
+  //     headers: { Authorization: `Bearer ${user?.token}` },
+  //   }) //it shoud get only user's orders
+  //   .then(({ data }) => data?.length > 0 ? setOrders(data) : setOrders(fakeData.orderHistory))
+  //   .catch((err) => console.log(err))
+  // }, []);
 
   const MyOrderHistory = () => {
     return orders.map((order, i) => {

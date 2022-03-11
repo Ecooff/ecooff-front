@@ -37,56 +37,57 @@ const HomeScreen = () => {
 
   const [products, setProducts] = useState([]);
 
-  const [productsCloseToExp, setProductsCloseToExp] = useState([]);
-  const [productsForYou, setProductsForYou] = useState([]);
-  const [providers, setProviders] = useState([])
+  // const [productsCloseToExp, setProductsCloseToExp] = useState([]);
+  // const [productsForYou, setProductsForYou] = useState([]);
+  // const [providers, setProviders] = useState([])
 
   const dispatch = useDispatch();
 
-  useEffect(() => { // NOTE: it will be out of service ----------
-    axios
-      .get(`http://${localhost}/api/products/`, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      })
-      // .then(({data}) => setProducts(data)) //check w console.log(data)
-      .then(({ data }) => console.log("PRODUCTS DATA FROM USE EFFECT HOME SCREEN", data)) //tst line, delete then
-      .catch((err) => {
-        console.log(err);
-        setProducts(fakeData.productsBigList);
-      });
-  }, []);
+  /* FOR DEMO ONLY */
 
   useEffect(() => {
-    console.log( 'CHECKING USER USEEFFECT',user)
-    axios
-      .get(`http://${localhost}/api/orders/getByUserId`, {userId: user.id}, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      })
-      .then(({ data }) => data ? setOrderComing(data) : "")
-      .catch((err) => {
-        console.log(err);
-        dispatch(myOrder(fakeData.orderHistory[0]))
-      });
-  }, []);
+    setProducts(fakeData.productsBigList)
+  }, [])
 
-  useEffect(() => {
-    axios // PRODUCTS CLOSE TO EXP
-      .get(`http://${localhost}/api/stock/closeToExp`, { headers: { Authorization: `Bearer ${user?.token}` } })
-      .then(({ data }) => data ? setProductsCloseToExp(data) : "")
-      .catch((err) => console.log(err));
-    axios  // PRODUCTS FOR YOU
-      .get(`http://${localhost}/api/stock/forYou`, { headers: { Authorization: `Bearer ${user?.token}` } })
-      .then(({ data }) => data ? setProductsForYou(data) : "")
-      .catch((err) => console.log(err));
-    axios // PROVIDERS
-      .get(`http://${localhost}/api/providers`, { headers: { Authorization: `Bearer ${user?.token}` } })
-      .then(({ data }) => data ? setProviders(data) : "")
-      .catch((err) => console.log(err));
-  }, []);
+  /* FOR DEMO ONLY */
+
+  // useEffect(() => { // NOTE: it will be out of service ----------
+  //   axios
+  //     .get(`http://${localhost}/api/products/`, {
+  //       headers: {
+  //         Authorization: `Bearer ${user?.token}`,
+  //       },
+  //     })
+  //     .then(({data}) => setProducts(data)) //check w console.log(data)
+  //     .catch((err) => console.log(err));
+  // }, []);
+
+  // useEffect(() => {
+  //   dispatch(myOrder(fakeData.orderHistory[0]))
+  //   axios
+  //     .get(`http://${localhost}/api/orders/getByUserId`, {userId: user.id}, {
+  //       headers: {
+  //         Authorization: `Bearer ${user?.token}`,
+  //       },
+  //     })
+  //     .then(({ data }) => data ? setOrderComing(data) : "")
+  //     .catch((err) => console.log(err));
+  // }, []);
+
+  // useEffect(() => {
+  //   axios // PRODUCTS CLOSE TO EXP
+  //     .get(`http://${localhost}/api/stock/closeToExp`, { headers: { Authorization: `Bearer ${user?.token}` } })
+  //     .then(({ data }) => data ? setProductsCloseToExp(data) : "")
+  //     .catch((err) => console.log(err));
+  //   axios  // PRODUCTS FOR YOU
+  //     .get(`http://${localhost}/api/stock/forYou`, { headers: { Authorization: `Bearer ${user?.token}` } })
+  //     .then(({ data }) => data ? setProductsForYou(data) : "")
+  //     .catch((err) => console.log(err));
+  //   axios // PROVIDERS
+  //     .get(`http://${localhost}/api/providers`, { headers: { Authorization: `Bearer ${user?.token}` } })
+  //     .then(({ data }) => data ? setProviders(data) : "")
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const shadowStyle = {
     shadowColor: "#000",
@@ -137,10 +138,11 @@ const HomeScreen = () => {
             return (
               <TouchableOpacity
                 key={index}
-                onPress={() => navigator.navigate("List", { item })}
+                // onPress={() => navigator.navigate("List", { item })}
+                onPress={() => console.log("demo")}
                 style={styles.iconsContainer}
               >
-                <Image style={styles.icons} source={item.icon} />
+                <Image style={styles.icons} source={item.icon} onPress={() => console.log("demo")}/>
 
                 <Text style={globalStyles.fontXSmall}>{item.title}</Text>
               </TouchableOpacity>
@@ -198,7 +200,8 @@ const HomeScreen = () => {
                   <Text style={[globalStyles.fontMedium]}>{list}</Text>
 
                   <TouchableOpacity
-                    onPress={() => navigator.navigate("GroupList")}
+                    // onPress={() => navigator.navigate("GroupList")}
+                    onPress={() => console.log("demo")}
                     style={globalStyles.fontSmall}
                   >
                     <Text>Ver todos</Text>
@@ -214,7 +217,8 @@ const HomeScreen = () => {
                     return (
                       <TouchableOpacity
                         key={y}
-                        onPress={() => navigator.navigate("Cart", { product })}
+                        // onPress={() => navigator.navigate("Cart", { product })}
+                        onPress={() => console.log("demo")}
                         style={styles.productsContainer}
                       >
                         <View style={shadowStyle}>
