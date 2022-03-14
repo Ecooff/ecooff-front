@@ -1,48 +1,49 @@
-import React, { Component } from 'react'
-import { StyleSheet, View, Image } from 'react-native'
-import globalStyles from '../styles/styles';
-import { Ionicons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
+import React, { Component } from "react";
+import { StyleSheet, View, Image, Pressable } from "react-native";
+import globalStyles from "../styles/styles";
+import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-export class MenuComponent extends Component {
-    render() {
-        return (
-            <View
-                style={[styles.mainMenu, globalStyles.row, globalStyles.alignItemsCenter]}
-            >
+export const MenuComponent = () => {
+  const navigator = useNavigation();
+    return (
+      <View
+        style={[
+          styles.mainMenu,
+          globalStyles.row,
+          globalStyles.alignItemsCenter,
+        ]}
+      >
+        <Image
+          style={styles.menuLogo}
+          source={require("../assets/icon-long.png")}
+        />
 
-                <Image
-                    style={styles.menuLogo}
-                    source={require('../assets/icon-long.png')} />
-
-                <View
-                    style={[globalStyles.row, globalStyles.alignItemsCenter]}
-                >
-                    <Ionicons name="ios-cart-outline" size={30} color="gray" />
-                    <Feather name="bell" size={24} style={ styles.icon } color="gray" />
-                </View>
-
-            </View>
-        );
-    }
+        <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
+          <Pressable onPress={() => navigator.navigate("Cart")}>
+            <Ionicons name="ios-cart-outline" size={30} color="gray" /> 
+          </Pressable>
+          <Feather name="bell" size={24} style={styles.icon} color="gray" />
+        </View>
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({
+  mainMenu: {
+    marginTop: 5,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    justifyContent: "space-between",
+  },
 
-    mainMenu: {
-        marginTop: 5,
-        marginBottom: 20,
-        paddingHorizontal: 10,
-        justifyContent: 'space-between'
-    },
+  menuLogo: {
+    width: 100,
+    height: 60,
+  },
 
-    menuLogo: {
-        width: 100,
-        height: 60
-    },
-
-    icon: {
-        marginLeft: 15
-    }
-
-})
+  icon: {
+    marginLeft: 15,
+  },
+});

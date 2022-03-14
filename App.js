@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
-
+import { LogBox } from 'react-native';
 
 // AUTHENTICATION
 import AuthHomeScreen from './screens/Auth/AuthHomeScreen';
@@ -23,6 +23,11 @@ import GroupListScreen from './screens/Products/GroupListScreen';
 
 // SCREENS -> USER
 import ProfileScreen from './screens/User/ProfileScreen';
+import AddressesScreen from './screens/User/AddressesScreen';
+import PaymentsScreen from './screens/User/PaymentsScreen';
+import OrderHistoryScreen from './screens/User/OrderHistoryScreen';
+import OrderDetailScreen from './screens/User/OrderDetailScreen';
+import EditProfileScreen from './screens/User/EditProfileScreen';
 
 // SCREENS -> SHOP
 import CartScreen from './screens/Shop/CartScreen';
@@ -32,6 +37,7 @@ import OrdersScreen from './screens/Shop/OrdersScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  LogBox.ignoreAllLogs(true);
 
   const navTheme = DefaultTheme;
   navTheme.colors.background = '#FFF';
@@ -41,6 +47,7 @@ export default function App() {
       theme={navTheme}
     >
       <Stack.Navigator>
+      {/* <Stack.Navigator initialRouteName="List"> */}
 
         {/* AUTH */}
         <Stack.Screen options={{ headerShown: false }} name="AuthHome" component={AuthHomeScreen} />
@@ -56,6 +63,11 @@ export default function App() {
 
         {/* PROFILE */}
         <Stack.Screen options={{ headerShown: false }} name="Profile" component={ProfileScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="OrderHistory" component={OrderHistoryScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="OrderDetail" component={OrderDetailScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Addresses" component={AddressesScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Payments" component={PaymentsScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Edit" component={EditProfileScreen} />
 
         {/* CART */}
         <Stack.Screen options={{ headerShown: false }} name="Cart" component={CartScreen} />
