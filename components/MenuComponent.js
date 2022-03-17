@@ -17,7 +17,7 @@ export const MenuComponent = () => {
       >
         <Image
           style={styles.menuLogo}
-          source={require("../assets/icon-long.png")}
+          source={require("../assets/icon.png")}
         />
 
         <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
 
   menuLogo: {
-    width: 100,
+    width: 50,
     height: 60,
   },
 

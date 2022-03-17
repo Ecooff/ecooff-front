@@ -33,7 +33,7 @@ const HomeScreen = () => {
   const [search, setQuery] = useState("");
   const user = useSelector(selectUser);
 
-  const [orderComing, setOrderComing] = useState({});
+  const [orderComing, setOrderComing] = useState(true);
 
   const [products, setProducts] = useState([]);
 
@@ -123,7 +123,7 @@ const HomeScreen = () => {
         <MenuComponent />
 
         {/* ORDER ON REQUEST (IN CASE THERE IS ONE) */}
-        {orderComing?.status === 'Pending' ? <OrderComingComponent /> : <View />}
+        {orderComing?.status === 'Pending' || true ? <OrderComingComponent /> : <View />}
 
         {/* CATEGORIES SCROLL */}
         <View

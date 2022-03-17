@@ -73,7 +73,7 @@ const EditProfileScreen = () => {
               <Text>Edit</Text>
             </Pressable>
           </View>
-          <Text>{name ? name : "Tobias"}</Text>
+          <Text>{name ? name : "Nombre"}</Text>
         </View>
 
         <View>
@@ -83,7 +83,7 @@ const EditProfileScreen = () => {
               <Text>Edit</Text>
             </Pressable>
           </View>
-          <Text>{email ? email : "tobias@gmail.com"}</Text>
+          <Text>{email ? email : "Email"}</Text>
         </View>
 
         <View>
@@ -123,8 +123,8 @@ const EditProfileScreen = () => {
       <View style={styles.container}>
         <Text style={styles.heading}>Usuario</Text>
 
-        {/* <Content /> */}
-        <ContentBackUp />
+        <Content />
+        {/* <ContentBackUp /> */}
 
         <FooterBtns />
       </View>
