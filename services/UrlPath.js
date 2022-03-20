@@ -1,5 +1,7 @@
-export const LOCALHOST = 'http://localhost:3000/api/users/';
-export const PROD = 'http://localhost:3000/api/users/';
+export const LOCALHOST = 'http://192.168.100.66:3000/api/users/';
+export const PROD = 'http://192.168.100.66:3000/api/users/';
+
+
 
 export const URL = PROD;
 

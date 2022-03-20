@@ -20,10 +20,28 @@ import { FontAwesome5 } from "@expo/vector-icons";
 }
 import { MenuComponent, FooterComponent } from "../components";
 import OrderOnRequestComponent from "../components/OrderOnRequestComponent";
+import productService from '../services/ProductService';
 
 const HomeScreen = () => {
+
+  const { getAllProviders, closeToExp } = productService
+
   const [search, setQuery] = useState("");
   const [orderOnRequest, setOrderOnRequest] = useState(true);
+  const [provider, setProvider] = useState({})
+
+ 
+
+  console.log('functionProvider', getAllProviders())
+
+  useEffect(() => {
+    getAllProviders().then(response => setProvider(response.data))
+  }, [])
+
+
+  console.log('Providers : ', provider)
+
+  
 
   // useEffect(() => {
   //   setOrderOnRequest()
