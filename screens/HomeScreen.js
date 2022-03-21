@@ -24,22 +24,30 @@ import productService from '../services/ProductService';
 
 const HomeScreen = () => {
 
-  const { getAllProviders, closeToExp } = productService
+  const { getAllProviders, closeToExp, forYou, getByUserId } = productService
 
   const [search, setQuery] = useState("");
   const [orderOnRequest, setOrderOnRequest] = useState(true);
-  const [provider, setProvider] = useState({})
+  const [providers, setProviders] = useState([]);
+  const [closeToExpire, setCloseToExpire] = useState([]);
+  const [featured, setFeatured] = useState([]);
+  const [userById, setUserById] = useState({});
 
  
 
   console.log('functionProvider', getAllProviders())
 
   useEffect(() => {
-    getAllProviders().then(response => setProvider(response.data))
+    getAllProviders().then(response => setProviders(response.data))
+    closeToExp().then(response => setCloseToExpire(response.data))
+    forYou().then(response => setFeatured(response.data))
+    // userById().then(response => setUserById(response.data))
   }, [])
 
-
-  console.log('Providers : ', provider)
+  console.log('Close to expire : ', closeToExpire)
+  console.log('Providers : ', providers)
+  console.log('For you : ', featured)
+  // console.log('getByUserId', userById)
 
   
 
@@ -246,6 +254,7 @@ const HomeScreen = () => {
             </View>
           </View>
 
+
           {/* ROW PRODUCTS */}
           {listOfProducts.map((list, index) => {
             return (
@@ -258,7 +267,7 @@ const HomeScreen = () => {
                     globalStyles.justifyContentBetween,
                   ]}
                 >
-                  <Text style={[globalStyles.fontMedium]}>{list}</Text>
+                  <Text style={[globalStyles.fontMedium]}>{list}</Text>  
 
                   <TouchableOpacity
                     onPress={() => navigator.navigate("GroupList")}
@@ -270,10 +279,16 @@ const HomeScreen = () => {
 
                 <ScrollView
                   showsHorizontalScrollIndicator={false}
-                  style={styles.productScroll}
+                          style={styles.productScroll}
                   horizontal={true}
                 >
-                  {products[index].map((product, y) => {
+                  {/* {providers.map((provider, i) => (
+                    <View key={i}>
+                    <Text>{provider.provider}</Text>
+                    <Image source={{uri: provider.img}}/>
+                    </View>
+                  ))} */}
+                   {providers.map((product, y) => {
                     return (
                       <TouchableOpacity
                         key={y}
@@ -287,7 +302,7 @@ const HomeScreen = () => {
                                 ? styles.productOfList
                                 : styles.commerceOfList
                             }
-                            source={{ uri: product.url }}
+                            source={{ uri: product.img }}
                           />
                         </View>
 
@@ -300,7 +315,7 @@ const HomeScreen = () => {
                             index >= 2 ? globalStyles.textCenter : null,
                           ]}
                         >
-                          {product.title}
+                          {product.provider}
                         </Text>
                         {index < 2 ? (
                           <Text
@@ -315,7 +330,7 @@ const HomeScreen = () => {
                         ) : null}
                       </TouchableOpacity>
                     );
-                  })}
+                  })} 
                 </ScrollView>
               </View>
             );
