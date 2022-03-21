@@ -4,30 +4,42 @@ import { useEffect, useState } from "react";
 import { ScrollView, Pressable, StyleSheet, Text, View } from "react-native";
 import { FooterComponent, MenuComponent } from "../../components";
 import { fakeData } from "../../utils/fakeData";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/userSlice";
+import localhost from "../../localhost.json";
+import axios from "axios";
 
 const OrderHistoyScreen = () => {
-  const [user, setUser] = useState({});
+  const user = useSelector(selectUser);
   const [orders, setOrders] = useState([]);
   const navigator = useNavigation();
-  MyOrderHistory;
-  // useEffect(() => {
-  //     setUser()
-  // }, []);
 
+  /* FOR DEMO ONLY */
   useEffect(() => {
-    setOrders(fakeData.orderHistory);
-  }, []);
+    setOrders(fakeData.orderHistory)
+  }, [])
+  //-------------------------
+
+  // useEffect(() => {
+  //   axios.get(`http://${localhost}/api/orders`, {
+  //     headers: { Authorization: `Bearer ${user?.token}` },
+  //   }) //it shoud get only user's orders
+  //   .then(({ data }) => data?.length > 0 ? setOrders(data) : setOrders(fakeData.orderHistory))
+  //   .catch((err) => console.log(err))
+  // }, []);
 
   const MyOrderHistory = () => {
     return orders.map((order, i) => {
       let statusColor;
-      order.status === "Pendiente" ? statusColor = "#FF1200" : statusColor = "#3D9D5D";
+      order.status === "Pendiente"
+        ? (statusColor = "#FF1200")
+        : (statusColor = "#3D9D5D");
       return (
         <View style={styles.mainContainer} key={i}>
           <View>
             <View style={styles.leftTextContainer}>
               <Text style={styles.leftText}>{order.date}</Text>
-              <Text style={[styles.leftText, {color: statusColor}]}>
+              <Text style={[styles.leftText, { color: statusColor }]}>
                 {order.status}
               </Text>
             </View>
@@ -39,7 +51,9 @@ const OrderHistoyScreen = () => {
 
           <View style={styles.rightSide}>
             <Text style={styles.priceText}>${order.totalPrice}</Text>
-            <Pressable onPress={() => navigator.navigate("OrderDetail", {order})}>
+            <Pressable
+              onPress={() => navigator.navigate("OrderDetail", { order })}
+            >
               <Text style={styles.editText}>Ver detalle</Text>
             </Pressable>
           </View>
@@ -86,7 +100,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingBottom: 12,
-    backgroundColor:"white",
+    backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -97,7 +111,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   leftTextContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 8,
   },
   leftText: {
@@ -108,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   rightSide: {
-    marginRight: 10
+    marginRight: 10,
   },
   editText: {
     fontSize: 12,

@@ -14,14 +14,16 @@ import { useNavigation } from "@react-navigation/native";
 
 import globalStyles from "../../styles/styles";
 import { MenuComponent } from "../../components";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../../store/userSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = () => {
-  const [user, setUser] = useState({});
+  const user = useSelector(selectUser);
   const navigator = useNavigation();
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   setUser()
-  // },[]);
+  console.log("USER PROFILE SCREEM", user)
 
   const shadowStyleProducts = {
     shadowColor: "#000",
@@ -32,6 +34,12 @@ const ProfileScreen = () => {
     shadowOpacity: 0.25,
     shadowRadius: 4,
   };
+
+  const handleLogout = () => {
+    dispatch(logout())
+    AsyncStorage.removeItem('@me')
+    navigator.navigate("AuthHome")
+  }
 
   // to Components then
   const Profile = () => {
@@ -51,7 +59,7 @@ const ProfileScreen = () => {
       </View>
 
       <View>
-        <Text style={globalStyles.fontLarge}>{user.name ? user.name : "Nombre Apellido"}</Text>
+        <Text style={globalStyles.fontLarge}>{user.firstName ? `${user.firstName}, ${user.lastName}` : "Nombre Apellido"}</Text>
 
         <Text style={globalStyles.fontMedium}>
           {user.email ? user.email : "tobias.matarasso@gmail.com"}
@@ -81,7 +89,7 @@ const ProfileScreen = () => {
         <MaterialCommunityIcons name={"account-edit-outline"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Detalles del perfíl</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigator.navigate("Login")} style={[ styles.listItem, styles.lastListItem ]}>
+      <TouchableOpacity onPress={() => handleLogout()} style={[ styles.listItem, styles.lastListItem ]}>
         <MaterialIcons name={"logout"} size={24} style={styles.icons} />
         <Text style={globalStyles.fontMedium}>Cerrar sesión</Text>
       </TouchableOpacity>

@@ -27,7 +27,7 @@ export default StyleSheet.create({
     },
 
     arrow: {
-        color: 'white',
+        color: '#3D9D5D',
         paddingVertical: 5,
         marginLeft: 7,
         fontSize: 20,
