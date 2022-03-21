@@ -43,13 +43,12 @@ const HomeScreen = () => {
 
   const dispatch = useDispatch();
 
-  /* FOR DEMO ONLY */
-
+  /**
+   * FOR DEMO ONLY
+   */
   useEffect(() => {
     setProducts(fakeData.productsBigList)
   }, [])
-
-  /* FOR DEMO ONLY */
 
   // useEffect(() => { // NOTE: it will be out of service ----------
   //   axios
@@ -138,8 +137,8 @@ const HomeScreen = () => {
             return (
               <TouchableOpacity
                 key={index}
-                // onPress={() => navigator.navigate("List", { item })}
-                onPress={() => console.log("demo")}
+                onPress={() => navigator.navigate("List", { item })}
+                // onPress={() => console.log("demo")}
                 style={styles.iconsContainer}
               >
                 <Image style={styles.icons} source={item.icon} onPress={() => console.log("demo")}/>
@@ -173,14 +172,15 @@ const HomeScreen = () => {
               />
             </View>
 
-            <Pressable
+            {/* <Pressable
               style={styles.filterContainerBox}
               onPress={() => navigator.navigate("Filter")} //Testing(FilterComponet)
             >
               <View style={styles.filterContainer}>
                 <AntDesign name="filter" size={24} color="#979797" />
               </View>
-            </Pressable>
+            </Pressable> */}
+            <FilterComponent />
           </View>
           
           {/*  */}
@@ -200,8 +200,8 @@ const HomeScreen = () => {
                   <Text style={[globalStyles.fontMedium]}>{list}</Text>
 
                   <TouchableOpacity
-                    // onPress={() => navigator.navigate("GroupList")}
-                    onPress={() => console.log("demo")}
+                    onPress={() => navigator.navigate("GroupList")}
+                    // onPress={() => console.log("demo")}
                     style={globalStyles.fontSmall}
                   >
                     <Text>Ver todos</Text>
@@ -217,8 +217,8 @@ const HomeScreen = () => {
                     return (
                       <TouchableOpacity
                         key={y}
-                        // onPress={() => navigator.navigate("Cart", { product })}
-                        onPress={() => console.log("demo")}
+                        onPress={() => navigator.navigate("Cart", { product })}
+                        // onPress={() => console.log("demo")}
                         style={styles.productsContainer}
                       >
                         <View style={shadowStyle}>
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
   },
 
   scrollContainer: {
-    paddingTop: 40,
+    // paddingTop: 40,
     paddingHorizontal: 10,
   },
 
@@ -312,21 +312,21 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 
-  filterContainerBox: {
-    width: "10%",
-    justifyContent: "flex-end",
-    marginRight: 10,
-  },
+  // filterContainerBox: {
+  //   width: "10%",
+  //   justifyContent: "flex-end",
+  //   marginRight: 10,
+  // },
 
-  filterContainer: {
-    backgroundColor: "#F9FAFB",
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 45,
-    paddingVertical: 10,
-    borderRadius: 12,
-  },
+  // filterContainer: {
+  //   backgroundColor: "#F9FAFB",
+  //   textAlign: "center",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   width: 45,
+  //   paddingVertical: 10,
+  //   borderRadius: 12,
+  // },
 
   productsListContainer: {
     marginBottom: 25,

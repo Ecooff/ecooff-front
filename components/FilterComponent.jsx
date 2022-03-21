@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
-const FilterComponent = ({ visible }) => {
-  const [modalVisible, setModalVisible] = useState(visible);
+import { AntDesign } from "@expo/vector-icons";
+const FilterComponent = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const [minPrice, onChangeMinPrice] = useState(0);
   const [maxPrice, onChangeMaxPrice] = useState(0);
 
@@ -24,8 +25,13 @@ const FilterComponent = ({ visible }) => {
   const navigator = useNavigation();
 
   const applyFilter = () => {
+    setModalVisible(!modalVisible)
     navigator.navigate("Home");
   };
+
+  const closeFilter = () => {
+    setModalVisible(!modalVisible)
+  }
 
   // const selectFilter = () => {
   //   switch (key) {
@@ -116,42 +122,49 @@ const FilterComponent = ({ visible }) => {
   };
 
   return (
-    <View style={styles.centeredView}>
-      {/* <Modal
-    animationType="slide"
-    transparent={true}
-    visible={modalVisible}
-    onRequestClose={() => {
-      Alert.alert("Modal has been closed.");
-      setModalVisible(!modalVisible);
-    }}
-    > */}
-      <View style={styles.mainContainer}>
-        <View style={styles.topContainer}>
-          <Text style={styles.heading}>Filtrar</Text>
-          <Entypo
-            name="cross"
-            size={24}
-            color="black"
-            onPress={() => navigator.navigate("Home")}
-          />
+      <Pressable
+        style={[styles.centeredView, styles.filterContainerBox]}
+        onPress={() => setModalVisible(true)} //Testing(FilterComponet)
+      >
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.mainContainer}>
+          <View style={styles.topContainer}>
+            <Text style={styles.heading}>Filtrar</Text>
+            <Entypo
+              name="cross"
+              size={24}
+              color="black"
+              onPress={() => closeFilter()}
+            />
+          </View>
+
+          <OrderBy />
+
+          <RangePrice />
+
+          <View>
+            <Pressable
+              style={styles.confirmFilterBtn}
+              onPress={() => applyFilter()}
+            >
+              <Text style={styles.confirmText}>Aplicar filtro</Text>
+            </Pressable>
+          </View>
         </View>
-
-        <OrderBy />
-
-        <RangePrice />
-
-        <View>
-          <Pressable
-            style={styles.confirmFilterBtn}
-            onPress={() => applyFilter()}
-          >
-            <Text style={styles.confirmText}>Aplicar filtro</Text>
-          </Pressable>
+      </Modal>
+      
+        <View style={styles.filterContainer}>
+          <AntDesign name="filter" size={24} color="#979797" />
         </View>
-      </View>
-      {/* </Modal> */}
-    </View>
+      </Pressable>
   );
 };
 
@@ -250,6 +263,21 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  filterContainerBox: {
+    width: "10%",
+    justifyContent: "flex-end",
+    alignItems: 'center'
+    // marginRight: 10,
+  },
+  filterContainer: {
+    backgroundColor: "#F9FAFB",
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 45,
+    paddingVertical: 10,
+    borderRadius: 12,
   },
 });
 

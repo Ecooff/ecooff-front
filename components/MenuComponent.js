@@ -15,10 +15,12 @@ export const MenuComponent = () => {
           globalStyles.alignItemsCenter,
         ]}
       >
+        <Pressable onPress={() => navigator.navigate('Home')}>
         <Image
           style={styles.menuLogo}
           source={require("../assets/icon.png")}
-        />
+          />
+        </Pressable>
 
         <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
           <Pressable onPress={() => navigator.navigate("Cart")}>

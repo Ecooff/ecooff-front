@@ -9,12 +9,9 @@ const EditProfileScreen = () => {
   const user = useSelector(selectUser);
   const navigator = useNavigation();
 
-//   const [name, setName] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [picture, setPicture] = useState("");
-
-    const [name, onChangeName] = useState(`${user.firstName}, ${user.lastName}`);
+    // const [username, setUsername] = useState(`${user.firstName}, ${user.lastName}`);
+    const [firsname, onChangeFirstname] = useState(user.firstName);
+    const [lastname, onChangeLastname] = useState(user.lastName);
     const [email, onChangeEmail] = useState(user.email);
     const [password, onChangePassword] = useState("********");
 
@@ -30,31 +27,40 @@ const EditProfileScreen = () => {
     navigator.navigate("Profile");
   };
 
-  const ContentBackUp = () => {
+  const Content = () => {
     return (
       <View>
-        <View>
-          <Text>Nombre:</Text>
+        <View style={styles.textContainer}>
+          <Text>Nombre: </Text>
           <TextInput
-            style={styles.input}
-            onChangeText={() => onChangeName()}
-            value={name}
+            // style={styles.input}
+            onChangeText={() => onChangeFirstname()}
+            value={firsname}
         />
         </View>
 
-        <View>
-          <Text>Email:</Text>
+        <View style={styles.textContainer}>
+          <Text>Apellido: </Text>
           <TextInput
-            style={styles.input}
+            // style={styles.input}
+            onChangeText={() => onChangeLastname()}
+            value={lastname}
+        />
+        </View>
+
+        <View style={styles.textContainer}>
+          <Text>Email: </Text>
+          <TextInput
+            // style={styles.input}
             onChangeText={() => onChangeEmail()}
             value={email}
         />
         </View>
 
-        <View>
-          <Text>Contraseña:</Text>
+        <View style={styles.textContainer}>
+          <Text>Contraseña: </Text>
           <TextInput
-            style={styles.input}
+            // style={styles.input}
             onChangeText={() => onChangePassword()}
             value={password}
         />
@@ -63,41 +69,41 @@ const EditProfileScreen = () => {
     );
   };
 
-  const Content = () => {
-    return (
-      <View>
-        <View>
-          <View>
-            <Text>Nombre:</Text>
-            <Pressable>
-              <Text>Edit</Text>
-            </Pressable>
-          </View>
-          <Text>{name ? name : "Nombre"}</Text>
-        </View>
+  // const ContentBackUp = () => {
+  //   return (
+  //     <View>
+  //       <View>
+  //         <View>
+  //           <Text>Nombre:</Text>
+  //           <Pressable>
+  //             <Text>Edit</Text>
+  //           </Pressable>
+  //         </View>
+  //         <Text>{name ? name : "Nombre"}</Text>
+  //       </View>
 
-        <View>
-          <View>
-            <Text>Email:</Text>
-            <Pressable>
-              <Text>Edit</Text>
-            </Pressable>
-          </View>
-          <Text>{email ? email : "Email"}</Text>
-        </View>
+  //       <View>
+  //         <View>
+  //           <Text>Email:</Text>
+  //           <Pressable>
+  //             <Text>Edit</Text>
+  //           </Pressable>
+  //         </View>
+  //         <Text>{email ? email : "Email"}</Text>
+  //       </View>
 
-        <View>
-          <View>
-            <Text>Contraseña:</Text>
-            <Pressable>
-              <Text>Edit</Text>
-            </Pressable>
-          </View>
-          <Text>{password ? password : "********"}</Text>
-        </View>
-      </View>
-    );
-  };
+  //       <View>
+  //         <View>
+  //           <Text>Contraseña:</Text>
+  //           <Pressable>
+  //             <Text>Edit</Text>
+  //           </Pressable>
+  //         </View>
+  //         <Text>{password ? password : "********"}</Text>
+  //       </View>
+  //     </View>
+  //   );
+  // };
 
   const FooterBtns = () => {
     return (
@@ -201,10 +207,15 @@ const styles = StyleSheet.create({
   },
   //..........
   input: {
-    height: 40,
-    margin: 12,
-    padding: 10,
+    // height: 40,
+    // margin: 12,
+    // padding: 10,
   },
+  textContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 8
+  }
 });
 
 export default EditProfileScreen;

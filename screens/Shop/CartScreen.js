@@ -18,11 +18,13 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 const CartScreen = () => {
   const user = useSelector(selectUser);
   const [basket, setBasket] = useState([]);
   // const [total, setTotal] =useState(0);
+  const navigator = useNavigation();
 
   useEffect(() => {
     axios
@@ -98,7 +100,7 @@ const CartScreen = () => {
 
   const Total = () => {
     return (
-      <View>
+      <View style={styles.menuContainer}>
         <View style={styles.footerContainer}>
           <Text style={[styles.footerMainText]}>Total</Text>
           <Text style={[styles.footerMainText]}>$850</Text>
@@ -127,10 +129,19 @@ const CartScreen = () => {
 
         <MyBasket />
 
-        <Total />
       </ScrollView>
+        <Total />
 
-      <Checkout />
+      {/* <Checkout /> */}
+      <Pressable
+        style={styles.buttonPurchase}
+        onPress={() => navigator.navigate('Orders')}
+        >
+        <View style={styles.buttonContainer}>
+          <Text style={styles.textStyle}>Confirmar pago</Text>
+          <Text style={styles.textStyle}>$850</Text>
+        </View>
+      </Pressable>
     </View>
   );
 };
@@ -225,5 +236,26 @@ const styles = StyleSheet.create({
   cardBody: {
     paddingHorizontal: 15,
     width: "60%",
+  },
+
+  /* btn confirm */
+  buttonPurchase: {
+    borderTopStartRadius: 20,
+    borderTopEndRadius: 20,
+    padding: 20,
+    elevation: 2,
+    width: "100%",
+    backgroundColor: "#3D9D5D",
+    // bottom: -20,
+    marginTop: 20,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  buttonContainer: {
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
 });
