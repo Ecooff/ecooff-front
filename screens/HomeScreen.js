@@ -31,28 +31,27 @@ const HomeScreen = () => {
   const [closeToExpire, setCloseToExpire] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [userById, setUserById] = useState({});
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState([]);
 
   console.log("functionProvider", getAllProviders());
 
   useEffect(() => {
-         getAllProviders().then((response) => setProviders(response.data)),
-         closeToExp().then((response) => setCloseToExpire(response.data)),
-         forYou().then((response) => setFeatured(response.data))
+    getAllProviders().then((response) => setProviders(response.data)),
+      closeToExp().then((response) => setCloseToExpire(response.data)),
+      forYou().then((response) => setFeatured(response.data));
     // userById().then(response => setUserById(response.data))
   }, []);
 
-
-  console.log('TODOOOS', todos)
+  console.log("TODOOOS", todos);
 
   // console.log("Close to expire : ", closeToExpire);
   // console.log("Providers : ", providers);
   // console.log("For you : ", featured);
   // console.log('getByUserId', userById)
 
-  const everything = [providers, closeToExpire, featured]
+  const everything = [closeToExpire, featured, providers];
 
-  console.log('EVERYTHING', everything)
+  console.log("EVERYTHING", everything);
 
   // useEffect(() => {
   //   setOrderOnRequest()
@@ -284,34 +283,7 @@ const HomeScreen = () => {
                   style={styles.productScroll}
                   horizontal={true}
                 >
-                  {/* {providers.map((provider, i) => (
-                    <View key={i}>
-                    <Text>{provider.provider}</Text>
-                    <Image source={{uri: provider.img}}/>
-                    </View>
-                  ))} */}
-                  {/* <Text>{listOfProducts[0]}</Text>
-                  <TouchableOpacity
-                    key={id}
-                    onPress={() => navigator.navigate("Cart", { product })}
-                    style={styles.productsContainer}
-                  ></TouchableOpacity>
-
-                  <Text>{listOfProducts[1]}</Text>
-                  <TouchableOpacity
-                    key={id}
-                    onPress={() => navigator.navigate("Cart", { product })}
-                    style={styles.productsContainer}
-                  ></TouchableOpacity>
-
-                  <Text>{listOfProducts[2]}</Text>
-                  <TouchableOpacity
-                    key={id}
-                    onPress={() => navigator.navigate("Cart", { product })}
-                    style={styles.productsContainer}
-                  ></TouchableOpacity> */}
-
-                  {everything.map((product, y) => {
+                  {everything[index].map((product, y) => {
                     return (
                       <TouchableOpacity
                         key={y}
@@ -338,7 +310,7 @@ const HomeScreen = () => {
                             index >= 2 ? globalStyles.textCenter : null,
                           ]}
                         >
-                          {product.provider}
+                          {product.provider || product.title}
                         </Text>
                         {index < 2 ? (
                           <Text
