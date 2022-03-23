@@ -4,20 +4,17 @@ import globalStyles from "../styles/styles";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import SplashLogo from '../assets/splash.png';
 
 export const MenuComponent = () => {
   const navigator = useNavigation();
     return (
       <View
-        style={[
-          styles.mainMenu,
-          globalStyles.row,
-          globalStyles.alignItemsCenter,
-        ]}
+        style={{flexDirection: 'row', justifyContent: 'space-between'}}
       >
         <Image
           style={styles.menuLogo}
-          source={require("../assets/icon-long.png")}
+          source={SplashLogo}
         />
 
         <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
@@ -36,6 +33,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     justifyContent: "space-between",
+    
   },
 
   menuLogo: {
@@ -45,5 +43,6 @@ const styles = StyleSheet.create({
 
   icon: {
     marginLeft: 15,
+    marginRight: 10
   },
 });

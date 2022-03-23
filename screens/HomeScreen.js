@@ -14,6 +14,7 @@ import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import SplashLogo from '../assets/splash.png';
 
 {
   /* COMPONENTS */
@@ -46,7 +47,7 @@ const HomeScreen = () => {
 
   // console.log("Close to expire : ", closeToExpire);
   // console.log("Providers : ", providers);
-  // console.log("For you : ", featured);
+  console.log("For you : ", featured);
   // console.log('getByUserId', userById)
 
   const everything = [closeToExpire, featured, providers];
@@ -194,6 +195,7 @@ const HomeScreen = () => {
   return (
     <View style={[styles.homeContainer]}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
+      {/* <Image source={SplashLogo} style={{width: 200, height: 200, position: 'absolute', bottom: 10, zIndex: 1}} /> */}
 
       <ScrollView style={styles.scrollContainer}>
         {/* MENU */}
@@ -320,7 +322,7 @@ const HomeScreen = () => {
                               globalStyles.fontSmall,
                             ]}
                           >
-                            $ {product.price}
+                            $ {product.expPrice}
                           </Text>
                         ) : null}
                       </TouchableOpacity>
