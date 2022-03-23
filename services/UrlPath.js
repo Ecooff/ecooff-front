@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 export const LOCALHOST = "http://localhost:3000/api/";
 export const PROD = "http://192.168.100.1:3000/api/";
 export const ANDROID_EMULATOR = "http://10.0.2.2:3000/api/"
+=======
+export const LOCALHOST = 'http://192.168.0.213:3000/api/users/';
+export const PROD = 'http://192.168.0.213:3000/api/users/';
+>>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
 
 export const URL = ANDROID_EMULATOR;
 

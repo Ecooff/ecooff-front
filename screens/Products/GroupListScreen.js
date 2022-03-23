@@ -159,7 +159,7 @@ const GroupListScreen = ({ route }) => {
 
   return (
     <View style={[styles.homeContainer]}>
-      <StatusBar backgroundColor="blue" barStyle="dark-content" />
+      {/* <StatusBar backgroundColor="blue" barStyle="dark-content" /> */}
 
       <View style={styles.menuContainer}>
         {/* MENU */}
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   },
 
   menuContainer: {
-    paddingTop: 40,
+    // paddingTop: 40,
     paddingHorizontal: 10,
   },
 

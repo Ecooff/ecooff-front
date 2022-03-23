@@ -12,10 +12,17 @@ export const MenuComponent = () => {
       <View
         style={{flexDirection: 'row', justifyContent: 'space-between'}}
       >
+        <Pressable onPress={() => navigator.navigate('Home')}>
         <Image
           style={styles.menuLogo}
+<<<<<<< HEAD
           source={SplashLogo}
         />
+=======
+          source={require("../assets/icon.png")}
+          />
+        </Pressable>
+>>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
 
         <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
           <Pressable onPress={() => navigator.navigate("Cart")}>
@@ -37,7 +44,7 @@ const styles = StyleSheet.create({
   },
 
   menuLogo: {
-    width: 100,
+    width: 50,
     height: 60,
   },
 

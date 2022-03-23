@@ -16,7 +16,7 @@ const Checkout = () => {
 
   const confirmOrder = () => {
     setModalVisible(!modalVisible);
-    navigator.navigate("Orders");
+    navigator.navigate("Home");
   };
 
   const goToEdit = () => {
@@ -103,7 +103,8 @@ const Checkout = () => {
         </View>    
       </Modal>
       
-      <Pressable
+      {/* confirm btn's first style */}
+      {/* <Pressable
         style={styles.buttonPurchase}
         onPress={() => setModalVisible(true)}
         >
@@ -111,6 +112,10 @@ const Checkout = () => {
           <Text style={styles.textStyle}>Confirmar pago</Text>
           <Text style={styles.textStyle}>$850</Text>
         </View>
+      </Pressable> */}
+      {/* second style */}
+      <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
+          <Text style={styles.buttonText}>Continuar</Text>
       </Pressable>
     </View>
         // </View>
@@ -217,6 +222,21 @@ const styles = StyleSheet.create({
   confirmModelButton: {
     borderRadius: 10,
     marginHorizontal: 4,
+  },
+  /* confirm btn's second style */
+  button: {
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    width: "95%",
+    backgroundColor: "#3D9D5D",
+    alignSelf: "center",
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

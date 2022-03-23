@@ -3,6 +3,8 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import { LogBox } from 'react-native';
+import { Provider } from 'react-redux';
+import store from './store';
 
 // AUTHENTICATION
 import AuthHomeScreen from './screens/Auth/AuthHomeScreen';
@@ -33,6 +35,9 @@ import EditProfileScreen from './screens/User/EditProfileScreen';
 import CartScreen from './screens/Shop/CartScreen';
 import OrdersScreen from './screens/Shop/OrdersScreen';
 
+// TESTING
+import FilterComponent from './components/FilterComponent';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -43,9 +48,10 @@ export default function App() {
   navTheme.colors.background = '#FFF';
 
   return (
-    <NavigationContainer
-      theme={navTheme}
-    >
+    <Provider store={store}>
+
+    <NavigationContainer theme={navTheme}>
+
       <Stack.Navigator>
       {/* <Stack.Navigator initialRouteName="List"> */}
 
@@ -78,9 +84,14 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="List" component={ListScreen} />
         <Stack.Screen options={{ headerShown: false }} name="GroupList" component={GroupListScreen} />
 
+        {/* TESTING */}
+        <Stack.Screen options={{ headerShown: false }} name="Filter" component={FilterComponent} />
+
       </Stack.Navigator>
 
     </NavigationContainer>
+
+    </Provider>
     
   );
 }

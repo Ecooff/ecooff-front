@@ -173,7 +173,7 @@ export default ProductScreen;
 
 const styles = StyleSheet.create({
   viewContainer: {
-    paddingTop: 40,
+    // paddingTop: 40,
     paddingHorizontal: 10,
   },
 

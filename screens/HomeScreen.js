@@ -8,25 +8,42 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Pressable,
+  Modal,
 } from "react-native";
 import globalStyles from "../styles/styles";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+<<<<<<< HEAD
 import { FontAwesome5 } from "@expo/vector-icons";
 import SplashLogo from '../assets/splash.png';
+=======
+import axios from "axios";
+import { localhost } from "../localhost.json";
+>>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
 
 {
   /* COMPONENTS */
 }
 import { MenuComponent, FooterComponent } from "../components";
+<<<<<<< HEAD
 import OrderOnRequestComponent from "../components/OrderOnRequestComponent";
 import productService from "../services/ProductService";
+=======
+import OrderComingComponent from "../components/OrderComingComponent";
+import FilterComponent from "../components/FilterComponent";
+import { fakeData } from "../utils/fakeData";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../store/userSlice";
+import { myOrder } from "../store/orderSlice";
+>>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
 
 const HomeScreen = () => {
   const { getAllProviders, closeToExp, forYou, getByUserId } = productService;
 
   const [search, setQuery] = useState("");
+<<<<<<< HEAD
   const [orderOnRequest, setOrderOnRequest] = useState(true);
   const [providers, setProviders] = useState([]);
   const [closeToExpire, setCloseToExpire] = useState([]);
@@ -53,9 +70,63 @@ const HomeScreen = () => {
   const everything = [closeToExpire, featured, providers];
 
   console.log("EVERYTHING", everything);
+=======
+  const user = useSelector(selectUser);
+
+  const [orderComing, setOrderComing] = useState(true);
+
+  const [products, setProducts] = useState([]);
+
+  // const [productsCloseToExp, setProductsCloseToExp] = useState([]);
+  // const [productsForYou, setProductsForYou] = useState([]);
+  // const [providers, setProviders] = useState([])
+
+  const dispatch = useDispatch();
+
+  /**
+   * FOR DEMO ONLY
+   */
+  useEffect(() => {
+    setProducts(fakeData.productsBigList)
+  }, [])
+
+  // useEffect(() => { // NOTE: it will be out of service ----------
+  //   axios
+  //     .get(`http://${localhost}/api/products/`, {
+  //       headers: {
+  //         Authorization: `Bearer ${user?.token}`,
+  //       },
+  //     })
+  //     .then(({data}) => setProducts(data)) //check w console.log(data)
+  //     .catch((err) => console.log(err));
+  // }, []);
+>>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
 
   // useEffect(() => {
-  //   setOrderOnRequest()
+  //   dispatch(myOrder(fakeData.orderHistory[0]))
+  //   axios
+  //     .get(`http://${localhost}/api/orders/getByUserId`, {userId: user.id}, {
+  //       headers: {
+  //         Authorization: `Bearer ${user?.token}`,
+  //       },
+  //     })
+  //     .then(({ data }) => data ? setOrderComing(data) : "")
+  //     .catch((err) => console.log(err));
+  // }, []);
+
+  // useEffect(() => {
+  //   axios // PRODUCTS CLOSE TO EXP
+  //     .get(`http://${localhost}/api/stock/closeToExp`, { headers: { Authorization: `Bearer ${user?.token}` } })
+  //     .then(({ data }) => data ? setProductsCloseToExp(data) : "")
+  //     .catch((err) => console.log(err));
+  //   axios  // PRODUCTS FOR YOU
+  //     .get(`http://${localhost}/api/stock/forYou`, { headers: { Authorization: `Bearer ${user?.token}` } })
+  //     .then(({ data }) => data ? setProductsForYou(data) : "")
+  //     .catch((err) => console.log(err));
+  //   axios // PROVIDERS
+  //     .get(`http://${localhost}/api/providers`, { headers: { Authorization: `Bearer ${user?.token}` } })
+  //     .then(({ data }) => data ? setProviders(data) : "")
+  //     .catch((err) => console.log(err));
   // }, []);
 
   const shadowStyle = {
@@ -72,115 +143,6 @@ const HomeScreen = () => {
     "Próximos a vencer",
     "Pensados para vos",
     "Comercios",
-  ];
-
-  const products = [
-    [
-      {
-        url: "http://assets.stickpng.com/thumbs/580b57fbd9996e24bc43c0de.png",
-        title: "Coca Cola",
-        price: "340",
-        expirationDate: "7 días",
-        seller: {
-          url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-          title: "Carrefour",
-        },
-      },
-      {
-        url: "https://bimbocentroamerica-com-assets.s3.amazonaws.com/s3fs-public/inline-images/1-Pan-Blanco.png?gYmTW593ZNv45iX3zRB7iV9pQ7Njocpj",
-        title: "Pan Lactal Bimbo",
-        price: "230",
-        expirationDate: "4 días",
-        seller: {
-          url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-          title: "Carrefour",
-        },
-      },
-      {
-        url: "https://sicarfarms.com/wp-content/uploads/2021/01/Platano.png",
-        title: "Bananas",
-        price: "404",
-        expirationDate: "5 días",
-        seller: {
-          url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-          title: "Carrefour",
-        },
-      },
-      {
-        url: "https://cepadevinos.com/wp-content/uploads/2018/06/Santa-Julia-Reserva-Malbec-Cabernet-Franc.jpg",
-        title: "Santa Julia Malbec",
-        price: "478",
-        expirationDate: "1 día",
-        seller: {
-          url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-          title: "Carrefour",
-        },
-      },
-      {
-        url: "https://www.casa-segal.com/wp-content/uploads/2019/10/chocolate-taza-aguila-semi-amargo-100-gramos-reposteria-mendoza-casa-segal.jpg",
-        title: "Chocolate aguila",
-        price: "239",
-        expirationDate: "7 días",
-        seller: {
-          url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-          title: "Carrefour",
-        },
-      },
-    ],
-    [
-      {
-        url: "https://www.distribuidorapop.com.ar/wp-content/uploads/2019/05/galletitas-oreo-venta-ml.jpg",
-        title: "Oreo",
-        price: "187",
-        expirationDate: "2 días",
-      },
-      {
-        url: "https://hiperlibertad.vteximg.com.br/arquivos/ids/160060-600-600/345303-01.a.jpg?v=637248023600270000",
-        title: "Fideos Matarazzo",
-        price: "146",
-        expirationDate: "5 días",
-      },
-      {
-        url: "https://elsuperweb.com/wp-content/uploads/2020/07/GARBANZO-768x768.png",
-        title: "GArbanzos en lata",
-        price: "86",
-        expirationDate: "4 días",
-      },
-      {
-        url: "https://statics.dinoonline.com.ar/imagenes/full_600x600_ma/2120128_f.jpg",
-        title: "Pan dulce",
-        price: "530",
-        expirationDate: "4 días",
-      },
-      {
-        url: "https://http2.mlstatic.com/D_NQ_NP_698348-MLA44886982846_022021-O.jpg",
-        title: "Tofu soyana",
-        price: "326",
-        expirationDate: "7 días",
-      },
-    ],
-    [
-      {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-      {
-        url: "http://www.dogoseguridad.com.ar/images/logos-clientes/logo1.png",
-        title: "Coto",
-      },
-      {
-        url: "https://3.bp.blogspot.com/-5VIGChwPq0I/W3Qs0e8KX7I/AAAAAAAAHCs/Ms18CWXimAkJvEKpPUSfA61rUAF5xQiYwCKgBGAs/s640/DIA%2525.png",
-        title: "Día",
-      },
-      {
-        url: "https://cdn.theorg.com/ba262ed8-039d-41f9-b7dd-053c75d4d48d_thumb.jpg",
-        title: "Farmacity",
-      },
-      {
-        url: "https://www.gaf-franquicias.com/images/notas/logos/1606400097_365kioscos_franquicia.jpg",
-        title: "365",
-      },
-    ],
   ];
 
   const items = [
@@ -202,7 +164,11 @@ const HomeScreen = () => {
         <MenuComponent />
 
         {/* ORDER ON REQUEST (IN CASE THERE IS ONE) */}
+<<<<<<< HEAD
         {orderOnRequest ? <OrderOnRequestComponent /> : <View />}
+=======
+        {orderComing?.status === 'Pending' || true ? <OrderComingComponent /> : <View />}
+>>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
 
         {/* CATEGORIES SCROLL */}
         <View
@@ -218,9 +184,10 @@ const HomeScreen = () => {
               <TouchableOpacity
                 key={index}
                 onPress={() => navigator.navigate("List", { item })}
+                // onPress={() => console.log("demo")}
                 style={styles.iconsContainer}
               >
-                <Image style={styles.icons} source={item.icon} />
+                <Image style={styles.icons} source={item.icon} onPress={() => console.log("demo")}/>
 
                 <Text style={globalStyles.fontXSmall}>{item.title}</Text>
               </TouchableOpacity>
@@ -251,12 +218,18 @@ const HomeScreen = () => {
               />
             </View>
 
-            <View style={styles.filterContainerBox}>
+            {/* <Pressable
+              style={styles.filterContainerBox}
+              onPress={() => navigator.navigate("Filter")} //Testing(FilterComponet)
+            >
               <View style={styles.filterContainer}>
                 <AntDesign name="filter" size={24} color="#979797" />
               </View>
-            </View>
+            </Pressable> */}
+            <FilterComponent />
           </View>
+          
+          {/*  */}
 
           {/* ROW PRODUCTS */}
           {listOfProducts.map((list, index) => {
@@ -274,6 +247,7 @@ const HomeScreen = () => {
 
                   <TouchableOpacity
                     onPress={() => navigator.navigate("GroupList")}
+                    // onPress={() => console.log("demo")}
                     style={globalStyles.fontSmall}
                   >
                     <Text>Ver todos</Text>
@@ -285,11 +259,16 @@ const HomeScreen = () => {
                   style={styles.productScroll}
                   horizontal={true}
                 >
+<<<<<<< HEAD
                   {everything[index].map((product, y) => {
+=======
+                  {products[index]?.map((product, y) => {
+>>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
                     return (
                       <TouchableOpacity
                         key={y}
                         onPress={() => navigator.navigate("Cart", { product })}
+                        // onPress={() => console.log("demo")}
                         style={styles.productsContainer}
                       >
                         <View style={shadowStyle}>
@@ -354,7 +333,7 @@ const styles = StyleSheet.create({
   },
 
   scrollContainer: {
-    paddingTop: 40,
+    // paddingTop: 40,
     paddingHorizontal: 10,
   },
 
@@ -383,21 +362,21 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 
-  filterContainerBox: {
-    width: "10%",
-    justifyContent: "flex-end",
-    marginRight: 10,
-  },
+  // filterContainerBox: {
+  //   width: "10%",
+  //   justifyContent: "flex-end",
+  //   marginRight: 10,
+  // },
 
-  filterContainer: {
-    backgroundColor: "#F9FAFB",
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 45,
-    paddingVertical: 10,
-    borderRadius: 12,
-  },
+  // filterContainer: {
+  //   backgroundColor: "#F9FAFB",
+  //   textAlign: "center",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   width: 45,
+  //   paddingVertical: 10,
+  //   borderRadius: 12,
+  // },
 
   productsListContainer: {
     marginBottom: 25,

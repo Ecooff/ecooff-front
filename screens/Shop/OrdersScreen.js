@@ -16,6 +16,7 @@ import { MenuComponent } from "../../components";
 import globalStyles from "../../styles/styles";
 import productStyles from "../../styles/productStyles";
 import { fakeData } from "../../utils/fakeData";
+import Checkout from "./Checkout";
 
 const OrdersScreen = () => {
   const [order, setOrder] = useState([]);
@@ -124,9 +125,10 @@ const OrdersScreen = () => {
 
         <Saving />
 
-        <Pressable style={styles.button} onPress={goToHome}>
+        {/* <Pressable style={styles.button} onPress={goToHome}>
           <Text style={styles.buttonText}>Continuar</Text>
-        </Pressable>
+        </Pressable> */}
+        <Checkout />
       </ScrollView>
     </View>
   );
