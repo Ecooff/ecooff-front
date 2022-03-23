@@ -13,13 +13,8 @@
     "@react-native-async-storage/async-storage": "^1.16.1",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
-<<<<<<< HEAD
     "axios": "^0.26.1",
     "colors": "^1.4.0",
-=======
-    "@reduxjs/toolkit": "^1.8.0",
-    "axios": "^0.26.0",
->>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
     "expo": "~44.0.0",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",

@@ -15,35 +15,20 @@ import globalStyles from "../styles/styles";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-<<<<<<< HEAD
 import { FontAwesome5 } from "@expo/vector-icons";
 import SplashLogo from '../assets/splash.png';
-=======
-import axios from "axios";
-import { localhost } from "../localhost.json";
->>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
 
 {
   /* COMPONENTS */
 }
 import { MenuComponent, FooterComponent } from "../components";
-<<<<<<< HEAD
 import OrderOnRequestComponent from "../components/OrderOnRequestComponent";
 import productService from "../services/ProductService";
-=======
-import OrderComingComponent from "../components/OrderComingComponent";
-import FilterComponent from "../components/FilterComponent";
-import { fakeData } from "../utils/fakeData";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "../store/userSlice";
-import { myOrder } from "../store/orderSlice";
->>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
 
 const HomeScreen = () => {
   const { getAllProviders, closeToExp, forYou, getByUserId } = productService;
 
   const [search, setQuery] = useState("");
-<<<<<<< HEAD
   const [orderOnRequest, setOrderOnRequest] = useState(true);
   const [providers, setProviders] = useState([]);
   const [closeToExpire, setCloseToExpire] = useState([]);
@@ -70,37 +55,6 @@ const HomeScreen = () => {
   const everything = [closeToExpire, featured, providers];
 
   console.log("EVERYTHING", everything);
-=======
-  const user = useSelector(selectUser);
-
-  const [orderComing, setOrderComing] = useState(true);
-
-  const [products, setProducts] = useState([]);
-
-  // const [productsCloseToExp, setProductsCloseToExp] = useState([]);
-  // const [productsForYou, setProductsForYou] = useState([]);
-  // const [providers, setProviders] = useState([])
-
-  const dispatch = useDispatch();
-
-  /**
-   * FOR DEMO ONLY
-   */
-  useEffect(() => {
-    setProducts(fakeData.productsBigList)
-  }, [])
-
-  // useEffect(() => { // NOTE: it will be out of service ----------
-  //   axios
-  //     .get(`http://${localhost}/api/products/`, {
-  //       headers: {
-  //         Authorization: `Bearer ${user?.token}`,
-  //       },
-  //     })
-  //     .then(({data}) => setProducts(data)) //check w console.log(data)
-  //     .catch((err) => console.log(err));
-  // }, []);
->>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
 
   // useEffect(() => {
   //   dispatch(myOrder(fakeData.orderHistory[0]))
@@ -164,11 +118,7 @@ const HomeScreen = () => {
         <MenuComponent />
 
         {/* ORDER ON REQUEST (IN CASE THERE IS ONE) */}
-<<<<<<< HEAD
         {orderOnRequest ? <OrderOnRequestComponent /> : <View />}
-=======
-        {orderComing?.status === 'Pending' || true ? <OrderComingComponent /> : <View />}
->>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
 
         {/* CATEGORIES SCROLL */}
         <View
@@ -259,11 +209,7 @@ const HomeScreen = () => {
                   style={styles.productScroll}
                   horizontal={true}
                 >
-<<<<<<< HEAD
                   {everything[index].map((product, y) => {
-=======
-                  {products[index]?.map((product, y) => {
->>>>>>> aa38dd34f6d4063704a7b4825c58cdb1e90dfcac
                     return (
                       <TouchableOpacity
                         key={y}
