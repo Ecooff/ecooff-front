@@ -22,7 +22,7 @@ import SplashLogo from '../assets/splash.png';
   /* COMPONENTS */
 }
 import { MenuComponent, FooterComponent } from '../components';
-// import OrderOnRequestComponent from "../components/OrderOnRequestComponent";
+// import OrderOnRequestComponent from "../components/OrderOnRequestComponent"; //comente esto tambien porque no encuentra el componente
 import productService from '../services/ProductService';
 
 const HomeScreen = () => {
@@ -96,13 +96,15 @@ const HomeScreen = () => {
   const listOfProducts = ['Próximos a vencer', 'Pensados para vos', 'Comercios'];
 
   const items = [
-    { icon: require('../assets/icons/store.png'), title: 'Mercado' },
-    { icon: require('../assets/icons/cosmetic.png'), title: 'Cosmetica' },
-    { icon: require('../assets/icons/pharmacy.png'), title: 'Farmacia' },
-    { icon: require('../assets/icons/surprice.png'), title: 'Sorpresas' },
+    { icon: require('../assets/icons/store.png'), title: 'Mercado', id: 1 },
+    { icon: require('../assets/icons/cosmetic.png'), title: 'Cosmetica', id: 2 },
+    { icon: require('../assets/icons/pharmacy.png'), title: 'Farmacia', id: 3 },
+    { icon: require('../assets/icons/surprice.png'), title: 'Sorpresas', id: 4 },
   ];
 
   const navigator = useNavigation();
+
+  console.log('NAVIGATOR', navigator);
 
   return (
     <View style={[styles.homeContainer]}>
@@ -130,6 +132,7 @@ const HomeScreen = () => {
               <TouchableOpacity
                 key={index}
                 onPress={() => navigator.navigate('List', { item })}
+                // onPress={() => navigator}
                 // onPress={() => console.log("demo")}
                 style={styles.iconsContainer}
               >
@@ -156,7 +159,6 @@ const HomeScreen = () => {
                 style={globalStyles.input}
               />
             </View>
-
             {/* <Pressable
               style={styles.filterContainerBox}
               onPress={() => navigator.navigate("Filter")} //Testing(FilterComponet)
@@ -166,9 +168,8 @@ const HomeScreen = () => {
               </View>
             </Pressable> */}
             {/* <FilterComponent /> */}
+            {/* comente esto porque no encontraba el componente ( FIlterComponent )  */}
           </View>
-
-          {/*  */}
 
           {/* ROW PRODUCTS */}
           {listOfProducts.map((list, index) => {
@@ -198,7 +199,7 @@ const HomeScreen = () => {
                     return (
                       <TouchableOpacity
                         key={y}
-                        onPress={() => navigator.navigate('Cart', { product })}
+                        onPress={() => navigator.navigate('GroupList', { product })}
                         // onPress={() => console.log("demo")}
                         style={styles.productsContainer}
                       >
