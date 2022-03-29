@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -10,25 +10,25 @@ import {
   TouchableOpacity,
   Pressable,
   Modal,
-} from "react-native";
-import globalStyles from "../styles/styles";
-import { EvilIcons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { FontAwesome5 } from "@expo/vector-icons";
+} from 'react-native';
+import globalStyles from '../styles/styles';
+import { EvilIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { FontAwesome5 } from '@expo/vector-icons';
 import SplashLogo from '../assets/splash.png';
 
 {
   /* COMPONENTS */
 }
-import { MenuComponent, FooterComponent } from "../components";
-import OrderOnRequestComponent from "../components/OrderOnRequestComponent";
-import productService from "../services/ProductService";
+import { MenuComponent, FooterComponent } from '../components';
+// import OrderOnRequestComponent from "../components/OrderOnRequestComponent";
+import productService from '../services/ProductService';
 
 const HomeScreen = () => {
   const { getAllProviders, closeToExp, forYou, getByUserId } = productService;
 
-  const [search, setQuery] = useState("");
+  const [search, setQuery] = useState('');
   const [orderOnRequest, setOrderOnRequest] = useState(true);
   const [providers, setProviders] = useState([]);
   const [closeToExpire, setCloseToExpire] = useState([]);
@@ -36,7 +36,7 @@ const HomeScreen = () => {
   const [userById, setUserById] = useState({});
   const [todos, setTodos] = useState([]);
 
-  console.log("functionProvider", getAllProviders());
+  console.log('functionProvider', getAllProviders());
 
   useEffect(() => {
     getAllProviders().then((response) => setProviders(response.data)),
@@ -45,16 +45,16 @@ const HomeScreen = () => {
     // userById().then(response => setUserById(response.data))
   }, []);
 
-  console.log("TODOOOS", todos);
+  console.log('TODOOOS', todos);
 
   // console.log("Close to expire : ", closeToExpire);
   // console.log("Providers : ", providers);
-  console.log("For you : ", featured);
+  console.log('For you : ', featured);
   // console.log('getByUserId', userById)
 
   const everything = [closeToExpire, featured, providers];
 
-  console.log("EVERYTHING", everything);
+  console.log('EVERYTHING', everything);
 
   // useEffect(() => {
   //   dispatch(myOrder(fakeData.orderHistory[0]))
@@ -84,7 +84,7 @@ const HomeScreen = () => {
   // }, []);
 
   const shadowStyle = {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -93,24 +93,20 @@ const HomeScreen = () => {
     shadowRadius: 3.84,
   };
 
-  const listOfProducts = [
-    "Próximos a vencer",
-    "Pensados para vos",
-    "Comercios",
-  ];
+  const listOfProducts = ['Próximos a vencer', 'Pensados para vos', 'Comercios'];
 
   const items = [
-    { icon: require("../assets/icons/store.png"), title: "Mercado" },
-    { icon: require("../assets/icons/cosmetic.png"), title: "Cosmetica" },
-    { icon: require("../assets/icons/pharmacy.png"), title: "Farmacia" },
-    { icon: require("../assets/icons/surprice.png"), title: "Sorpresas" },
+    { icon: require('../assets/icons/store.png'), title: 'Mercado' },
+    { icon: require('../assets/icons/cosmetic.png'), title: 'Cosmetica' },
+    { icon: require('../assets/icons/pharmacy.png'), title: 'Farmacia' },
+    { icon: require('../assets/icons/surprice.png'), title: 'Sorpresas' },
   ];
 
   const navigator = useNavigation();
 
   return (
     <View style={[styles.homeContainer]}>
-      <StatusBar backgroundColor="white" barStyle="dark-content" />
+      <StatusBar backgroundColor='white' barStyle='dark-content' />
       {/* <Image source={SplashLogo} style={{width: 200, height: 200, position: 'absolute', bottom: 10, zIndex: 1}} /> */}
 
       <ScrollView style={styles.scrollContainer}>
@@ -118,7 +114,7 @@ const HomeScreen = () => {
         <MenuComponent />
 
         {/* ORDER ON REQUEST (IN CASE THERE IS ONE) */}
-        {orderOnRequest ? <OrderOnRequestComponent /> : <View />}
+        {/* {orderOnRequest ? <OrderOnRequestComponent /> : <View />} */}
 
         {/* CATEGORIES SCROLL */}
         <View
@@ -133,11 +129,11 @@ const HomeScreen = () => {
             return (
               <TouchableOpacity
                 key={index}
-                onPress={() => navigator.navigate("List", { item })}
+                onPress={() => navigator.navigate('List', { item })}
                 // onPress={() => console.log("demo")}
                 style={styles.iconsContainer}
               >
-                <Image style={styles.icons} source={item.icon} onPress={() => console.log("demo")}/>
+                <Image style={styles.icons} source={item.icon} onPress={() => console.log('demo')} />
 
                 <Text style={globalStyles.fontXSmall}>{item.title}</Text>
               </TouchableOpacity>
@@ -147,22 +143,15 @@ const HomeScreen = () => {
 
         <View style={styles.products}>
           {/* SEARCHER */}
-          <View
-            style={[
-              styles.searchContainer,
-              globalStyles.row,
-              globalStyles.alignItemsCenter,
-              shadowStyle,
-            ]}
-          >
+          <View style={[styles.searchContainer, globalStyles.row, globalStyles.alignItemsCenter, shadowStyle]}>
             <View style={styles.inputSearch}>
-              <EvilIcons name="search" style={globalStyles.icons} />
+              <EvilIcons name='search' style={globalStyles.icons} />
 
               <TextInput
-                placeholder="Buscar"
+                placeholder='Buscar'
                 value={search}
-                keyboardType="email-address"
-                icon="mail"
+                keyboardType='email-address'
+                icon='mail'
                 onChangeText={(query) => setQuery(query)}
                 style={globalStyles.input}
               />
@@ -176,9 +165,9 @@ const HomeScreen = () => {
                 <AntDesign name="filter" size={24} color="#979797" />
               </View>
             </Pressable> */}
-            <FilterComponent />
+            {/* <FilterComponent /> */}
           </View>
-          
+
           {/*  */}
 
           {/* ROW PRODUCTS */}
@@ -196,7 +185,7 @@ const HomeScreen = () => {
                   <Text style={[globalStyles.fontMedium]}>{list}</Text>
 
                   <TouchableOpacity
-                    onPress={() => navigator.navigate("GroupList")}
+                    onPress={() => navigator.navigate('GroupList')}
                     // onPress={() => console.log("demo")}
                     style={globalStyles.fontSmall}
                   >
@@ -204,26 +193,18 @@ const HomeScreen = () => {
                   </TouchableOpacity>
                 </View>
 
-                <ScrollView
-                  showsHorizontalScrollIndicator={false}
-                  style={styles.productScroll}
-                  horizontal={true}
-                >
+                <ScrollView showsHorizontalScrollIndicator={false} style={styles.productScroll} horizontal={true}>
                   {everything[index].map((product, y) => {
                     return (
                       <TouchableOpacity
                         key={y}
-                        onPress={() => navigator.navigate("Cart", { product })}
+                        onPress={() => navigator.navigate('Cart', { product })}
                         // onPress={() => console.log("demo")}
                         style={styles.productsContainer}
                       >
                         <View style={shadowStyle}>
                           <Image
-                            style={
-                              index < 2
-                                ? styles.productOfList
-                                : styles.commerceOfList
-                            }
+                            style={index < 2 ? styles.productOfList : styles.commerceOfList}
                             source={{ uri: product.img }}
                           />
                         </View>
@@ -240,13 +221,7 @@ const HomeScreen = () => {
                           {product.provider || product.title}
                         </Text>
                         {index < 2 ? (
-                          <Text
-                            style={[
-                              styles.alignTextStart,
-                              styles.secondLabel,
-                              globalStyles.fontSmall,
-                            ]}
-                          >
+                          <Text style={[styles.alignTextStart, styles.secondLabel, globalStyles.fontSmall]}>
                             $ {product.expPrice}
                           </Text>
                         ) : null}
@@ -284,8 +259,8 @@ const styles = StyleSheet.create({
   },
 
   iconsContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 10,
   },
 
@@ -297,14 +272,14 @@ const styles = StyleSheet.create({
 
   searchContainer: {
     marginVertical: 40,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
 
   inputSearch: {
-    width: "83%",
-    flexDirection: "row",
-    backgroundColor: "#F9FAFB",
-    alignItems: "center",
+    width: '83%',
+    flexDirection: 'row',
+    backgroundColor: '#F9FAFB',
+    alignItems: 'center',
     borderRadius: 12,
   },
 
@@ -329,11 +304,11 @@ const styles = StyleSheet.create({
   },
 
   productsContainer: {
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     maxWidth: 110,
     marginHorizontal: 10,
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
 
   listTitle: {
@@ -347,7 +322,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
     borderTopLeftRadius: 50,
-    backgroundColor: "#F4F4F4",
+    backgroundColor: '#F4F4F4',
   },
 
   commerceOfList: {
@@ -355,7 +330,7 @@ const styles = StyleSheet.create({
     height: 110,
     marginBottom: 15,
     borderRadius: 100,
-    backgroundColor: "#F4F4F4",
+    backgroundColor: '#F4F4F4',
   },
 
   secondLabel: {
