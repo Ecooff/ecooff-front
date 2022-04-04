@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StatusBar, StyleSheet, Image, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import globalStyles from '../../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
+import productService from '../../services/ProductService';
 
 {
   /* COMPONENTS */
@@ -12,10 +13,20 @@ import { MenuComponent, FooterComponent } from '../../components';
 
 const ListScreen = ({ route }) => {
   const [search, setQuery] = useState('');
+  const [sorpresas, setSorpresas] = useState([]);
+  const [cosmetica, setCosmetica] = useState([]);
+  const [mercado, setMercado] = useState([]);
+  const [farmacia, setFarmacia] = useState([]);
+  const { getBySorpresas, getByCosmetica, getByMercado, getByFarmacia } = productService;
+
+  useEffect(() => {
+    getBySorpresas().then((response) => setSorpresas(response.data));
+    getByCosmetica().then((response) => setCosmetica(response.data));
+    getByMercado().then((response) => setMercado(response.data));
+    getByFarmacia().then((response) => setFarmacia(response.data));
+  }, []);
 
   const title = route.params.item;
-
-  console.log('TITLE', title.title);
 
   const shadowStyle = {
     shadowColor: '#000',
@@ -249,7 +260,12 @@ const ListScreen = ({ route }) => {
 
           {/* CATEGORIES SCROLL */}
           <ScrollView showsVerticalScrollIndicator={false} style={styles.productScroll}>
-            {productsList.map((product, index) => {
+            {(
+              (title.title === 'Sorpresas' && sorpresas) ||
+              (title.title === 'Cosmetica' && cosmetica) ||
+              (title.title === 'Mercado' && mercado) ||
+              (title.title === 'Farmacia' && farmacia)
+            ).map((product, index) => {
               return (
                 <View key={index} style={shadowStyleProducts}>
                   <TouchableOpacity
@@ -257,7 +273,7 @@ const ListScreen = ({ route }) => {
                     style={[styles.productCard, globalStyles.row, shadowStyle, globalStyles.alignItemsCenter]}
                   >
                     <View style={styles.cardImage}>
-                      <Image style={styles.product} source={{ uri: product.url }} />
+                      <Image style={styles.product} source={{ uri: product.img }} />
                     </View>
 
                     <View>
@@ -281,9 +297,9 @@ const ListScreen = ({ route }) => {
                               globalStyles.fontSmall,
                             ]}
                           >
-                            <Image style={styles.productListSeller} source={{ uri: product.seller.url }} />
+                            {/* <Image style={styles.productListSeller} source={{ uri: product.seller.url }} /> */}
 
-                            <Text>{product.seller.title}</Text>
+                            <Text>{product.providerName}</Text>
                           </View>
                         </View>
 

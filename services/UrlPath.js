@@ -19,6 +19,24 @@ export const forYou = URL + 'stock/forYou';
 // Get by user Id
 export const getByUserId = URL + 'orders/getByUserId';
 
+// Cart
+export const addToCart = URL + 'cart/addToCart';
+
+// Get by sorpresas
+export const getBySorpresas = URL + 'stock/getByCategory/Sorpresas';
+
+// Get by cosmetica
+export const getByCosmetica = URL + 'stock/getByCategory/Cosmetica';
+
+// Get by mercado
+export const getByMercado = URL + 'stock/getByCategory/Mercado';
+
+//Get by Farmacia
+export const getByFarmacia = URL + 'stock/getByCategory/Farmacia';
+
+//Get provider by subcat
+export const getByProvSubcat = URL + 'stock/getByProvSubcat/';
+
 const URLPath = {
   serverAlive,
   login,
@@ -27,6 +45,12 @@ const URLPath = {
   closeToExp,
   forYou,
   getByUserId,
+  addToCart,
+  getBySorpresas,
+  getByCosmetica,
+  getByMercado,
+  getByFarmacia,
+  getByProvSubcat,
 };
 
 export default URLPath;

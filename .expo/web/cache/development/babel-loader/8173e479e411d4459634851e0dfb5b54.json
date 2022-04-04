@@ -1,0 +1,1 @@
+{"ast":null,"code":"export * from \"./MenuComponent\";\nexport * from \"./FooterComponent\";","map":{"version":3,"sources":["C:/Users/Valen/Desktop/ecooff-front/components/index.js"],"names":[],"mappings":"AAAA;AACA","sourcesContent":["export * from './MenuComponent';\r\nexport * from './FooterComponent';"]},"metadata":{},"sourceType":"module"}

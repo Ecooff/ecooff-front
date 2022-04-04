@@ -36,8 +36,6 @@ const HomeScreen = () => {
   const [userById, setUserById] = useState({});
   const [todos, setTodos] = useState([]);
 
-  console.log('functionProvider', getAllProviders());
-
   useEffect(() => {
     getAllProviders().then((response) => setProviders(response.data)),
       closeToExp().then((response) => setCloseToExpire(response.data)),
@@ -45,16 +43,7 @@ const HomeScreen = () => {
     // userById().then(response => setUserById(response.data))
   }, []);
 
-  console.log('TODOOOS', todos);
-
-  // console.log("Close to expire : ", closeToExpire);
-  // console.log("Providers : ", providers);
-  console.log('For you : ', featured);
-  // console.log('getByUserId', userById)
-
   const everything = [closeToExpire, featured, providers];
-
-  console.log('EVERYTHING', everything);
 
   // useEffect(() => {
   //   dispatch(myOrder(fakeData.orderHistory[0]))
@@ -103,8 +92,6 @@ const HomeScreen = () => {
   ];
 
   const navigator = useNavigation();
-
-  console.log('NAVIGATOR', navigator);
 
   return (
     <View style={[styles.homeContainer]}>
@@ -196,6 +183,7 @@ const HomeScreen = () => {
 
                 <ScrollView showsHorizontalScrollIndicator={false} style={styles.productScroll} horizontal={true}>
                   {everything[index].map((product, y) => {
+                    console.log('PRODUCT', product);
                     return (
                       <TouchableOpacity
                         key={y}

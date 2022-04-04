@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, StatusBar, StyleSheet, Image, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import globalStyles from '../../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
+import productService from '../../services/ProductService';
 
 {
   /* COMPONENTS */
@@ -11,9 +12,30 @@ import { EvilIcons } from '@expo/vector-icons';
 import { MenuComponent, FooterComponent } from '../../components';
 
 const GroupListScreen = ({ route }) => {
+  const { getByProvSubcat } = productService;
+  const titleProvider = route.params.product.provider;
+  const idProvider = route.params.product.providerId;
+  const subCatProvider = route.params.product.subcategory;
+  const log = route.params.product._id;
+
   console.log('ROUTE', route);
+  console.log('ID', idProvider);
 
   const [search, setQuery] = useState('');
+  const [productsProvider, setProductsProvider] = useState([]);
+
+  useEffect(() => {
+    getByProvSubcat('620bca54f3607b203099985f', '1').then((response) => setProductsProvider(response.data));
+  }, []);
+
+  const CARREFOUR = productsProvider.filter((product) => product.providerName === 'Carrefour');
+  const COTO = productsProvider.filter((product) => product.providerName === 'Coto');
+  const DIA = productsProvider.filter((product) => product.providerName === 'Dia');
+  const FARMACITY = productsProvider.filter((product) => product.providerName === 'Farmacity');
+  const KIOSCO = productsProvider.filter((product) => product.providerName === '365');
+
+  // console.log('ACA', titleProvider);
+  console.log('productsProvider', productsProvider);
 
   const shadowStyle = {
     shadowColor: '#000',
@@ -183,11 +205,11 @@ const GroupListScreen = ({ route }) => {
             </View>
           </View>
 
-          <Text style={[styles.scrollTitle, globalStyles.fontLarge, globalStyles.fontBold]}>Comercios</Text>
+          <Text style={[styles.scrollTitle, globalStyles.fontLarge, globalStyles.fontBold]}>{titleProvider}</Text>
 
           {/* CATEGORIES SCROLL */}
           <ScrollView showsVerticalScrollIndicator={false} style={styles.productScroll}>
-            {productsList.map((product, index) => {
+            {productsProvider.map((product, index) => {
               return (
                 <View key={index} style={shadowStyleProducts}>
                   <TouchableOpacity
@@ -207,7 +229,7 @@ const GroupListScreen = ({ route }) => {
 
                       <View style={[{ width: '100%' }, globalStyles.row]}>
                         <View style={[styles.cardBody, { width: '70%' }]}>
-                          <Text style={[styles.cardTitles, globalStyles.fontSmall]}>$ {product.price}</Text>
+                          <Text style={[styles.cardTitles, globalStyles.fontSmall]}>$ {product.expPrice}</Text>
                           <Text style={[styles.cardTitles, globalStyles.fontSmall]}>{product.expirationDate}</Text>
                         </View>
                       </View>
