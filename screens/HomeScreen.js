@@ -183,7 +183,6 @@ const HomeScreen = () => {
 
                 <ScrollView showsHorizontalScrollIndicator={false} style={styles.productScroll} horizontal={true}>
                   {everything[index].map((product, y) => {
-                    console.log('PRODUCT', product);
                     return (
                       <TouchableOpacity
                         key={y}

@@ -27,20 +27,28 @@ export const MenuComponent = () => {
 
       <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
         <Pressable onPress={() => navigator.navigate('Cart')}>
-          <Text
+          <View
             style={{
-              position: 'absolute',
-              top: 21,
-              left: 13,
+              borderRadius: 10,
               backgroundColor: 'rgba(77, 181, 145, 0.97)',
+              position: 'absolute',
+              top: -2,
+              left: 21,
               width: 20,
               height: 20,
-              textAlign: 'center',
               zIndex: 1,
             }}
           >
-            {cartItems}
-          </Text>
+            <Text
+              style={{
+                textAlign: 'center',
+                color: 'black',
+                fontWeight: 'bold',
+              }}
+            >
+              {cartItems}
+            </Text>
+          </View>
           <Ionicons name='ios-cart-outline' size={30} color='gray' />
         </Pressable>
         <Feather name='bell' size={24} style={styles.icon} color='gray' />

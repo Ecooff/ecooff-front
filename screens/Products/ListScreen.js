@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import productService from '../../services/ProductService';
+import AllSubcategories from '../../components/AllSubcategories';
 
 {
   /* COMPONENTS */
@@ -26,7 +27,11 @@ const ListScreen = ({ route }) => {
     getByFarmacia().then((response) => setFarmacia(response.data));
   }, []);
 
-  const title = route.params.item;
+  const title = route.params.item.title;
+
+  const idSubcategory = route.params.item.id;
+
+  console.log('ASI SI', title);
 
   const shadowStyle = {
     shadowColor: '#000',
@@ -236,35 +241,21 @@ const ListScreen = ({ route }) => {
             </View>
           </View>
 
-          <Text style={[styles.scrollTitle, globalStyles.fontMedium, globalStyles.fontBold]}>{title.title}</Text>
+          <Text style={[styles.scrollTitle, globalStyles.fontMedium, globalStyles.fontBold]}>{title}</Text>
 
           {/* CATEGORIES SCROLL */}
-          <ScrollView showsHorizontalScrollIndicator={false} style={styles.categoryScroll} horizontal={true}>
-            {(
-              (title.title === 'Mercado' && MERCADO) ||
-              (title.title === 'Cosmetica' && COSMETICA) ||
-              (title.title === 'Farmacia' && FARMACIA) ||
-              (title.title === 'Sorpresas' && SORPRESAS)
-            ).map((item, index) => {
-              return (
-                <View key={index} style={styles.iconsContainer}>
-                  <Image style={styles.icons} source={item.icon} />
 
-                  <Text style={globalStyles.fontXSmall}>{item.title}</Text>
-                </View>
-              );
-            })}
-          </ScrollView>
+          <AllSubcategories idSubcategory={idSubcategory} />
 
           <Text style={[styles.scrollTitle, globalStyles.fontSmall]}>Productos</Text>
 
           {/* CATEGORIES SCROLL */}
           <ScrollView showsVerticalScrollIndicator={false} style={styles.productScroll}>
             {(
-              (title.title === 'Sorpresas' && sorpresas) ||
-              (title.title === 'Cosmetica' && cosmetica) ||
-              (title.title === 'Mercado' && mercado) ||
-              (title.title === 'Farmacia' && farmacia)
+              (title === 'Sorpresas' && sorpresas) ||
+              (title === 'Cosmetica' && cosmetica) ||
+              (title === 'Mercado' && mercado) ||
+              (title === 'Farmacia' && farmacia)
             ).map((product, index) => {
               return (
                 <View key={index} style={shadowStyleProducts}>

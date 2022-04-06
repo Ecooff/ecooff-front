@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import productService from '../../services/ProductService';
+import AllSubcategories from '../../components/AllSubcategories';
 
 {
   /* COMPONENTS */
@@ -14,12 +15,12 @@ import { MenuComponent, FooterComponent } from '../../components';
 const GroupListScreen = ({ route }) => {
   const { getByProvSubcat } = productService;
   const titleProvider = route.params.product.provider;
-  const idProvider = route.params.product.providerId;
-  const subCatProvider = route.params.product.subcategory;
-  const log = route.params.product._id;
+  const idProvider = route.params.product._id;
+  // const subCatProvider = route.params.product.subcategory;
+  // const idProvi = route.params.product._id;
 
   console.log('ROUTE', route);
-  console.log('ID', idProvider);
+  console.log('ID', route.params.product._id);
 
   const [search, setQuery] = useState('');
   const [productsProvider, setProductsProvider] = useState([]);
@@ -28,11 +29,11 @@ const GroupListScreen = ({ route }) => {
     getByProvSubcat('620bca54f3607b203099985f', '1').then((response) => setProductsProvider(response.data));
   }, []);
 
-  const CARREFOUR = productsProvider.filter((product) => product.providerName === 'Carrefour');
-  const COTO = productsProvider.filter((product) => product.providerName === 'Coto');
-  const DIA = productsProvider.filter((product) => product.providerName === 'Dia');
-  const FARMACITY = productsProvider.filter((product) => product.providerName === 'Farmacity');
-  const KIOSCO = productsProvider.filter((product) => product.providerName === '365');
+  // const CARREFOUR = productsProvider.filter((product) => product.providerName === 'Carrefour');
+  // const COTO = productsProvider.filter((product) => product.providerName === 'Coto');
+  // const DIA = productsProvider.filter((product) => product.providerName === 'Dia');
+  // const FARMACITY = productsProvider.filter((product) => product.providerName === 'Farmacity');
+  // const KIOSCO = productsProvider.filter((product) => product.providerName === '365');
 
   // console.log('ACA', titleProvider);
   console.log('productsProvider', productsProvider);
@@ -204,7 +205,9 @@ const GroupListScreen = ({ route }) => {
               </View>
             </View>
           </View>
-
+          <View style={{ marginTop: 20 }}>
+            <AllSubcategories idProvider={idProvider} />
+          </View>
           <Text style={[styles.scrollTitle, globalStyles.fontLarge, globalStyles.fontBold]}>{titleProvider}</Text>
 
           {/* CATEGORIES SCROLL */}
