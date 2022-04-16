@@ -51,7 +51,11 @@ const AllSubcategories = ({ idSubcategory, idProvider }) => {
         (idSubcategory === 2 && COSMETICA) ||
         (idSubcategory === 3 && FARMACIA) ||
         (idSubcategory === 4 && SORPRESAS) ||
-        (idProvider === '6238ac2e711d0d4dfce892c3' && MERCADO)
+        (idProvider === '6238ac2e711d0d4dfce892c3' && MERCADO) ||
+        (idProvider === '6238b65c8b4fa036f8bb1d81' && MERCADO) ||
+        (idProvider === '6238b6218b4fa036f8bb1d7b' && MERCADO) || 
+        (idProvider === '6238b6448b4fa036f8bb1d7e' && MERCADO) || 
+        (idProvider === '6238b66f8b4fa036f8bb1d84' && MERCADO)
       ).map((item, index) => {
         return (
           <View key={index} style={styles.iconsContainer}>

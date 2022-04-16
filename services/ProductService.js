@@ -65,7 +65,7 @@ function setHeader() {
     'Content-Type': 'application/json',
     Authorization:
       'Bearer ' +
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjM4OGJmODBiMWM0MzNmMzg2N2FhYTgiLCJpYXQiOjE2NDc4NzQ3NDEsImV4cCI6MTY1MDQ2Njc0MX0.AG4CxD6IvaFxFmdxBkHPwiLE0Ku_40aZmDc_YV3W0Oc',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjM0ODQ0Y2M1ZDlkMTMyNzRjYTA4MDMiLCJpYXQiOjE2NDk4NzEwNzgsImV4cCI6MTY1MjQ2MzA3OH0.u42zLZXxvbQT7AnI8XVcYBFHs86jIwcsGPLoFiubQOU',
   };
 
   return headers;

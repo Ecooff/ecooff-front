@@ -67,7 +67,7 @@ export default StyleSheet.create({
     },
 
     widthFluid: {
-        width: '100%'
+        width: '100%',
     },
 
     widthHalf: {

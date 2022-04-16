@@ -71,10 +71,10 @@ const SignupScreen = () => {
     ]);
 
   return (
-    <ScrollView style={[globalStyles.widthFluid]}>
+    <ScrollView>
       <KeyboardAvoidingView
         style={[globalStyles.scrollContainer, styles.scrollContainer]}
-        behavior="padding"
+        behavior="height"
         keyboardVerticalOffset={100}
       >
         {/* BACK ARROW */}
@@ -228,8 +228,6 @@ export default SignupScreen;
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    flex: 1,
-    flexDirection: "column",
   },
 
   arrowSpace: {

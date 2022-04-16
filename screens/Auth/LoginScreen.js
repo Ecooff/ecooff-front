@@ -117,9 +117,9 @@ const LoginScreen = () => {
       </View>
 
       {/* INPUTS */}
-      <View style={globalStyles.widthEightyFive}>
+      <View style={[globalStyles.widthEightyFive, styles.containerInputs]}>
         <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
-          EMAIL / NOMBRE DE USUARIO
+          EMAIL 
         </Text>
         <View style={globalStyles.inputRow}>
           <AntDesign name="user" style={globalStyles.icons} />
@@ -164,36 +164,36 @@ const LoginScreen = () => {
       </TouchableOpacity>
 
       {/* SOCIAL BUTTONS */}
-      <View
+      {/* <View
         style={[
           styles.socialRow,
           globalStyles.row,
           globalStyles.alignItemsCenter,
         ]}
-      >
+      > */}
         {/* APPLE */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigator.navigate("Home")}
           style={styles.socialIcon}
         >
           <AntDesign name="apple1" size={22} style={styles.socialColor} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* FACEBOOK */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigator.navigate("Home")}
           style={[styles.socialIcon, styles.facebook]}
-        >
-          <FontAwesome
+        > */}
+          {/* <FontAwesome
             name="facebook-f"
             size={22}
             style={styles.socialColor}
             color="#1777F2"
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* GOOGLE */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigator.navigate("Home")}
           style={[styles.socialIcon, styles.google]}
         >
@@ -204,7 +204,7 @@ const LoginScreen = () => {
             color="#ef4432"
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       {/* BUTTON */}
       <View style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}>
@@ -214,10 +214,11 @@ const LoginScreen = () => {
             globalStyles.button,
             globalStyles.primary,
             globalStyles.widthFluid,
+            styles.buttonSignIn
           ]}
         >
           {loader == false < 2 ? (
-            <View style={[globalStyles.container, globalStyles.horizontal]}>
+            <View >
               <ActivityIndicator size="small" color="#FFF" />
             </View>
           ) : (
@@ -284,4 +285,10 @@ const styles = StyleSheet.create({
   loginText: {
     paddingVertical: 1,
   },
+  buttonSignIn: {
+    marginTop: 40
+  },
+  containerInputs: {
+    marginTop: 5
+  }
 });

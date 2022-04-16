@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 {
   /* COMPONENTS */
 }
-import { AuthMenuComponent } from "../../components";
+import AuthMenuComponent from "../../components/AuthMenuComponent";
 import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import { localhost } from "../../localhost.json";
 import axios from "axios";
@@ -30,6 +30,7 @@ const ValidateUserScreen = () => {
   const navigator = useNavigation();
 
   const validateUser = () => {
+    console.log('entrando a validateUser')
     let token = code1 + code2 + code3 + code4;
     axios.post(`http://${localhost}/api/users/verifyEmail`, token)
         .then(({data}) => {
@@ -121,7 +122,7 @@ const ValidateUserScreen = () => {
   );
 };
 
-export default ValidateUserScreen;
+
 
 const styles = StyleSheet.create({
   arrowSpace: {
@@ -157,3 +158,5 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
 });
+
+export default ValidateUserScreen;

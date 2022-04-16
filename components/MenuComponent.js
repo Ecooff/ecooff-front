@@ -4,7 +4,7 @@ import globalStyles from '../styles/styles';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import SplashLogo from '../assets/splash.png';
+import theIcon from '../assets/theIcon.png';
 import cartService from '../services/CartService';
 import { useState, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native-web';
@@ -20,38 +20,43 @@ export const MenuComponent = () => {
     addToCart().then((response) => setCartItems(response.products.length));
   }, []);
 
-  return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-      <Pressable onPress={() => navigator.navigate('Home')} />
-      <Image style={styles.menuLogo} source={SplashLogo} />
+  console.log('AAAA', cartItems)
 
+  return (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+      <Pressable onPress={() => navigator.navigate('Home')} />
+      <Image style={styles.menuLogo} source={theIcon} />
       <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
         <Pressable onPress={() => navigator.navigate('Cart')}>
-          <View
-            style={{
-              borderRadius: 10,
-              backgroundColor: 'rgba(77, 181, 145, 0.97)',
-              position: 'absolute',
-              top: -2,
-              left: 21,
-              width: 20,
-              height: 20,
-              zIndex: 1,
-            }}
-          >
-            <Text
-              style={{
-                textAlign: 'center',
-                color: 'black',
-                fontWeight: 'bold',
-              }}
-            >
-              {cartItems}
-            </Text>
-          </View>
+          {cartItems > 0 ? 
+        <View
+        style={{
+          borderRadius: 10,
+          backgroundColor: 'rgba(77, 181, 145, 0.97)',
+          position: 'absolute',
+          top: -2,
+          left: 21,
+          width: 20,
+          height: 20,
+          zIndex: 1,
+        }}
+      >
+        <Text
+          style={{
+            textAlign: 'center',
+            color: 'black',
+            fontWeight: 'bold',
+          }}
+        >
+          {cartItems}
+        </Text>
+      </View> :
+      <Text></Text>
+        }
+          
           <Ionicons name='ios-cart-outline' size={30} color='gray' />
         </Pressable>
-        <Feather name='bell' size={24} style={styles.icon} color='gray' />
+        {/* <Feather name='bell' size={24} style={styles.icon} color='gray' /> */}
       </View>
     </View>
   );
@@ -59,15 +64,14 @@ export const MenuComponent = () => {
 
 const styles = StyleSheet.create({
   mainMenu: {
-    marginTop: 5,
-    marginBottom: 20,
-    paddingHorizontal: 10,
     justifyContent: 'space-between',
   },
 
   menuLogo: {
-    width: 50,
-    height: 60,
+    width: 68,
+    height: 30,
+    marginTop: 15,
+    marginBottom: 25
   },
 
   icon: {

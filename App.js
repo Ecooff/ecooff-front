@@ -41,7 +41,7 @@ import FilterComponent from './components/FilterComponent';
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+export default function App({navigation}) {
   LogBox.ignoreAllLogs(true);
 
   const navTheme = DefaultTheme;
@@ -57,7 +57,7 @@ export default function App() {
 
         {/* AUTH */}
         <Stack.Screen options={{ headerShown: false }} name="AuthHome" component={AuthHomeScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+        <Stack.Screen options={{ headerShown: false, gestureEnabled: false }} name="Login" component={LoginScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Signup" component={SignupScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Forgot" component={ForgotPasswordScreen} />
         <Stack.Screen options={{ headerShown: false }} name="ForgotSuccess" component={ForgotSuccess} />
@@ -65,7 +65,7 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="ValidateUser" component={ValidateUserScreen} />
 
         {/* HOME */}
-        <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
+        {<Stack.Screen options={{ headerShown: false, gestureEnabled: false }} name="Home" component={HomeScreen} />}
 
         {/* PROFILE */}
         <Stack.Screen options={{ headerShown: false }} name="Profile" component={ProfileScreen} />

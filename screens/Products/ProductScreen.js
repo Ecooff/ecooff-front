@@ -16,7 +16,11 @@ import globalStyles from "../../styles/styles";
 import { MenuComponent } from "../../components";
 
 const ProductScreen = ({ route }) => {
-  const { title, price, expirationDate, url, seller } = route.params.product;
+  const { title, expPrice, expirationDate, img, providerName } = route.params.product;
+
+  console.log('BBB TITLE', title)
+
+  console.log('AAA ROUTE', route.params)
 
   return (
     <View style={{ flex: 1 }}>
@@ -59,7 +63,7 @@ const ProductScreen = ({ route }) => {
                 Precio
               </Text>
               <Text style={[styles.bannerLargeMargin, globalStyles.fontMedium]}>
-                $ {price}
+                $ {expPrice}
               </Text>
 
               <Text
@@ -73,10 +77,11 @@ const ProductScreen = ({ route }) => {
               </Text>
               <Text style={[styles.bannerSamllMargin, globalStyles.fontMedium]}>
                 {expirationDate}
-              </Text>
+              </Text> 
+              {/* El objeto no trae "expiration date" */}
             </View>
 
-            <Image style={styles.productImage} source={{ uri: url }} />
+            <Image style={styles.productImage} source={{ uri: img }} />
           </View>
 
           <View style={globalStyles.row}>
@@ -99,12 +104,14 @@ const ProductScreen = ({ route }) => {
                   globalStyles.fontSmall,
                 ]}
               >
-                <Image
+                {/* <Image
                   style={styles.productSeller}
                   source={{ uri: seller.url }}
-                />
+                /> */}
 
-                <Text>{seller.title}</Text>
+
+                {/* <Text>{seller.title}</Text> */}
+                <Text>{providerName}</Text>
               </View>
             </View>
 

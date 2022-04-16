@@ -51,12 +51,7 @@ const ProfileScreen = () => {
         globalStyles.alignItemsCenter,
       ]}
     >
-      <View style={shadowStyleProducts}>
-        <Image
-          style={[styles.profileImg]}
-          source={require("../../assets/avatar.png")}
-        />
-      </View>
+      
 
       <View>
         <Text style={globalStyles.fontLarge}>{user.firstName ? `${user.firstName}, ${user.lastName}` : "Nombre Apellido"}</Text>

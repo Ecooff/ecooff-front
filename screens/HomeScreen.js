@@ -17,6 +17,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import SplashLogo from '../assets/splash.png';
+import { BackHandler } from 'react-native';
 
 {
   /* COMPONENTS */
@@ -40,6 +41,7 @@ const HomeScreen = () => {
     getAllProviders().then((response) => setProviders(response.data)),
       closeToExp().then((response) => setCloseToExpire(response.data)),
       forYou().then((response) => setFeatured(response.data));
+      BackHandler.removeEventListener(true)
     // userById().then(response => setUserById(response.data))
   }, []);
 
@@ -177,7 +179,7 @@ const HomeScreen = () => {
                     // onPress={() => console.log("demo")}
                     style={globalStyles.fontSmall}
                   >
-                    <Text>Ver todos</Text>
+                    {/* <Text>Ver todos</Text> */}
                   </TouchableOpacity>
                 </View>
 
