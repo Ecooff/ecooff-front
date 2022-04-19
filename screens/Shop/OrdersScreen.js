@@ -66,29 +66,29 @@ const OrdersScreen = () => {
 
   //NOTE: product.amount to request in the future
 
-  const DeliveryAndPayment = () => {
-    return (
-      <View style={styles.deliveryMainContainer}>
-        <View style={styles.deliveryContainer}>
-          <MaterialCommunityIcons name="truck-fast-outline" size={33} color="#3D9D5D" />
-          <View style={styles}>
-            <Text style={styles.deliveryMainText}>Delivery a dirección</Text>
-            <Text style={styles.deliverySmallText}>Order de más de $7000 tiene envío gratis</Text>
-          </View>
-          <Pressable onPress={() => navigator.navigate("Profile")}>
-              <Text style={styles.editText}>Editar</Text>
-          </Pressable>
-        </View>
-        <View style={styles.deliveryContainer}>
-          <MaterialIcons name="payment" size={33} color="#3D9D5D" />
-          <View style={styles}>
-            <Text style={styles.deliveryMainText}>Método de pago</Text>
-            <Text style={styles.deliverySmallText}>Efectivo</Text>
-          </View>
-        </View>
-      </View>
-    );
-  };
+  // const DeliveryAndPayment = () => {
+  //   return (
+  //     <View style={styles.deliveryMainContainer}>
+  //       <View style={styles.deliveryContainer}>
+  //         <MaterialCommunityIcons name="truck-fast-outline" size={33} color="#3D9D5D" />
+  //         <View style={styles}>
+  //           <Text style={styles.deliveryMainText}>Delivery a dirección</Text>
+  //           <Text style={styles.deliverySmallText}>Order de más de $7000 tiene envío gratis</Text>
+  //         </View>
+  //         <Pressable onPress={() => navigator.navigate("Profile")}>
+  //             <Text style={styles.editText}>Editar</Text>
+  //         </Pressable>
+  //       </View>
+  //       <View style={styles.deliveryContainer}>
+  //         <MaterialIcons name="payment" size={33} color="#3D9D5D" />
+  //         <View style={styles}>
+  //           <Text style={styles.deliveryMainText}>Método de pago</Text>
+  //           <Text style={styles.deliverySmallText}>Efectivo</Text>
+  //         </View>
+  //       </View>
+  //     </View>
+  //   );
+  // };
 
   const Saving = () => {
     return (
@@ -119,7 +119,7 @@ const OrdersScreen = () => {
 
         <MyOrder />
 
-        <DeliveryAndPayment />
+        {/* <DeliveryAndPayment /> */}
 
         <Text style={styles.savingHeader}>Ahorraste</Text>
 
@@ -137,24 +137,24 @@ const OrdersScreen = () => {
 export default OrdersScreen;
 
 const styles = StyleSheet.create({
-  
   content: {
     margin: 15,
   },
-  
+
   header: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 38,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginBottom: 20,
+    marginTop: 20,
   },
   deliveryMainContainer: {
     margin: 10,
   },
   deliveryContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     margin: 4,
-    marginHorizontal: 10
+    marginHorizontal: 10,
   },
   deliveryMainText: {
     fontWeight: "bold",
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   editText: {
     textDecorationLine: "underline",
   },
-  
+
   savingContainer: {
     alignItems: "baseline",
     justifyContent: "space-between",
@@ -187,18 +187,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   savingHeader: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 24,
-    alignSelf: 'center',
-    marginTop: 20,
+    alignSelf: "center",
+    marginTop: 60,
   },
   savingTextContainer: {
     justifyContent: "space-between",
     flexDirection: "row",
   },
   savingText: {
-    fontWeight: 'bold',
-    margin: 10,
+    fontWeight: "bold",
+    margin: 15,
   },
 
   //----------------------------------------------
@@ -325,6 +325,8 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: "#F6F6F6",
     borderRadius: 50,
+    borderWidth: 0.2,
+    marginLeft: 20,
   },
 
   product: {

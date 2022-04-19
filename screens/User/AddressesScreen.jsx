@@ -43,10 +43,8 @@ const AddressesScreen = () => {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.container}>
-          <Ionicons name="location-outline" size={22} color="#3D9D5D" style={styles.icon}/>
           <View style={styles.textContainer}>
-            <Text style={styles.text}>Nueva dirección</Text>
-            <Text style={styles.text}>Agregar dirección</Text>
+            <Text style={styles.addAdressText}>Agregar dirección</Text>
           </View>
         </View>
           <Pressable>
@@ -88,6 +86,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  addAdressText: {
+    fontSize: 14,
+    marginLeft: 44
+  },
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
    marginLeft: 4, 
   },
   text: {
-    fontSize: 12,
+    fontSize: 14,
     margin: 1,
   },
   icon: {

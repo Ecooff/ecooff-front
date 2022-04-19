@@ -24,7 +24,7 @@ export const FooterComponent = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => navigator.navigate("Orders")}
+          onPress={() => navigator.navigate("OrderHistory")}
           style={styles.footerIcon}
         >
           <MaterialCommunityIcons

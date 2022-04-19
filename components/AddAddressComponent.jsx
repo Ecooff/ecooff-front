@@ -46,6 +46,24 @@ const AddAddressComponent = () => {
           placeholder="12 A"
           />
         </View>
+        <View style={[styles.listItem, styles.lastListItem]}>
+          <Text style={styles.modalText}>Puerta</Text>
+          <TextInput
+          style={styles.input}
+          onChangeText={() => onChangeTextFloor()}
+          value={textFloor}
+          placeholder="32"
+          />
+        </View>
+        <View style={[styles.listItem, styles.lastListItem]}>
+          <Text style={styles.modalText}>Codigo postal</Text>
+          <TextInput
+          style={styles.input}
+          onChangeText={() => onChangeTextFloor()}
+          value={textFloor}
+          placeholder="7220"
+          />
+        </View>
       </View>
     );
   };
@@ -139,7 +157,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 12,
-    marginBottom: 40
+    marginBottom: 20
   },
   listItem: {
     // flex: 1,

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { TextInput, StyleSheet, Text, Pressable, View } from "react-native";
+import { TextInput, StyleSheet, Text, Pressable, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import globalSyles from "../../styles/styles";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
+import { Feather } from '@expo/vector-icons';
 
 const EditProfileScreen = () => {
   const user = useSelector(selectUser);
@@ -19,6 +20,10 @@ const EditProfileScreen = () => {
   //   setUser()
   // }, [])
 
+  const onHandleEdit = () => {
+    onChan
+  }
+
   const cancel = () => {
     navigator.navigate("Profile");
   };
@@ -33,10 +38,14 @@ const EditProfileScreen = () => {
         <View style={styles.textContainer}>
           <Text>Nombre: </Text>
           <TextInput
+          style={{textDecorationLine: 'underline'}}
             // style={styles.input}
             onChangeText={() => onChangeFirstname()}
             value={firsname}
         />
+        <TouchableOpacity>
+        <Feather name="edit" size={24} color="black" />
+        </TouchableOpacity>
         </View>
 
         <View style={styles.textContainer}>
@@ -46,6 +55,9 @@ const EditProfileScreen = () => {
             onChangeText={() => onChangeLastname()}
             value={lastname}
         />
+        <TouchableOpacity>
+        <Feather name="edit" size={24} color="black" />
+        </TouchableOpacity>
         </View>
 
         <View style={styles.textContainer}>
@@ -55,6 +67,9 @@ const EditProfileScreen = () => {
             onChangeText={() => onChangeEmail()}
             value={email}
         />
+        <TouchableOpacity>
+        <Feather name="edit" size={24} color="black" />
+        </TouchableOpacity>
         </View>
 
         <View style={styles.textContainer}>
@@ -64,6 +79,9 @@ const EditProfileScreen = () => {
             onChangeText={() => onChangePassword()}
             value={password}
         />
+        <TouchableOpacity>
+        <Feather name="edit" size={24} color="black" />
+        </TouchableOpacity>
         </View>
       </View>
     );
@@ -214,7 +232,7 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 8
+    marginVertical: 8,
   }
 });
 

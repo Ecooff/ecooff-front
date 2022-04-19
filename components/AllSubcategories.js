@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
 
   icons: {
     width: 60,
-    height: 60,
+    height: 65,
     marginBottom: 10,
   },
 
