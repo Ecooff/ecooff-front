@@ -43,9 +43,14 @@ const OrderHistoyScreen = () => {
                 {order.status}
               </Text>
             </View>
+            <View style={styles.iconsContainer}>
             <View style={styles.icons}>
               <AntDesign name="edit" size={18} color={statusColor} />
-              <Ionicons name="trash-outline" size={18} color={statusColor} />
+              
+            </View>
+            <View style={styles.icons}>
+            <Ionicons name="trash-outline" size={18} color={statusColor} />
+            </View>
             </View>
           </View>
 
@@ -104,7 +109,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -115,11 +120,23 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   leftText: {
-    fontSize: 12,
+    fontSize: 17,
+    marginTop: 5
   },
   icons: {
     flexDirection: "row",
     justifyContent: "space-around",
+    backgroundColor: '#FFFFFF', shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 15,
+    marginRight: 20,
+    padding: 3
   },
   rightSide: {
     marginRight: 10,
@@ -130,7 +147,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   priceText: {
-    fontSize: 18,
+    fontSize: 21,
     textAlign: "center",
+    marginBottom: 4
   },
+  iconsContainer: {
+    flexDirection: 'row',
+    marginLeft: 10
+  }
 });

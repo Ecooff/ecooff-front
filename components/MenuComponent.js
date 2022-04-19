@@ -6,6 +6,7 @@ import {
   Pressable,
   Text,
   TouchableOpacity,
+  SafeAreaView
 } from "react-native";
 import globalStyles from "../styles/styles";
 import { Ionicons } from "@expo/vector-icons";
@@ -31,7 +32,7 @@ export const MenuComponent = () => {
   console.log("AAAA", cartItems);
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
@@ -95,7 +96,7 @@ export const MenuComponent = () => {
         </Pressable>
         {/* <Feather name='bell' size={24} style={styles.icon} color='gray' /> */}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
