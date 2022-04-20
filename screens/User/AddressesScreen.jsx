@@ -6,10 +6,13 @@ import { MenuComponent } from "../../components";
 import userStyles from "../../styles/userStyles";
 import RadioButton from "../../commons/RadioButton";
 import AddAddressComponent from "../../components/AddAddressComponent";
+import AdressService from "../../services/AdressService";
 
 const AddressesScreen = () => {
   const [user, setUser] = useState({});
   const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [userAdresses, setUserAdresses] = useState([])
+  const { getUserAddresses } = AdressService
 //   const [selected, setSelected] = useState(true);
 
   // useEffect(() => {
@@ -20,17 +23,25 @@ const AddressesScreen = () => {
   //     setDelilveryAddress()
   // }, []);
 
-  const fakeDeliveryAddresses = [{address: "Libertador 11**", selected: false}, {address: "Mendoza 17**", selected: false}];
+  useEffect(() => {
+    getUserAddresses().then(response => setUserAdresses(response.data[0].addresses))
+  }, [])
+
+  
+
+  console.log('AAANASHEi', userAdresses)
+
+  // const fakeDeliveryAddresses = [{address: "Libertador 11**", selected: false}, {address: "Mendoza 17**", selected: false}];
 
   const MyAddresses = () => {
-    return fakeDeliveryAddresses.map((address, i) => {
+    return userAdresses.map((address, i) => {
       return (
         <View style={styles.mainContainer} key={i}>
           <View style={styles.container}>
             <Ionicons name="location-outline" size={22} color="#3D9D5D" style={styles.icon}/>
             <View style={styles.textContainer}>
               <Text style={styles.text}>Dirección {i + 1}</Text>
-              <Text style={styles.text}>{address.address}</Text>
+              <Text style={styles.text}>{address.street}</Text>
             </View>
           </View>
           <RadioButton select={address.selected ? address.selected : false} style={styles.radioButton}/>

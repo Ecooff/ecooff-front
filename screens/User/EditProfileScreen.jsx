@@ -38,50 +38,45 @@ const EditProfileScreen = () => {
         <View style={styles.textContainer}>
           <Text>Nombre: </Text>
           <TextInput
-          style={{textDecorationLine: 'underline'}}
+          style={{fontWeight: 'bold', width: '100%'}}
             // style={styles.input}
             onChangeText={() => onChangeFirstname()}
             value={firsname}
         />
-        <TouchableOpacity>
-        <Feather name="edit" size={24} color="black" />
-        </TouchableOpacity>
+        
         </View>
 
         <View style={styles.textContainer}>
           <Text>Apellido: </Text>
           <TextInput
+          style={{fontWeight: 'bold', width: '100%'}}
             // style={styles.input}
             onChangeText={() => onChangeLastname()}
             value={lastname}
         />
-        <TouchableOpacity>
-        <Feather name="edit" size={24} color="black" />
-        </TouchableOpacity>
+        
         </View>
 
         <View style={styles.textContainer}>
           <Text>Email: </Text>
           <TextInput
+          style={{fontWeight: 'bold', width: '100%'}}
             // style={styles.input}
             onChangeText={() => onChangeEmail()}
             value={email}
         />
-        <TouchableOpacity>
-        <Feather name="edit" size={24} color="black" />
-        </TouchableOpacity>
+        
         </View>
 
         <View style={styles.textContainer}>
           <Text>Contraseña: </Text>
           <TextInput
+          style={{fontWeight: 'bold', width: '100%'}}
             // style={styles.input}
             onChangeText={() => onChangePassword()}
             value={password}
         />
-        <TouchableOpacity>
-        <Feather name="edit" size={24} color="black" />
-        </TouchableOpacity>
+        
         </View>
       </View>
     );
@@ -161,6 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    
   },
   container: {
     margin: 20,
@@ -175,6 +171,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    width: '90%'
   },
   confirmText: {
     color: "white",
@@ -233,6 +230,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 8,
+    borderWidth: 1,
+    padding: 8,
+    borderRadius: 4
   }
 });
 

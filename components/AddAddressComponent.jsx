@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TextInput, Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import {
   Ionicons,
 } from "@expo/vector-icons";
+import AdressService from "../services/AdressService";
+import { useInput } from "../hooks/hookForm";
 
 const AddAddressComponent = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -10,11 +12,34 @@ const AddAddressComponent = () => {
   const [textStreet, onChangeTextStreet] = useState("");
   const [textNumber, onChangeTextNumber] = useState("");
   const [textFloor, onChangeTextFloor] = useState("");
+  const [ validateStreetNumber, setValidateStreetNumber] = useState('')
 
-  const addAddress = () => {
+  const street = useInput('street', '')
+  const streetNumber = useInput('streetNumber', '')
+  const floor = useInput('floor', '')
+  const door = useInput('door', '')
+  const CP = useInput('CP', '')
+
+  const { addUserAdress } = AdressService;
+
+  const handleSubmit = () => {
+    addUserAdress({
+      street: street.value,
+      streetNumber: streetNumber.value,
+      floor: floor.value,
+      door: door.value,
+      CP: CP.value
+    }).then(response => console.log('FUNCIONA ADDADRESS', response.data)).catch(err => console.log(err.response.data.message))
     setModalVisible(!modalVisible);
-    console.log("addAddress is working");
   }
+
+  console.log(street.value)
+  console.log('BBBB', floor.value)
+
+  // const addAddress = () => {
+    
+  //   console.log("addAddress is working");
+  // }
 
   const ModalContent = () => {
     return (
@@ -23,8 +48,8 @@ const AddAddressComponent = () => {
           <Text style={styles.modalText}>Calle</Text>
           <TextInput
           style={styles.input}
-          onChangeText={() => onChangeTextStreet()}
-          value={textStreet}
+          onChangeText={street.onChangeText}
+          {...street}
           placeholder="Av. Santa Fe"
           />
         </View>
@@ -32,8 +57,8 @@ const AddAddressComponent = () => {
           <Text style={styles.modalText}>Número</Text>
           <TextInput
           style={styles.input}
-          onChangeText={() => onChangeTextNumber()}
-          value={textNumber}
+          onChangeText={streetNumber.onChangeText}
+          {...streetNumber}
           placeholder="4910"
           />
         </View>
@@ -41,8 +66,8 @@ const AddAddressComponent = () => {
           <Text style={styles.modalText}>Piso</Text>
           <TextInput
           style={styles.input}
-          onChangeText={() => onChangeTextFloor()}
-          value={textFloor}
+          onChangeText={floor.value}
+          {...floor}
           placeholder="12 A"
           />
         </View>
@@ -50,8 +75,8 @@ const AddAddressComponent = () => {
           <Text style={styles.modalText}>Puerta</Text>
           <TextInput
           style={styles.input}
-          onChangeText={() => onChangeTextFloor()}
-          value={textFloor}
+          onChangeText={door.value}
+          {...door}
           placeholder="32"
           />
         </View>
@@ -59,8 +84,8 @@ const AddAddressComponent = () => {
           <Text style={styles.modalText}>Codigo postal</Text>
           <TextInput
           style={styles.input}
-          onChangeText={() => onChangeTextFloor()}
-          value={textFloor}
+          onChangeText={CP.value}
+          {...CP}
           placeholder="7220"
           />
         </View>
@@ -79,7 +104,7 @@ const AddAddressComponent = () => {
         </Pressable>
         <Pressable
           style={[styles.button, styles.confirmModalButton]}
-          onPress={() => addAddress()}
+          onPress={() => handleSubmit()}
         >
           <Text style={styles.textStyle}>Confirmar</Text>
         </Pressable>

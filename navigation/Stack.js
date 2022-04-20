@@ -54,6 +54,7 @@ const Stack = () => {
         {/* AUTH */}
         <StackNav.Screen options={{ headerShown: false }} name="AuthHome" component={AuthHomeScreen} />
         {user !== null && <StackNav.Screen options={{ headerShown: false, gestureEnabled: false }} name="Login" component={LoginScreen} />}
+         
         
         <StackNav.Screen options={{ headerShown: false }} name="Signup" component={SignupScreen} />
         <StackNav.Screen options={{ headerShown: false }} name="Forgot" component={ForgotPasswordScreen} />

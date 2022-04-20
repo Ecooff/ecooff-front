@@ -1,7 +1,7 @@
 export const LOCALHOST = 'http://localhost:3000/api/';
 export const PROD = 'http://192.168.100.1:3000/api/';
 export const ANDROID_EMULATOR = 'http://10.0.2.2:3000/api/';
-export const IP_LOCALHOST_VALEN = 'http://192.168.1.36:3000/api/'; // ip cafeteria
+export const IP_LOCALHOST_VALEN = 'http://192.168.100.179:3000/api/'; // ip cafeteria
 
 export const URL = IP_LOCALHOST_VALEN ;
 
@@ -37,6 +37,14 @@ export const getByFarmacia = URL + 'stock/getByCategory/Farmacia';
 //Get provider by subcat
 export const getByProvSubcat = URL + 'stock/getByProvSubcat/';
 
+
+//Get User Adresses
+export const getUserAddresses = URL + 'users/getUserAddresses';
+
+// Add user Adress
+export const addUserAdress = URL + 'users/addAddress'
+
+
 const URLPath = {
   serverAlive,
   login,
@@ -51,6 +59,8 @@ const URLPath = {
   getByMercado,
   getByFarmacia,
   getByProvSubcat,
+  getUserAddresses,
+  addUserAdress
 };
 
 export default URLPath;
