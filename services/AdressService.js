@@ -13,6 +13,12 @@ const AdressService = {
             headers: setHeader()
         })
         return data;
+    },
+    changeDefaultAdress: (adressID) => {
+        const data = axios.put(URLPath.changeDefaultAdress, adressID, {
+            headers: setHeader()
+        })
+        return data;
     }
 };
 

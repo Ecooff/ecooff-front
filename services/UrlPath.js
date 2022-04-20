@@ -44,6 +44,9 @@ export const getUserAddresses = URL + 'users/getUserAddresses';
 // Add user Adress
 export const addUserAdress = URL + 'users/addAddress'
 
+// Change default adress
+export const changeDefaultAdress = URL + 'users/changeDefaultAddress/'
+
 
 const URLPath = {
   serverAlive,
@@ -60,7 +63,8 @@ const URLPath = {
   getByFarmacia,
   getByProvSubcat,
   getUserAddresses,
-  addUserAdress
+  addUserAdress,
+  changeDefaultAdress
 };
 
 export default URLPath;

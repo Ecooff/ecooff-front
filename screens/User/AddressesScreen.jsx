@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { MenuComponent } from "../../components";
@@ -44,7 +44,9 @@ const AddressesScreen = () => {
               <Text style={styles.text}>{address.street}</Text>
             </View>
           </View>
+          <Pressable onPress={() => console.log('anashieeii')}>
           <RadioButton select={address.selected ? address.selected : false} style={styles.radioButton}/>
+          </Pressable>
         </View>
       );
     });
