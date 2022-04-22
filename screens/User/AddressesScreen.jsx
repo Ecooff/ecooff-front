@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Pressable, StyleSheet, Text, View, TouchableOpacity, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { MenuComponent } from "../../components";
@@ -8,30 +8,34 @@ import RadioButton from "../../commons/RadioButton";
 import AddAddressComponent from "../../components/AddAddressComponent";
 import AdressService from "../../services/AdressService";
 
+
 const AddressesScreen = () => {
   const [user, setUser] = useState({});
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [userAdresses, setUserAdresses] = useState([])
-  const { getUserAddresses } = AdressService
-//   const [selected, setSelected] = useState(true);
+  const { getUserAddresses, changeDefaultAdress } = AdressService
+  const [selected, setSelected] = useState({});
 
-  // useEffect(() => {
-  //     setUser()
-  // }, []);
+  const callback = (newAddress) => {
+    // do something with value in parent component, like save to state
+    console.log('nueva direccion', newAddress)
+    setUserAdresses(userAdresses => [...userAdresses, newAddress])
+  }
 
-  // useEffect(() => {
-  //     setDelilveryAddress()
-  // }, []);
+  // 
 
   useEffect(() => {
     getUserAddresses().then(response => setUserAdresses(response.data[0].addresses))
   }, [])
 
-  
-
-  console.log('AAANASHEi', userAdresses)
-
-  // const fakeDeliveryAddresses = [{address: "Libertador 11**", selected: false}, {address: "Mendoza 17**", selected: false}];
+  const selectFn = (id, i) => {
+    selected ? setSelected(false) : setSelected(true);
+    AdressService.changeDefaultAdress(id, i).then(response => {}).catch(error => console.log('ERROR', error.response.data.message))
+    userAdresses.map(address => {
+      address.defaultAddress = false;
+    })
+    userAdresses[i].defaultAddress = true
+}
 
   const MyAddresses = () => {
     return userAdresses.map((address, i) => {
@@ -44,9 +48,13 @@ const AddressesScreen = () => {
               <Text style={styles.text}>{address.street}</Text>
             </View>
           </View>
-          <Pressable onPress={() => console.log('anashieeii')}>
-          <RadioButton select={address.selected ? address.selected : false} style={styles.radioButton}/>
-          </Pressable>
+          <Pressable style={[styles.selectedFalse]} onPress={() => selectFn(address._id, i)}>
+        {
+          address.defaultAddress ?
+            <View style={[styles.selectedTrue]}/>
+            : null
+        }
+      </Pressable>
         </View>
       );
     });
@@ -62,7 +70,7 @@ const AddressesScreen = () => {
         </View>
           <Pressable>
             {/* <Ionicons name="add-circle-outline" size={24} color="#3D9D5D" style={styles.addIcon} onPress={() => showAddCard()}/> */}
-            <AddAddressComponent />
+            <AddAddressComponent parentCallback={callback} />
           </Pressable>
       </View>
     );
@@ -72,9 +80,9 @@ const AddressesScreen = () => {
     <View style={styles.homeConteiner}>
       <MenuComponent />
       <Text style={styles.title}>Tus Direcciones</Text>
-
+      <ScrollView  style={styles.globalMaxHeight}>
       <MyAddresses />
-
+      </ScrollView>
       <AddAddress />
 
     </View>
@@ -93,6 +101,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginVertical: 8,
     marginBottom: 20,
+  },
+  globalMaxHeight: {
+    maxHeight: 500
   },
   mainContainer: {
     padding: 15,
@@ -126,4 +137,19 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginRight: 1,
   },
+  selectedFalse: {
+    height: 20,
+    width: 20,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#3D9D5D',
+    alignItems: 'center',
+    justifyContent: 'center',
+},
+selectedTrue: {
+    height: 11,
+    width: 11,
+    borderRadius: 6,
+    backgroundColor: '#3D9D5D',
+}
 });

@@ -13,6 +13,8 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import globalStyles from "../../styles/styles";
 import authStyles from "../../styles/authStyles";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { login } from "../../store";
 
 {
   /* COMPONENTS */
@@ -30,14 +32,17 @@ const ValidateUserScreen = () => {
   const navigator = useNavigation();
 
   const validateUser = () => {
-    console.log('entrando a validateUser')
+    console.log("entrando a validateUser");
     let token = code1 + code2 + code3 + code4;
-    axios.post(`http://${localhost}/api/users/verifyEmail`, token)
-        .then(({data}) => {
-            console.log("dataa verifivation-->",data)
-            navigator.navigate('Home')
-        })
-        .catch((err) => console.log("sth was wrong", err));
+    console.log(code1 + code2 + code3 + code4);
+    axios
+      .post(`http://${localhost}/api/users/verifyEmail`, token)
+      .then(({ data }) => {
+        console.log("dataa verifivation-->", data);
+        // dispatch(login(user));
+        navigator.navigate("Home");
+      })
+      .catch((err) => console.log("sth was wrong", err.response.data.message));
   };
 
   const createAlert = () =>
@@ -73,28 +78,36 @@ const ValidateUserScreen = () => {
             value={code1}
             keyboardType="email-address"
             icon="mail"
-            onChangeText={(text) => setCode1(text)}
+            onChangeText={(text) => {
+              setCode1(text);
+            }}
             style={styles.codeInputs}
           />
           <TextInput
             value={code2}
             keyboardType="email-address"
             icon="mail"
-            onChangeText={(text) => setCode2(text)}
+            onChangeText={(text) => {
+              setCode2(text);
+            }}
             style={styles.codeInputs}
           />
           <TextInput
             value={code3}
             keyboardType="email-address"
             icon="mail"
-            onChangeText={(text) => setCode3(text)}
+            onChangeText={(text) => {
+              setCode3(text);
+            }}
             style={styles.codeInputs}
           />
           <TextInput
             value={code4}
             keyboardType="email-address"
             icon="mail"
-            onChangeText={(text) => setCode4(text)}
+            onChangeText={(text) => {
+              setCode4(text);
+            }}
             style={styles.codeInputs}
           />
         </View>
@@ -121,8 +134,6 @@ const ValidateUserScreen = () => {
     </KeyboardAvoidingView>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   arrowSpace: {

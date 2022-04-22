@@ -1,52 +1,50 @@
-export const LOCALHOST = 'http://localhost:3000/api/';
-export const PROD = 'http://192.168.100.1:3000/api/';
-export const ANDROID_EMULATOR = 'http://10.0.2.2:3000/api/';
-export const IP_LOCALHOST_VALEN = 'http://192.168.100.179:3000/api/'; // ip cafeteria
+export const LOCALHOST = "http://localhost:3000/api/";
+export const PROD = "http://192.168.100.1:3000/api/";
+export const ANDROID_EMULATOR = "http://10.0.2.2:3000/api/";
+export const IP_LOCALHOST_VALEN = "http://192.168.100.225:3000/api/"; // ip cafeteria
 
-export const URL = IP_LOCALHOST_VALEN ;
+export const URL = IP_LOCALHOST_VALEN;
 
 //Users
-export const serverAlive = URL + 'users/serverAlive';
-export const login = URL + 'users/authenticate';
-export const signUp = URL + 'users/register';
+export const serverAlive = URL + "users/serverAlive";
+export const login = URL + "users/authenticate";
+export const signUp = URL + "users/register";
 
 //Providers
-export const getAllProviders = URL + 'providers/';
+export const getAllProviders = URL + "providers/";
 // Close to expire
-export const closeToExp = URL + 'stock/closeToExp';
+export const closeToExp = URL + "stock/closeToExp";
 // For you (destacados)
-export const forYou = URL + 'stock/forYou';
+export const forYou = URL + "stock/forYou";
 // Get by user Id
-export const getByUserId = URL + 'orders/getByUserId';
+export const getByUserId = URL + "orders/getByUserId";
 
 // Cart
-export const addToCart = URL + 'cart/addToCart';
+export const addToCart = URL + "cart/addToCart";
 
 // Get by sorpresas
-export const getBySorpresas = URL + 'stock/getByCategory/Sorpresas';
+export const getBySorpresas = URL + "stock/getByCategory/Sorpresas";
 
 // Get by cosmetica
-export const getByCosmetica = URL + 'stock/getByCategory/Cosmetica';
+export const getByCosmetica = URL + "stock/getByCategory/Cosmetica";
 
 // Get by mercado
-export const getByMercado = URL + 'stock/getByCategory/Mercado';
+export const getByMercado = URL + "stock/getByCategory/Mercado";
 
 //Get by Farmacia
-export const getByFarmacia = URL + 'stock/getByCategory/Farmacia';
+export const getByFarmacia = URL + "stock/getByCategory/Farmacia";
 
 //Get provider by subcat
-export const getByProvSubcat = URL + 'stock/getByProvSubcat/';
-
+export const getByProvSubcat = URL + "stock/getByProvSubcat/";
 
 //Get User Adresses
-export const getUserAddresses = URL + 'users/getUserAddresses';
+export const getUserAddresses = URL + "users/getUserAddresses";
 
 // Add user Adress
-export const addUserAdress = URL + 'users/addAddress'
+export const addUserAdress = URL + "users/addAddress";
 
 // Change default adress
-export const changeDefaultAdress = URL + 'users/changeDefaultAddress/'
-
+export const changeDefaultAdress = URL + "users/changeDefaultAddress/";
 
 const URLPath = {
   serverAlive,
@@ -64,7 +62,7 @@ const URLPath = {
   getByProvSubcat,
   getUserAddresses,
   addUserAdress,
-  changeDefaultAdress
+  changeDefaultAdress,
 };
 
 export default URLPath;

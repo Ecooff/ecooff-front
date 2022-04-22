@@ -17,7 +17,7 @@ import authStyles from "../../styles/authStyles";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/userSlice";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // SERVICES
 import { AuthService } from "../../services";
@@ -35,15 +35,14 @@ const LoginScreen = () => {
   const navigator = useNavigation();
   const dispatch = useDispatch();
 
-  
   const handleLogin = () => {
     const storeData = async (value) => {
       try {
-        await AsyncStorage.setItem('@me', value)
+        await AsyncStorage.setItem("@me", value);
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
-    }
+    };
     setLoader(true);
 
     let user = {
@@ -78,7 +77,8 @@ const LoginScreen = () => {
           dispatch(login(user));
           navigator.navigate("Home");
         } else {
-          return createAlert(user.message || "Por favor verifique su cuenta");
+          console.log("else");
+          navigator.navigate("ValidateUser");
         }
       })
       .catch((err) => console.log("something was wrong", err))
@@ -119,7 +119,7 @@ const LoginScreen = () => {
       {/* INPUTS */}
       <View style={[globalStyles.widthEightyFive, styles.containerInputs]}>
         <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
-          EMAIL 
+          EMAIL
         </Text>
         <View style={globalStyles.inputRow}>
           <AntDesign name="user" style={globalStyles.icons} />
@@ -171,20 +171,20 @@ const LoginScreen = () => {
           globalStyles.alignItemsCenter,
         ]}
       > */}
-        {/* APPLE */}
-        {/* <TouchableOpacity
+      {/* APPLE */}
+      {/* <TouchableOpacity
           onPress={() => navigator.navigate("Home")}
           style={styles.socialIcon}
         >
           <AntDesign name="apple1" size={22} style={styles.socialColor} />
         </TouchableOpacity> */}
 
-        {/* FACEBOOK */}
-        {/* <TouchableOpacity
+      {/* FACEBOOK */}
+      {/* <TouchableOpacity
           onPress={() => navigator.navigate("Home")}
           style={[styles.socialIcon, styles.facebook]}
         > */}
-          {/* <FontAwesome
+      {/* <FontAwesome
             name="facebook-f"
             size={22}
             style={styles.socialColor}
@@ -192,8 +192,8 @@ const LoginScreen = () => {
           />
         </TouchableOpacity> */}
 
-        {/* GOOGLE */}
-        {/* <TouchableOpacity
+      {/* GOOGLE */}
+      {/* <TouchableOpacity
           onPress={() => navigator.navigate("Home")}
           style={[styles.socialIcon, styles.google]}
         >
@@ -214,11 +214,11 @@ const LoginScreen = () => {
             globalStyles.button,
             globalStyles.primary,
             globalStyles.widthFluid,
-            styles.buttonSignIn
+            styles.buttonSignIn,
           ]}
         >
           {loader == false < 2 ? (
-            <View >
+            <View>
               <ActivityIndicator size="small" color="#FFF" />
             </View>
           ) : (
@@ -286,9 +286,9 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
   },
   buttonSignIn: {
-    marginTop: 40
+    marginTop: 40,
   },
   containerInputs: {
-    marginTop: 5
-  }
+    marginTop: 5,
+  },
 });

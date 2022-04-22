@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StatusBar,
@@ -10,26 +10,28 @@ import {
   TouchableOpacity,
   Pressable,
   Modal,
-} from 'react-native';
-import globalStyles from '../styles/styles';
-import { EvilIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import SplashLogo from '../assets/splash.png';
-import { BackHandler } from 'react-native';
+} from "react-native";
+import globalStyles from "../styles/styles";
+import { EvilIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { FontAwesome5 } from "@expo/vector-icons";
+import SplashLogo from "../assets/splash.png";
+import { BackHandler } from "react-native";
+import { useSelector } from "react-redux";
+import { selectUser } from "../store/userSlice";
 
 {
   /* COMPONENTS */
 }
-import { MenuComponent, FooterComponent } from '../components';
+import { MenuComponent, FooterComponent } from "../components";
 // import OrderOnRequestComponent from "../components/OrderOnRequestComponent"; //comente esto tambien porque no encuentra el componente
-import productService from '../services/ProductService';
+import productService from "../services/ProductService";
 
 const HomeScreen = () => {
   const { getAllProviders, closeToExp, forYou, getByUserId } = productService;
 
-  const [search, setQuery] = useState('');
+  const [search, setQuery] = useState("");
   const [orderOnRequest, setOrderOnRequest] = useState(true);
   const [providers, setProviders] = useState([]);
   const [closeToExpire, setCloseToExpire] = useState([]);
@@ -37,11 +39,15 @@ const HomeScreen = () => {
   const [userById, setUserById] = useState({});
   const [todos, setTodos] = useState([]);
 
+  const user = useSelector(selectUser);
+
+  console.log("THEEUSERRR", user);
+
   useEffect(() => {
     getAllProviders().then((response) => setProviders(response.data)),
       closeToExp().then((response) => setCloseToExpire(response.data)),
       forYou().then((response) => setFeatured(response.data));
-      BackHandler.removeEventListener(true)
+    BackHandler.removeEventListener(true);
     // userById().then(response => setUserById(response.data))
   }, []);
 
@@ -75,7 +81,7 @@ const HomeScreen = () => {
   // }, []);
 
   const shadowStyle = {
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -84,20 +90,32 @@ const HomeScreen = () => {
     shadowRadius: 3.84,
   };
 
-  const listOfProducts = ['Próximos a vencer', 'Pensados para vos', 'Comercios'];
+  const listOfProducts = [
+    "Próximos a vencer",
+    "Pensados para vos",
+    "Comercios",
+  ];
 
   const items = [
-    { icon: require('../assets/icons/store.png'), title: 'Mercado', id: 1 },
-    { icon: require('../assets/icons/cosmetic.png'), title: 'Cosmetica', id: 2 },
-    { icon: require('../assets/icons/pharmacy.png'), title: 'Farmacia', id: 3 },
-    { icon: require('../assets/icons/surprice.png'), title: 'Sorpresas', id: 4 },
+    { icon: require("../assets/icons/store.png"), title: "Mercado", id: 1 },
+    {
+      icon: require("../assets/icons/cosmetic.png"),
+      title: "Cosmetica",
+      id: 2,
+    },
+    { icon: require("../assets/icons/pharmacy.png"), title: "Farmacia", id: 3 },
+    {
+      icon: require("../assets/icons/surprice.png"),
+      title: "Sorpresas",
+      id: 4,
+    },
   ];
 
   const navigator = useNavigation();
 
   return (
     <View style={[styles.homeContainer]}>
-      <StatusBar backgroundColor='white' barStyle='dark-content' />
+      <StatusBar backgroundColor="white" barStyle="dark-content" />
       {/* <Image source={SplashLogo} style={{width: 200, height: 200, position: 'absolute', bottom: 10, zIndex: 1}} /> */}
 
       <ScrollView style={styles.scrollContainer}>
@@ -120,12 +138,16 @@ const HomeScreen = () => {
             return (
               <TouchableOpacity
                 key={index}
-                onPress={() => navigator.navigate('List', { item })}
+                onPress={() => navigator.navigate("List", { item })}
                 // onPress={() => navigator}
                 // onPress={() => console.log("demo")}
                 style={styles.iconsContainer}
               >
-                <Image style={styles.icons} source={item.icon} onPress={() => console.log('demo')} />
+                <Image
+                  style={styles.icons}
+                  source={item.icon}
+                  onPress={() => console.log("demo")}
+                />
 
                 <Text style={globalStyles.fontXSmall}>{item.title}</Text>
               </TouchableOpacity>
@@ -135,15 +157,22 @@ const HomeScreen = () => {
 
         <View style={styles.products}>
           {/* SEARCHER */}
-          <View style={[styles.searchContainer, globalStyles.row, globalStyles.alignItemsCenter, shadowStyle]}>
+          <View
+            style={[
+              styles.searchContainer,
+              globalStyles.row,
+              globalStyles.alignItemsCenter,
+              shadowStyle,
+            ]}
+          >
             <View style={styles.inputSearch}>
-              <EvilIcons name='search' style={globalStyles.icons} />
+              <EvilIcons name="search" style={globalStyles.icons} />
 
               <TextInput
-                placeholder='Buscar'
+                placeholder="Buscar"
                 value={search}
-                keyboardType='email-address'
-                icon='mail'
+                keyboardType="email-address"
+                icon="mail"
                 onChangeText={(query) => setQuery(query)}
                 style={globalStyles.input}
               />
@@ -175,7 +204,7 @@ const HomeScreen = () => {
                   <Text style={[globalStyles.fontMedium]}>{list}</Text>
 
                   <TouchableOpacity
-                    onPress={() => navigator.navigate('GroupList')}
+                    onPress={() => navigator.navigate("GroupList")}
                     // onPress={() => console.log("demo")}
                     style={globalStyles.fontSmall}
                   >
@@ -183,18 +212,28 @@ const HomeScreen = () => {
                   </TouchableOpacity>
                 </View>
 
-                <ScrollView showsHorizontalScrollIndicator={false} style={styles.productScroll} horizontal={true}>
+                <ScrollView
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.productScroll}
+                  horizontal={true}
+                >
                   {everything[index].map((product, y) => {
                     return (
                       <TouchableOpacity
                         key={y}
-                        onPress={() => navigator.navigate('GroupList', { product })}
+                        onPress={() =>
+                          navigator.navigate("GroupList", { product })
+                        }
                         // onPress={() => console.log("demo")}
                         style={styles.productsContainer}
                       >
                         <View style={shadowStyle}>
                           <Image
-                            style={index < 2 ? styles.productOfList : styles.commerceOfList}
+                            style={
+                              index < 2
+                                ? styles.productOfList
+                                : styles.commerceOfList
+                            }
                             source={{ uri: product.img }}
                           />
                         </View>
@@ -211,7 +250,13 @@ const HomeScreen = () => {
                           {product.provider || product.title}
                         </Text>
                         {index < 2 ? (
-                          <Text style={[styles.alignTextStart, styles.secondLabel, globalStyles.fontSmall]}>
+                          <Text
+                            style={[
+                              styles.alignTextStart,
+                              styles.secondLabel,
+                              globalStyles.fontSmall,
+                            ]}
+                          >
                             $ {product.expPrice}
                           </Text>
                         ) : null}
@@ -249,8 +294,8 @@ const styles = StyleSheet.create({
   },
 
   iconsContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 10,
   },
 
@@ -262,14 +307,14 @@ const styles = StyleSheet.create({
 
   searchContainer: {
     marginVertical: 40,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 
   inputSearch: {
-    width: '83%',
-    flexDirection: 'row',
-    backgroundColor: '#F9FAFB',
-    alignItems: 'center',
+    width: "83%",
+    flexDirection: "row",
+    backgroundColor: "#F9FAFB",
+    alignItems: "center",
     borderRadius: 12,
   },
 
@@ -294,11 +339,11 @@ const styles = StyleSheet.create({
   },
 
   productsContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: "flex-start",
+    alignItems: "center",
     maxWidth: 110,
     marginHorizontal: 10,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
 
   listTitle: {
@@ -312,7 +357,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
     borderTopLeftRadius: 50,
-    backgroundColor: '#F4F4F4',
+    backgroundColor: "#F4F4F4",
   },
 
   commerceOfList: {
@@ -320,7 +365,7 @@ const styles = StyleSheet.create({
     height: 110,
     marginBottom: 15,
     borderRadius: 100,
-    backgroundColor: '#F4F4F4',
+    backgroundColor: "#F4F4F4",
   },
 
   secondLabel: {

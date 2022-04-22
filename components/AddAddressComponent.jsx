@@ -6,7 +6,7 @@ import {
 import AdressService from "../services/AdressService";
 import { useInput } from "../hooks/hookForm";
 
-const AddAddressComponent = () => {
+const AddAddressComponent = ({ parentCallback }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [textStreet, onChangeTextStreet] = useState("");
@@ -29,17 +29,16 @@ const AddAddressComponent = () => {
       floor: floor.value,
       door: door.value,
       CP: CP.value
-    }).then(response => console.log('FUNCIONA ADDADRESS', response.data)).catch(err => console.log(err.response.data.message))
+    }).then(response => {
+      console.log('FUNCIONA ADDADRESS', response.data)
+      parentCallback(response.data);
+    }).catch(err => console.log(err.response.data.message))
     setModalVisible(!modalVisible);
   }
 
   console.log(street.value)
   console.log('BBBB', floor.value)
 
-  // const addAddress = () => {
-    
-  //   console.log("addAddress is working");
-  // }
 
   const ModalContent = () => {
     return (

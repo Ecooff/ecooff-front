@@ -16,7 +16,7 @@ import authStyles from "../../styles/authStyles";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { localhost } from '../../localhost.json'
+import { localhost } from "../../localhost.json";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/userSlice";
 
@@ -28,19 +28,22 @@ const AuthHomeScreen = () => {
   const dispatch = useDispatch();
 
   const me = (user, token) => {
-    user.token = token
+    user.token = token;
     dispatch(login(user));
-    navigator.navigate('Home');
-  }
+    navigator.navigate("Home");
+  };
 
   useEffect(async () => {
-        try {
-            const token = await AsyncStorage.getItem('@me')
-            const user = await axios.get(`http://${localhost}/api/users/retrieveUser`, {headers: {Authorization: `Bearer ${token}`}})
-            user ? me(user.data, token) : console.log("any user")
-        } catch (error) {            
-            console.log(error)
-        }
+    try {
+      const token = await AsyncStorage.getItem("@me");
+      const user = await axios.get(
+        `http://${localhost}/api/users/retrieveUser`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      user ? me(user.data, token) : console.log("any user");
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   return (
