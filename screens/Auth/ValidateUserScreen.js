@@ -37,9 +37,9 @@ const ValidateUserScreen = () => {
     console.log(code1 + code2 + code3 + code4);
     axios
       .post(`http://${localhost}/api/users/verifyEmail`, token)
-      .then(({ data }) => {
-        console.log("dataa verifivation-->", data);
-        // dispatch(login(user));
+      .then((response) => {
+        storeData(user.token);
+        dispatch(login(user));
         navigator.navigate("Home");
       })
       .catch((err) => console.log("sth was wrong", err.response.data.message));

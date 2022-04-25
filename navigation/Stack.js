@@ -52,13 +52,13 @@ const Stack = () => {
         name="AuthHome"
         component={AuthHomeScreen}
       />
-      {!user && (
-        <StackNav.Screen
-          options={{ headerShown: false, gestureEnabled: false }}
-          name="Login"
-          component={LoginScreen}
-        />
-      )}
+      {/* {!user && ( */}
+      <StackNav.Screen
+        options={{ headerShown: false, gestureEnabled: false }}
+        name="Login"
+        component={LoginScreen}
+      />
+      {/* )} */}
 
       <StackNav.Screen
         options={{ headerShown: false }}

@@ -16,11 +16,12 @@ import globalStyles from "../../styles/styles";
 import { MenuComponent } from "../../components";
 
 const ProductScreen = ({ route }) => {
-  const { title, expPrice, expirationDate, img, providerName } = route.params.product;
+  const { title, expPrice, expirationDate, img, providerName } =
+    route.params.product;
 
-  console.log('BBB TITLE', title)
+  console.log("BBB TITLE", title);
 
-  console.log('AAA ROUTE', route.params)
+  console.log("AAA ROUTE", route.params);
 
   return (
     <View style={{ flex: 1 }}>
@@ -77,7 +78,7 @@ const ProductScreen = ({ route }) => {
               </Text>
               <Text style={[styles.bannerSamllMargin, globalStyles.fontMedium]}>
                 {expirationDate}
-              </Text> 
+              </Text>
               {/* El objeto no trae "expiration date" */}
             </View>
 
@@ -108,7 +109,6 @@ const ProductScreen = ({ route }) => {
                   style={styles.productSeller}
                   source={{ uri: seller.url }}
                 /> */}
-
 
                 {/* <Text>{seller.title}</Text> */}
                 <Text>{providerName}</Text>

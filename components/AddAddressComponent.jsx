@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TextInput, Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import { TextInput, Alert, Modal, StyleSheet, Text, Pressable, View  } from "react-native";
 import {
   Ionicons,
 } from "@expo/vector-icons";
@@ -12,7 +12,12 @@ const AddAddressComponent = ({ parentCallback }) => {
   const [textStreet, onChangeTextStreet] = useState("");
   const [textNumber, onChangeTextNumber] = useState("");
   const [textFloor, onChangeTextFloor] = useState("");
-  const [ validateStreetNumber, setValidateStreetNumber] = useState('')
+  // const [ validateStreetNumber, setValidateStreetNumber] = useState('')
+  const [streetText, setStreetText] = useState("");
+  const [streetTextNumber, setStreetTextNumber] = useState("");
+  const [floorText, setFloorText] = useState("")
+  const [doorText, setDoorText] = useState("");
+  const [CPtext, setCPtext] = useState("");
 
   const street = useInput('street', '')
   const streetNumber = useInput('streetNumber', '')
@@ -24,7 +29,7 @@ const AddAddressComponent = ({ parentCallback }) => {
 
   const handleSubmit = () => {
     addUserAdress({
-      street: street.value,
+      street: streetText,
       streetNumber: streetNumber.value,
       floor: floor.value,
       door: door.value,
@@ -32,11 +37,11 @@ const AddAddressComponent = ({ parentCallback }) => {
     }).then(response => {
       console.log('FUNCIONA ADDADRESS', response.data)
       parentCallback(response.data);
-    }).catch(err => console.log(err.response.data.message))
+    }).catch(err => Alert.alert(err.response.data.message))
     setModalVisible(!modalVisible);
   }
 
-  console.log(street.value)
+  // console.log(street.value)
   console.log('BBBB', floor.value)
 
 
@@ -47,8 +52,10 @@ const AddAddressComponent = ({ parentCallback }) => {
           <Text style={styles.modalText}>Calle</Text>
           <TextInput
           style={styles.input}
-          onChangeText={street.onChangeText}
-          {...street}
+          // onTextInput={() => setStreetText(streetText(street.value))}
+          onTextInput={() => setValidatePassword(validationPassword(password.value))}
+          // {...street}
+          value={street}
           placeholder="Av. Santa Fe"
           />
         </View>
