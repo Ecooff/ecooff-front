@@ -5,15 +5,19 @@ import {
 } from "@expo/vector-icons";
 import AdressService from "../services/AdressService";
 import { useInput } from "../hooks/hookForm";
+import { useSelector } from "react-redux";
+import { selectUser } from '../store/userSlice';
 
 const AddAddressComponent = ({ parentCallback }) => {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const user = useSelector(selectUser);
 
   const [textStreet, onChangeTextStreet] = useState("");
   const [textNumber, onChangeTextNumber] = useState("");
   const [textFloor, onChangeTextFloor] = useState("");
   // const [ validateStreetNumber, setValidateStreetNumber] = useState('')
-  const [streetText, setStreetText] = useState("");
+  // const [streetText, setStreetText] = useState("");
   const [streetTextNumber, setStreetTextNumber] = useState("");
   const [floorText, setFloorText] = useState("")
   const [doorText, setDoorText] = useState("");
@@ -29,15 +33,15 @@ const AddAddressComponent = ({ parentCallback }) => {
 
   const handleSubmit = () => {
     addUserAdress({
-      street: streetText,
+      street: street.value,
       streetNumber: streetNumber.value,
       floor: floor.value,
       door: door.value,
       CP: CP.value
-    }).then(response => {
+    }, user).then(response => {
       console.log('FUNCIONA ADDADRESS', response.data)
       parentCallback(response.data);
-    }).catch(err => Alert.alert(err.response.data.message))
+    }).catch(err => console.log(err.response.data.message))
     setModalVisible(!modalVisible);
   }
 
@@ -53,9 +57,9 @@ const AddAddressComponent = ({ parentCallback }) => {
           <TextInput
           style={styles.input}
           // onTextInput={() => setStreetText(streetText(street.value))}
-          onTextInput={() => setValidatePassword(validationPassword(password.value))}
-          // {...street}
-          value={street}
+          onChangeText={street.onChangeText}
+          {...street}
+          // value={street}
           placeholder="Av. Santa Fe"
           />
         </View>
@@ -122,9 +126,10 @@ const AddAddressComponent = ({ parentCallback }) => {
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="fade"
+        animationType="slide"
         transparent={true}
         visible={modalVisible}
+        accessibilityViewIsModal={true}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
@@ -160,18 +165,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,    
+    elevation: 10,
   },
   modalView: {
-    margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 30,
+    marginLeft: 18,
     shadowColor: "#000",
+    width : '80%' , //en realidad va 80%
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 5,
     shadowRadius: 4,
     elevation: 5,
   },
@@ -216,8 +227,8 @@ const styles = StyleSheet.create({
   footerModal: {
     justifyContent: "space-between",
     flexDirection: "row",
-    width: "30%",
-    marginTop: 10,
+    width: "40%",
+    marginTop: 20,
   },
   cancelModalButton: {
     color: "#3D9D5D",

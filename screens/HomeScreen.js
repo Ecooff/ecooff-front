@@ -41,12 +41,14 @@ const HomeScreen = () => {
 
   const user = useSelector(selectUser);
 
-  console.log("THEEUSERRR", user);
+  // console.log("THEEUSERRR", user);
 
   useEffect(() => {
-    getAllProviders().then((response) => setProviders(response.data)),
-      closeToExp().then((response) => setCloseToExpire(response.data)),
-      forYou().then((response) => setFeatured(response.data));
+    getAllProviders(user)
+      .then((response) => setProviders(response.data))
+      .catch((err) => console.log(err.response.data.message)),
+      closeToExp(user).then((response) => setCloseToExpire(response.data)),
+      forYou(user).then((response) => setFeatured(response.data));
     BackHandler.removeEventListener(true);
     // userById().then(response => setUserById(response.data))
   }, []);

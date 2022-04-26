@@ -39,9 +39,6 @@ const StackNav = createNativeStackNavigator();
 
 const Stack = () => {
   const user = useSelector(selectUser);
-
-  console.log("AAAAA", user);
-
   return (
     <StackNav.Navigator>
       {/* <StackNav.Navigator initialRouteName="List"> */}

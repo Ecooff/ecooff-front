@@ -2,24 +2,24 @@ import axios from "axios";
 import { URLPath } from "../services";
 
 const AdressService = {
-  getUserAddresses: () => {
+  getUserAddresses: (user) => {
     const data = axios.get(URLPath.getUserAddresses, {
-      headers: setHeader(),
+      headers: setHeader(user.token),
     });
     return data;
   },
-  addUserAdress: (props) => {
+  addUserAdress: (props, user) => {
     const data = axios.post(URLPath.addUserAdress, props, {
-      headers: setHeader(),
+      headers: setHeader(user.token),
     });
     return data;
   },
-  changeDefaultAdress: (adressID) => {
+  changeDefaultAdress: (adressID, user) => {
     const data = axios.put(
       URLPath.changeDefaultAdress + adressID,
       {},
       {
-        headers: setHeader(),
+        headers: setHeader(user.token),
       }
     );
     return data;
@@ -28,12 +28,10 @@ const AdressService = {
 
 export default AdressService;
 
-function setHeader() {
+function setHeader(token) {
   let headers = {
     "Content-Type": "application/json",
-    Authorization:
-      "Bearer " +
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjYxNzk1NzkxOTVkNDA2NGNmMzAwZmQiLCJpYXQiOjE2NTA1NjY1ODQsImV4cCI6MTY1MzE1ODU4NH0.VA04vxU0wq1OqMz9SB6G_4GzoM67-icx3gNaEbPedXY",
+    Authorization: "Bearer " + token,
   };
 
   return headers;

@@ -1,52 +1,56 @@
 import axios from "axios";
 import { URLPath } from "../services";
+import { useSelector } from "react-redux";
+import { selectUser } from "../store/userSlice";
 
 const ProductService = {
-  getAllProviders: async () => {
+  getAllProviders: async (user) => {
+    console.log("UUSERR", user.token);
     const data = await axios.get(URLPath.getAllProviders, {
-      headers: setHeader(),
+      headers: setHeader(user.token),
     });
+    console.log("DATAAA", data);
     return data;
   },
-  closeToExp: () => {
+  closeToExp: async (user) => {
     const data = axios.get(URLPath.closeToExp, {
-      headers: setHeader(),
+      headers: setHeader(user.token),
     });
     return data;
   },
-  forYou: () => {
+  forYou: async (user) => {
     const data = axios.get(URLPath.forYou, {
-      headers: setHeader(),
+      headers: setHeader(user.token),
     });
     return data;
   },
-  getByUserId: () => {
+  getByUserId: (user) => {
     const data = axios.get(URLPath.getByUserId, {
-      headers: setHeader(),
+      headers: setHeader(user.token),
     });
     return data;
   },
-  getBySorpresas: () => {
+  getBySorpresas: (user) => {
     const data = axios.get(URLPath.getBySorpresas, {
-      headers: setHeader(),
+      headers: setHeader(user.token),
     });
     return data;
   },
-  getByCosmetica: () => {
+  getByCosmetica: (user) => {
     const data = axios.get(URLPath.getByCosmetica, {
-      headers: setHeader(),
+      headers: setHeader(user.token),
     });
     return data;
   },
-  getByMercado: () => {
+  getByMercado: (user) => {
     const data = axios.get(URLPath.getByMercado, {
-      headers: setHeader(),
+      headers: setHeader(user.token),
     });
     return data;
   },
   getByFarmacia: () => {
     const data = axios.get(URLPath.getByFarmacia, {
-      headers: setHeader(),
+      headers: setHeader(user.token),
     });
     return data;
   },
@@ -63,12 +67,10 @@ const ProductService = {
 
 export default ProductService;
 
-function setHeader() {
+function setHeader(token) {
   let headers = {
     "Content-Type": "application/json",
-    Authorization:
-      "Bearer " +
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjYxNzk1NzkxOTVkNDA2NGNmMzAwZmQiLCJpYXQiOjE2NTA1NjY1ODQsImV4cCI6MTY1MzE1ODU4NH0.VA04vxU0wq1OqMz9SB6G_4GzoM67-icx3gNaEbPedXY",
+    Authorization: "Bearer " + token,
   };
 
   return headers;

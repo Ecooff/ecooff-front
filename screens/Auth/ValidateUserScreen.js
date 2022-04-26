@@ -13,6 +13,7 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import globalStyles from "../../styles/styles";
 import authStyles from "../../styles/authStyles";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import { login } from "../../store";
 
@@ -31,15 +32,23 @@ const ValidateUserScreen = () => {
   const [code4, setCode4] = useState("");
   const navigator = useNavigation();
 
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("@me", value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const validateUser = () => {
     console.log("entrando a validateUser");
     let token = code1 + code2 + code3 + code4;
     console.log(code1 + code2 + code3 + code4);
     axios
       .post(`http://${localhost}/api/users/verifyEmail`, token)
-      .then((response) => {
-        storeData(user.token);
-        dispatch(login(user));
+      .then(({ data }) => {
+        storeData(user.newToken);
+        console.log("dataa verifivation-->", data);
         navigator.navigate("Home");
       })
       .catch((err) => console.log("sth was wrong", err.response.data.message));

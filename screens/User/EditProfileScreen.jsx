@@ -5,6 +5,7 @@ import globalSyles from "../../styles/styles";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import { Feather } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
 const EditProfileScreen = () => {
   const user = useSelector(selectUser);
@@ -36,46 +37,58 @@ const EditProfileScreen = () => {
     return (
       <View>
         <View style={styles.textContainer}>
-          <Text>Nombre: </Text>
+          <Text style={globalSyles.inputLabel}>NOMBRE: </Text>
+          <View style={{flexDirection: 'row'}}>
+          <AntDesign name="user" style={globalSyles.icons} />
           <TextInput
-          style={{fontWeight: 'bold', width: '100%'}}
+          style={{fontWeight: '600', width: '100%', marginLeft: 10, color: '#888888'}}
             // style={styles.input}
             onChangeText={() => onChangeFirstname()}
             value={firsname}
         />
+        </View>
         
         </View>
 
         <View style={styles.textContainer}>
-          <Text>Apellido: </Text>
+          <Text style={globalSyles.inputLabel}>APELLIDO: </Text>
+          <View style={{flexDirection: 'row'}}>
+          <AntDesign name="user" style={globalSyles.icons} />
           <TextInput
-          style={{fontWeight: 'bold', width: '100%'}}
+          style={{fontWeight: '600', width: '100%', marginLeft: 10, color: '#888888'}}
             // style={styles.input}
             onChangeText={() => onChangeLastname()}
             value={lastname}
         />
+        </View>
         
         </View>
 
         <View style={styles.textContainer}>
-          <Text>Email: </Text>
+          <Text style={globalSyles.inputLabel}>EMAIL: </Text>
+          <View style={{flexDirection: 'row'}}>
+          <AntDesign name="mail" style={globalSyles.icons} />
           <TextInput
-          style={{fontWeight: 'bold', width: '100%'}}
+          style={{fontWeight: '600', width: '100%', marginLeft: 10, color: '#888888'}}
             // style={styles.input}
             onChangeText={() => onChangeEmail()}
             value={email}
         />
+        </View>
         
         </View>
 
         <View style={styles.textContainer}>
-          <Text>Contraseña: </Text>
+          <Text style={globalSyles.inputLabel}>CONTRASEÑIA: </Text>
+          <View style={{flexDirection: 'row'}}>
+          <AntDesign name="lock" style={globalSyles.icons} />
           <TextInput
-          style={{fontWeight: 'bold', width: '100%'}}
+          style={{fontWeight: '600', width: '100%', marginLeft: 10,color: '#888888'}}
             // style={styles.input}
             onChangeText={() => onChangePassword()}
             value={password}
         />
+         </View>
         
         </View>
       </View>
@@ -153,24 +166,12 @@ const EditProfileScreen = () => {
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    
   },
   container: {
     margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
     padding: 30,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
     width: '90%'
   },
   confirmText: {
@@ -198,10 +199,11 @@ const styles = StyleSheet.create({
   },
 
   footerBtns: {
-    justifyContent: "space-between",
     flexDirection: "row",
     width: "30%",
+    marginRight: '25%',
     marginTop: 10,
+    alignSelf: 'flex-end'
   },
   cancelButton: {
     color: "#3D9D5D",
@@ -227,10 +229,9 @@ const styles = StyleSheet.create({
     // padding: 10,
   },
   textContainer: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 8,
-    borderWidth: 1,
     padding: 8,
     borderRadius: 4
   }

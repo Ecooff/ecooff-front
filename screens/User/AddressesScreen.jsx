@@ -7,14 +7,18 @@ import userStyles from "../../styles/userStyles";
 import RadioButton from "../../commons/RadioButton";
 import AddAddressComponent from "../../components/AddAddressComponent";
 import AdressService from "../../services/AdressService";
-
+import { useSelector } from "react-redux";
+import { selectUser } from '../../store/userSlice';
 
 const AddressesScreen = () => {
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [userAdresses, setUserAdresses] = useState([])
   const { getUserAddresses, changeDefaultAdress } = AdressService
   const [selected, setSelected] = useState({});
+ const user = useSelector(selectUser)
+
+//  console.log('user' , user)
 
   const callback = (newAddress) => {
     // do something with value in parent component, like save to state
@@ -25,12 +29,12 @@ const AddressesScreen = () => {
   // 
 
   useEffect(() => {
-    getUserAddresses().then(response => setUserAdresses(response.data[0].addresses))
+    getUserAddresses(user).then(response => setUserAdresses(response.data[0].addresses))
   }, [])
 
   const selectFn = (id, i) => {
     selected ? setSelected(false) : setSelected(true);
-    AdressService.changeDefaultAdress(id, i).then(response => {}).catch(error => console.log('ERROR', error.response.data.message))
+    AdressService.changeDefaultAdress(id, i, user).then(response => {}).catch(error => console.log('ERROR', error.response.data.message))
     userAdresses.map(address => {
       address.defaultAddress = false;
     })
