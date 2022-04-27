@@ -71,17 +71,22 @@ const LoginScreen = () => {
     //   .catch((err) => console.log("something was wrong", err))
 
     AuthService.login(user)
-      .then((user) => {
-        if (user.verified) {
-          storeData(user.token);
-          dispatch(login(user));
+      .then((response) => {
+        if (response.message) {
+          createAlert(response.message);
+        }else if (response.verified) {
+          storeData(response.token);
+          dispatch(login(response));
           navigator.navigate("Home");
         } else {
           console.log("else");
           navigator.navigate("ValidateUser");
         }
       })
-      .catch((err) => console.log("something was wrong", err))
+      .catch((err) => {
+        console.log("something was wrong", err);
+        createAlert(err);
+      })
       .finally(() => setLoader(false));
   };
 

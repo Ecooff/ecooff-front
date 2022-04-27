@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Image,
+  ActivityIndicator
 } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import globalStyles from "../../styles/styles";
@@ -17,19 +18,21 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import { login } from "../../store";
 
+// SERVICES
+import { AuthService } from "../../services";
+
 {
   /* COMPONENTS */
 }
 import AuthMenuComponent from "../../components/AuthMenuComponent";
 import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
-import { localhost } from "../../localhost.json";
-import axios from "axios";
 
 const ValidateUserScreen = () => {
   const [code1, setCode1] = useState("");
   const [code2, setCode2] = useState("");
   const [code3, setCode3] = useState("");
   const [code4, setCode4] = useState("");
+  const [loader, setLoader] = useState(false);
   const navigator = useNavigation();
 
   const storeData = async (value) => {
@@ -41,25 +44,35 @@ const ValidateUserScreen = () => {
   };
 
   const validateUser = () => {
-    console.log("entrando a validateUser");
+
+    setLoader(true);
+
     let token = code1 + code2 + code3 + code4;
-    console.log(code1 + code2 + code3 + code4);
-    axios
-      .post(`http://${localhost}/api/users/verifyEmail`, token)
-      .then(({ data }) => {
-        storeData(user.newToken);
-        console.log("dataa verifivation-->", data);
+
+    AuthService.validateUser({token: token})
+    .then((response) => {
+
+      console.log(response);
+      if(response.message) {
+        createAlert(response.message);
+      }else {
+        storeData(response.newToken);
+        console.log("dataa verifivation-->", response);
         navigator.navigate("Home");
-      })
-      .catch((err) => console.log("sth was wrong", err.response.data.message));
+      }
+
+    })
+    .catch((err) => {
+      createAlert(err);
+    })
+    .finally(() => setLoader(false));
+
   };
 
-  const createAlert = () =>
-    Alert.alert(
-      "No encontrammos tu cuenta",
-      "El mail que ingresaste parece no estar registrado. Revisrá que esté bien escribo o probá con otro diferente",
-      [{ text: "OK", onPress: () => {} }]
-    );
+  const createAlert = (message) =>
+    Alert.alert('Hubo un problema', message, [
+      { text: "OK", onPress: () => console.log() },
+    ]);
 
   return (
     <KeyboardAvoidingView
@@ -85,6 +98,7 @@ const ValidateUserScreen = () => {
         <View style={[styles.inputRow, globalStyles.justifyContentBetween]}>
           <TextInput
             value={code1}
+            maxLength={1}
             keyboardType="email-address"
             icon="mail"
             onChangeText={(text) => {
@@ -94,6 +108,7 @@ const ValidateUserScreen = () => {
           />
           <TextInput
             value={code2}
+            maxLength={1}
             keyboardType="email-address"
             icon="mail"
             onChangeText={(text) => {
@@ -103,6 +118,7 @@ const ValidateUserScreen = () => {
           />
           <TextInput
             value={code3}
+            maxLength={1}
             keyboardType="email-address"
             icon="mail"
             onChangeText={(text) => {
@@ -112,6 +128,7 @@ const ValidateUserScreen = () => {
           />
           <TextInput
             value={code4}
+            maxLength={1}
             keyboardType="email-address"
             icon="mail"
             onChangeText={(text) => {
@@ -131,13 +148,20 @@ const ValidateUserScreen = () => {
       >
         <TouchableOpacity
           onPress={() => validateUser()}
+          // disabled={code1 == null || code2 == null || code3 == null || code4 == null}
           style={[
             globalStyles.button,
             globalStyles.primary,
             globalStyles.widthFluid,
           ]}
         >
-          <Text style={globalStyles.textWhite}>Validar</Text>
+          {loader == false < 2 ? (
+            <View>
+              <ActivityIndicator size="small" color="#FFF" />
+            </View>
+          ) : (
+            <Text style={globalStyles.textWhite}>Validar</Text>
+          )}
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

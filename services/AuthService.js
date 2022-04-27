@@ -33,6 +33,23 @@ function signUp(newUser) {
         .catch((error) => {
             return error;
         });
+};
+
+function validateUser(token) {
+
+    return fetch(
+        URLPath.validateUser, {
+        method: 'POST',
+        headers: setHeader(),
+        body: JSON.stringify(token)
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            return json
+        })
+        .catch((error) => {
+            return error;
+        });
 
 };
 
@@ -50,7 +67,8 @@ function setHeader(token) {
 
 const authService = {
     login,
-    signUp
+    signUp,
+    validateUser
 };
 
 export default authService;
