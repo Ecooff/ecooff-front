@@ -6,7 +6,7 @@ import {
   Pressable,
   Text,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
 import globalStyles from "../styles/styles";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,7 +18,7 @@ import { useState, useEffect } from "react";
 import { ActivityIndicator } from "react-native-web";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export const MenuComponent = () => {
+export const MenuComponent = ({ onPress }) => {
   const [cartItems, setCartItems] = useState([]); // tiene que tener algo cargado para que no tome undefined o length sin nada
 
   const navigator = useNavigation();
@@ -36,18 +36,18 @@ export const MenuComponent = () => {
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "baseline",
+        // alignItems: "baseline",
       }}
     >
       <Pressable onPress={() => navigator.navigate("Home")} />
-      <View>
+      <View style={{ marginTop: "3%" }}>
         <TouchableOpacity
           style={{
             backgroundColor: "rgba(77, 181, 145, 0.97)",
             borderRadius: 12,
             marginRight: 10,
           }}
-          onPress={() => navigator.goBack()}
+          onPress={onPress}
         >
           <MaterialIcons
             name="arrow-back-ios"
@@ -66,8 +66,7 @@ export const MenuComponent = () => {
                 borderRadius: 10,
                 backgroundColor: "rgba(77, 181, 145, 0.97)",
                 position: "absolute",
-                top: -2,
-                left: 21,
+                left: 20,
                 width: 20,
                 height: 20,
                 zIndex: 1,
@@ -119,6 +118,7 @@ const styles = StyleSheet.create({
   },
   cartIcon: {
     marginRight: 20,
+    marginTop: 3,
     alignSelf: "stretch",
   },
 });

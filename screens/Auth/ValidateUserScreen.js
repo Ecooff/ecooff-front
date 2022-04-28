@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import globalStyles from "../../styles/styles";
@@ -35,6 +35,11 @@ const ValidateUserScreen = () => {
   const [loader, setLoader] = useState(false);
   const navigator = useNavigation();
 
+  const inputUno = useRef(null);
+  const inputDos = useRef(null);
+  const inputTres = useRef(null);
+  const inputCuatro = useRef(null);
+
   const storeData = async (value) => {
     try {
       await AsyncStorage.setItem("@me", value);
@@ -44,33 +49,29 @@ const ValidateUserScreen = () => {
   };
 
   const validateUser = () => {
-
     setLoader(true);
 
     let token = code1 + code2 + code3 + code4;
 
-    AuthService.validateUser({token: token})
-    .then((response) => {
-
-      console.log(response);
-      if(response.message) {
-        createAlert(response.message);
-      }else {
-        storeData(response.newToken);
-        console.log("dataa verifivation-->", response);
-        navigator.navigate("Home");
-      }
-
-    })
-    .catch((err) => {
-      createAlert(err);
-    })
-    .finally(() => setLoader(false));
-
+    AuthService.validateUser({ token: token })
+      .then((response) => {
+        console.log(response);
+        if (response.message) {
+          createAlert(response.message);
+        } else {
+          storeData(response.newToken);
+          console.log("dataa verifivation-->", response);
+          navigator.navigate("Home");
+        }
+      })
+      .catch((err) => {
+        createAlert(err);
+      })
+      .finally(() => setLoader(false));
   };
 
   const createAlert = (message) =>
-    Alert.alert('Hubo un problema', message, [
+    Alert.alert("Hubo un problema", message, [
       { text: "OK", onPress: () => console.log() },
     ]);
 
@@ -99,15 +100,20 @@ const ValidateUserScreen = () => {
           <TextInput
             value={code1}
             maxLength={1}
+            ref={inputUno}
             keyboardType="email-address"
             icon="mail"
             onChangeText={(text) => {
               setCode1(text);
             }}
             style={styles.codeInputs}
+            onSelectionChange={() => {
+              code1 && inputDos.current.focus();
+            }}
           />
           <TextInput
             value={code2}
+            ref={inputDos}
             maxLength={1}
             keyboardType="email-address"
             icon="mail"
@@ -115,9 +121,13 @@ const ValidateUserScreen = () => {
               setCode2(text);
             }}
             style={styles.codeInputs}
+            onSelectionChange={() => {
+              code2 && inputTres.current.focus();
+            }}
           />
           <TextInput
             value={code3}
+            ref={inputTres}
             maxLength={1}
             keyboardType="email-address"
             icon="mail"
@@ -125,10 +135,14 @@ const ValidateUserScreen = () => {
               setCode3(text);
             }}
             style={styles.codeInputs}
+            onSelectionChange={() => {
+              code3 && inputCuatro.current.focus();
+            }}
           />
           <TextInput
             value={code4}
             maxLength={1}
+            ref={inputCuatro}
             keyboardType="email-address"
             icon="mail"
             onChangeText={(text) => {

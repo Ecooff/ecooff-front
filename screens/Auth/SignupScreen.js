@@ -26,7 +26,7 @@ import { AuthService } from "../../services";
 import axios from "axios";
 
 const SignupScreen = () => {
-//   const initialRouteName = "Home";
+  //   const initialRouteName = "Home";
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -50,8 +50,8 @@ const SignupScreen = () => {
     // axios
 
     if (password === repetePassword) {
-      AuthService.signUp(newUser).then(response => {
-          console.log("checking response-->",response)//tst
+      AuthService.signUp(newUser).then((response) => {
+        console.log("checking response-->", response); //tst
         if (response.message) {
           createAlert(response.message);
         } else {
@@ -75,7 +75,7 @@ const SignupScreen = () => {
       <KeyboardAvoidingView
         style={[globalStyles.scrollContainer, styles.scrollContainer]}
         behavior="height"
-        keyboardVerticalOffset={100}
+        // keyboardVerticalOffset={100}
       >
         {/* BACK ARROW */}
         <View
@@ -227,11 +227,10 @@ const SignupScreen = () => {
 export default SignupScreen;
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-  },
+  scrollContainer: {},
 
   arrowSpace: {
-    marginBottom: 40,
+    marginBottom: 10,
   },
 
   inputColsContainter: {

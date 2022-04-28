@@ -224,7 +224,7 @@ const ListScreen = ({ route }) => {
 
       <View style={styles.menuContainer}>
         {/* MENU */}
-        <MenuComponent />
+        <MenuComponent onPress={() => navigator.goBack()} />
       </View>
 
       <ScrollView style={styles.scrollContainer}>

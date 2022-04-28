@@ -5,7 +5,7 @@ export const ANDROID_EMULATOR = "http://10.0.2.2:3000/api/";
 export const IP_LOCALHOST_VALEN = "http://192.168.100.225:3000/api/"; // ip cafeteria
 export const IP_LOCALHOST_TOBI = "http://192.168.1.4:3000/api/"; // ip cafeteria
 
-export const URL = IP_LOCALHOST_TOBI;
+export const URL = IP_LOCALHOST_VALEN;
 
 //Users
 export const serverAlive = URL + "users/serverAlive";
@@ -66,7 +66,7 @@ const URLPath = {
   getUserAddresses,
   addUserAdress,
   changeDefaultAdress,
-  validateUser
+  validateUser,
 };
 
 export default URLPath;

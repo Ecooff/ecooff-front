@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import globalStyles from "../../styles/styles";
+import { useNavigation } from "@react-navigation/native";
 
 {
   /* COMPONENTS */
@@ -23,13 +24,15 @@ const ProductScreen = ({ route }) => {
 
   console.log("AAA ROUTE", route.params);
 
+  const navigator = useNavigation();
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.viewContainer}>
         <StatusBar backgroundColor="white" barStyle="dark-content" />
 
         {/* MENU */}
-        <MenuComponent />
+        <MenuComponent onPress={() => navigator.goBack()} />
 
         <ScrollView
           showsVerticalScrollIndicator={false}

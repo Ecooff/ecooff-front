@@ -70,7 +70,7 @@ const OrderHistoyScreen = () => {
   return (
     <View style={styles.homeConteiner}>
       <ScrollView>
-        <MenuComponent />
+        <MenuComponent onPress={() => navigator.goBack()} />
 
         <Text style={styles.title}>Mis pedidos</Text>
 

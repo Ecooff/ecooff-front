@@ -74,7 +74,7 @@ const LoginScreen = () => {
       .then((response) => {
         if (response.message) {
           createAlert(response.message);
-        }else if (response.verified) {
+        } else if (response.verified) {
           storeData(response.token);
           dispatch(login(response));
           navigator.navigate("Home");

@@ -9,6 +9,7 @@ import AddAddressComponent from "../../components/AddAddressComponent";
 import AdressService from "../../services/AdressService";
 import { useSelector } from "react-redux";
 import { selectUser } from '../../store/userSlice';
+import { useNavigation } from "@react-navigation/native";
 
 const AddressesScreen = () => {
   // const [user, setUser] = useState({});
@@ -17,6 +18,8 @@ const AddressesScreen = () => {
   const { getUserAddresses, changeDefaultAdress } = AdressService
   const [selected, setSelected] = useState({});
  const user = useSelector(selectUser)
+
+ const navigator = useNavigation();
 
 //  console.log('user' , user)
 
@@ -82,7 +85,7 @@ const AddressesScreen = () => {
 
   return (
     <View style={styles.homeConteiner}>
-      <MenuComponent />
+      <MenuComponent onPress={() => navigator.goBack()} />
       <Text style={styles.title}>Tus Direcciones</Text>
       <ScrollView  style={styles.globalMaxHeight}>
       <MyAddresses />

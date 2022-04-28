@@ -9,7 +9,12 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { Ionicons, Entypo, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  Entypo,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import globalStyles from "../../styles/styles";
@@ -23,7 +28,7 @@ const ProfileScreen = () => {
   const navigator = useNavigation();
   const dispatch = useDispatch();
 
-  console.log("USER PROFILE SCREEM", user)
+  console.log("USER PROFILE SCREEM", user);
 
   const shadowStyleProducts = {
     shadowColor: "#000",
@@ -36,65 +41,86 @@ const ProfileScreen = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logout())
-    AsyncStorage.removeItem('@me')
-    navigator.navigate("AuthHome")
-  }
+    dispatch(logout());
+    AsyncStorage.removeItem("@me");
+    navigator.navigate("AuthHome");
+  };
 
   // to Components then
   const Profile = () => {
     return (
       <View
-      style={[
-        { marginTop: 10, marginBottom: 20 },
-        globalStyles.row,
-        globalStyles.alignItemsCenter,
-      ]}
-    >
-      
+        style={[
+          { marginTop: 10, marginBottom: 20 },
+          globalStyles.row,
+          globalStyles.alignItemsCenter,
+        ]}
+      >
+        <View>
+          <Text style={globalStyles.fontLarge}>
+            {user.firstName
+              ? `${user.firstName}, ${user.lastName}`
+              : "Nombre Apellido"}
+          </Text>
 
-      <View>
-        <Text style={globalStyles.fontLarge}>{user.firstName ? `${user.firstName}, ${user.lastName}` : "Nombre Apellido"}</Text>
-
-        <Text style={globalStyles.fontMedium}>
-          {user.email ? user.email : "tobias.matarasso@gmail.com"}
-        </Text>
+          <Text style={globalStyles.fontMedium}>
+            {user.email ? user.email : "tobias.matarasso@gmail.com"}
+          </Text>
+        </View>
       </View>
-    </View>
-    )
-  }
+    );
+  };
 
   // to Components then
   const Options = () => {
     return (
       <View>
-      <TouchableOpacity onPress={() => navigator.navigate("OrderHistory")} style={ styles.listItem}>
-        <Entypo name={"back-in-time"} size={24} style={styles.icons} />
-        <Text style={globalStyles.fontMedium}>Pedidos</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigator.navigate("Addresses")} style={ styles.listItem }>
-        <Ionicons name="location-outline" size={24} style={styles.icons} />
-        <Text style={globalStyles.fontMedium}>Direcciones para delivery</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigator.navigate("Payments")} style={ styles.listItem }>
-        <MaterialIcons name={"payment"} size={24} style={styles.icons} />
-        <Text style={globalStyles.fontMedium}>Método de pago</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigator.navigate("Edit")} style={ styles.listItem }>
-        <MaterialCommunityIcons name={"account-edit-outline"} size={24} style={styles.icons} />
-        <Text style={globalStyles.fontMedium}>Detalles del perfíl</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => handleLogout()} style={[ styles.listItem, styles.lastListItem ]}>
-        <MaterialIcons name={"logout"} size={24} style={styles.icons} />
-        <Text style={globalStyles.fontMedium}>Cerrar sesión</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigator.navigate("OrderHistory")}
+          style={styles.listItem}
+        >
+          <Entypo name={"back-in-time"} size={24} style={styles.icons} />
+          <Text style={globalStyles.fontMedium}>Pedidos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigator.navigate("Addresses")}
+          style={styles.listItem}
+        >
+          <Ionicons name="location-outline" size={24} style={styles.icons} />
+          <Text style={globalStyles.fontMedium}>Direcciones para delivery</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigator.navigate("Payments")}
+          style={styles.listItem}
+        >
+          <MaterialIcons name={"payment"} size={24} style={styles.icons} />
+          <Text style={globalStyles.fontMedium}>Método de pago</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigator.navigate("Edit")}
+          style={styles.listItem}
+        >
+          <MaterialCommunityIcons
+            name={"account-edit-outline"}
+            size={24}
+            style={styles.icons}
+          />
+          <Text style={globalStyles.fontMedium}>Detalles del perfíl</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleLogout()}
+          style={[styles.listItem, styles.lastListItem]}
+        >
+          <MaterialIcons name={"logout"} size={24} style={styles.icons} />
+          <Text style={globalStyles.fontMedium}>Cerrar sesión</Text>
+        </TouchableOpacity>
       </View>
     );
-}
+  };
 
   return (
     <View style={styles.homeConteiner}>
-      <MenuComponent />
+      <MenuComponent onPress={() => navigator.goBack()} />
       <View style={{ paddingHorizontal: 10 }}>
         <Profile />
         <Options />

@@ -1,45 +1,42 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  headerTitle: {
+    fontSize: 15,
+    textAlign: "right",
+    color: "#121515",
+  },
 
-    headerTitle: {
-        fontSize: 15,
-        textAlign: 'right',
-        color: '#121515'
-    },
+  buttonContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 30,
+  },
 
-    buttonContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 30
-    },
+  logoContainer: {
+    marginBottom: 20,
+  },
 
-    logoContainer: {
-        marginBottom: 20,
+  logo: {
+    width: 100,
+    height: 100,
+  },
 
-    },
+  logoInline: {
+    marginLeft: 20,
+  },
 
-    logo: {
-        width: 100,
-        height: 100
-    },
+  titleContainer: {
+    width: "85%",
+    marginBottom: 50,
+  },
 
-    logoInline: {
-        marginLeft: 20
-    },
+  title: {
+    marginBottom: 10,
+    fontWeight: "bold",
+  },
 
-    titleContainer: {
-        width: '85%',
-        marginBottom: 50
-    },
-
-    title: {
-        marginBottom: 10,
-        fontWeight: 'bold'
-    },
-
-    subTitle: {
-        color: '#888888'
-    },
-
+  subTitle: {
+    color: "#888888",
+  },
 });

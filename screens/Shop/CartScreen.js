@@ -58,12 +58,10 @@ const CartScreen = () => {
       });
   }, []);
 
-  console.log('CAAAARTITEEMS', cartItems)
+  console.log("CAAAARTITEEMS", cartItems);
 
   const MyBasket = () => {
-    return (
-    cartItems.length === 0 && <Text>No hay nada en el carrito</Text>
-    )
+    return cartItems.length === 0 && <Text>No hay nada en el carrito</Text>;
     // return cartItems.map((product, i) => {
     //   const [counter, setCounter] = useState(1);
 
@@ -152,7 +150,7 @@ const CartScreen = () => {
     <View style={styles.homeContainer}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       <ScrollView style={styles.menuContainer}>
-        <MenuComponent />
+        <MenuComponent onPress={() => navigator.goBack()} />
 
         <Text style={styles.header}>Tu carrito</Text>
 

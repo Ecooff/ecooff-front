@@ -113,7 +113,7 @@ const OrdersScreen = () => {
     <View>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       <ScrollView style={styles.menuContainer}>
-        <MenuComponent />
+        <MenuComponent onPress={() => navigator.goBack()} />
 
         <Text style={styles.header}>Con tu compra</Text>
 

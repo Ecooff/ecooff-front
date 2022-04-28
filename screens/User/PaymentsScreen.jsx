@@ -6,11 +6,14 @@ import { MenuComponent } from "../../components";
 import userStyles from "../../styles/userStyles";
 import RadioButton from "../../commons/RadioButton";
 import AddPaymentComponent from "../../components/AddPaymentComponet";
+import { useNavigation } from "@react-navigation/native";
 
 {/* <MaterialCommunityIcons name="credit-card-plus-outline" size={24} color="black" /> */}
 const AddressesScreen = () => {
   const [user, setUser] = useState({});
   const [deliveryAddress, setDeliveryAddress] = useState("");
+
+  const navigator = useNavigation();
 //   const [selected, setSelected] = useState(true);
 
   // useEffect(() => {
@@ -60,7 +63,7 @@ const AddressesScreen = () => {
 
   return (
     <View style={styles.homeConteiner}>
-      <MenuComponent />
+      <MenuComponent onPress={() => navigator.goBack()} />
       <Text style={styles.title}>Medios de pago</Text>
 
       <MyPaymentMethods />
