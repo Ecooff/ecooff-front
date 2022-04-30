@@ -15,6 +15,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import productService from "../../services/ProductService";
 import AllSubcategories from "../../components/AllSubcategories";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/userSlice";
 
 {
   /* COMPONENTS */
@@ -30,11 +32,13 @@ const ListScreen = ({ route }) => {
   const { getBySorpresas, getByCosmetica, getByMercado, getByFarmacia } =
     productService;
 
+  const user = useSelector(selectUser);
+
   useEffect(() => {
-    getBySorpresas().then((response) => setSorpresas(response.data));
-    getByCosmetica().then((response) => setCosmetica(response.data));
-    getByMercado().then((response) => setMercado(response.data));
-    getByFarmacia().then((response) => setFarmacia(response.data));
+    getBySorpresas(user).then((response) => setSorpresas(response.data));
+    getByCosmetica(user).then((response) => setCosmetica(response.data));
+    getByMercado(user).then((response) => setMercado(response.data));
+    getByFarmacia(user).then((response) => setFarmacia(response.data));
   }, []);
 
   const title = route.params.item.title;
@@ -431,6 +435,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9FAFB",
     alignItems: "center",
     borderRadius: 12,
+    height: "100%",
   },
 
   filterContainerBox: {

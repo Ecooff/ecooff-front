@@ -43,12 +43,13 @@ const ProductService = {
     return data;
   },
   getByMercado: (user) => {
+    console.log("USERMERCADO", user);
     const data = axios.get(URLPath.getByMercado, {
       headers: setHeader(user.token),
     });
     return data;
   },
-  getByFarmacia: () => {
+  getByFarmacia: (user) => {
     const data = axios.get(URLPath.getByFarmacia, {
       headers: setHeader(user.token),
     });
