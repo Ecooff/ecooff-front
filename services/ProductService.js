@@ -1,7 +1,5 @@
 import axios from "axios";
 import { URLPath } from "../services";
-import { useSelector } from "react-redux";
-import { selectUser } from "../store/userSlice";
 
 const ProductService = {
   getAllProviders: async (user) => {
@@ -9,7 +7,6 @@ const ProductService = {
     const data = await axios.get(URLPath.getAllProviders, {
       headers: setHeader(user.token),
     });
-    console.log("DATAAA", data);
     return data;
   },
   closeToExp: async (user) => {
@@ -55,11 +52,11 @@ const ProductService = {
     });
     return data;
   },
-  getByProvSubcat: (providerId, subcategory) => {
+  getByProvSubcat: (providerId, subcategory, user) => {
     const data = axios.get(
       URLPath.getByProvSubcat + providerId + "/" + subcategory,
       {
-        headers: setHeader(),
+        headers: setHeader(user.token),
       }
     );
     return data;

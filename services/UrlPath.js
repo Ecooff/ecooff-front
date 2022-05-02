@@ -2,10 +2,10 @@ export const LOCALHOST = "http://localhost:3000/api/";
 export const PROD = "https://ecooff.herokuapp.com/api/";
 // export const PROD = "http://192.168.100.1:3000/api/";
 export const ANDROID_EMULATOR = "http://10.0.2.2:3000/api/";
-export const IP_LOCALHOST_VALEN = "http://192.168.100.225:3000/api/"; // ip cafeteria
+export const IP_LOCALHOST_VALEN = "http://192.168.100.225:80/api/"; // ip cafeteria
 export const IP_LOCALHOST_TOBI = "http://192.168.1.4:3000/api/"; // ip cafeteria
 
-export const URL = IP_LOCALHOST_VALEN;
+export const URL = PROD;
 
 //Users
 export const serverAlive = URL + "users/serverAlive";

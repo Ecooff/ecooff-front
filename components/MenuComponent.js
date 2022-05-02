@@ -17,19 +17,23 @@ import cartService from "../services/CartService";
 import { useState, useEffect } from "react";
 import { ActivityIndicator } from "react-native-web";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import { selectUser } from "../store/userSlice";
 
 export const MenuComponent = ({ onPress }) => {
   const [cartItems, setCartItems] = useState([]); // tiene que tener algo cargado para que no tome undefined o length sin nada
 
   const navigator = useNavigation();
 
+  const user = useSelector(selectUser);
+
   const { addToCart } = cartService;
 
   useEffect(() => {
-    addToCart().then((response) => setCartItems(response.products.length));
+    addToCart(user).then((response) => setCartItems(response));
   }, []);
 
-  console.log("AAAA", cartItems);
+  // console.log("AAAA", cartItems);
 
   return (
     <SafeAreaView

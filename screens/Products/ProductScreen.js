@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MenuComponent } from "../../components";
 
 const ProductScreen = ({ route }) => {
-  const { title, expPrice, expirationDate, img, providerName } =
+  const { title, expPrice, expDate, img, providerName, description } =
     route.params.product;
 
   console.log("BBB TITLE", title);
@@ -77,10 +77,10 @@ const ProductScreen = ({ route }) => {
                   globalStyles.fontBold,
                 ]}
               >
-                Fecha de Vencimmineto
+                Fecha de Vencimiento
               </Text>
               <Text style={[styles.bannerSamllMargin, globalStyles.fontMedium]}>
-                {expirationDate}
+                {expDate}
               </Text>
               {/* El objeto no trae "expiration date" */}
             </View>
@@ -153,12 +153,7 @@ const ProductScreen = ({ route }) => {
             Descripción
           </Text>
 
-          <Text style={[globalStyles.fontSmall]}>
-            Es un tipo de pan que se diferencia del francés o común porque se
-            elabora con leche y materia grasa y se hornea en moldes de forma
-            alargada y rectangular. Además, se caracteriza por tener una textura
-            blanda.
-          </Text>
+          <Text style={[globalStyles.fontSmall]}>{description}</Text>
 
           <View style={{ height: 180 }}></View>
         </ScrollView>

@@ -224,7 +224,9 @@ const HomeScreen = () => {
                       <TouchableOpacity
                         key={y}
                         onPress={() =>
-                          navigator.navigate("GroupList", { product })
+                          index <= 1
+                            ? navigator.navigate("Product", { product })
+                            : navigator.navigate("GroupList", { product })
                         }
                         // onPress={() => console.log("demo")}
                         style={styles.productsContainer}

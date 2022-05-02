@@ -15,6 +15,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import productService from "../../services/ProductService";
 import AllSubcategories from "../../components/AllSubcategories";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/userSlice";
 
 {
   /* COMPONENTS */
@@ -23,22 +25,27 @@ import { MenuComponent, FooterComponent } from "../../components";
 
 const GroupListScreen = ({ route }) => {
   const { getByProvSubcat } = productService;
-  const titleProvider = route.params.product.provider;
+  const titleProvider = route.params.product.providerName;
   const idProvider = route.params.product._id;
-  // const subCatProvider = route.params.product.subcategory;
-  // const idProvi = route.params.product._id;
 
-  console.log("ROUTE", route);
-  console.log("ID", route.params.product._id);
+  const user = useSelector(selectUser);
+
+  const { img, name } = route.params.product;
+
+  console.log(img, name);
 
   const [search, setQuery] = useState("");
   const [productsProvider, setProductsProvider] = useState([]);
 
   useEffect(() => {
-    getByProvSubcat("620bca54f3607b203099985f", "1").then((response) =>
+    getByProvSubcat(idProvider, "1", user).then((response) =>
       setProductsProvider(response.data)
     );
   }, []);
+
+  const callback = (IDSUBCATEGORY) => {
+    console.log("IDSUBCATEGGORY", IDSUBCATEGORY);
+  };
 
   // const CARREFOUR = productsProvider.filter((product) => product.providerName === 'Carrefour');
   // const COTO = productsProvider.filter((product) => product.providerName === 'Coto');
@@ -46,7 +53,6 @@ const GroupListScreen = ({ route }) => {
   // const FARMACITY = productsProvider.filter((product) => product.providerName === 'Farmacity');
   // const KIOSCO = productsProvider.filter((product) => product.providerName === '365');
 
-  // console.log('ACA', titleProvider);
   console.log("productsProvider", productsProvider);
 
   const shadowStyle = {
@@ -68,119 +74,6 @@ const GroupListScreen = ({ route }) => {
     shadowOpacity: 0.1,
     shadowRadius: 4,
   };
-
-  const items = [
-    { icon: require("../../assets/icons/bread.png"), title: "Panaderia" },
-    { icon: require("../../assets/icons/infutions.png"), title: "Infusiones" },
-    { icon: require("../../assets/icons/can.png"), title: "Enlatados" },
-    { icon: require("../../assets/icons/snacks.png"), title: "Snacks" },
-    { icon: require("../../assets/icons/flour.png"), title: "Harinas" },
-    { icon: require("../../assets/icons/rice.png"), title: "Cereales" },
-    { icon: require("../../assets/icons/sauces.png"), title: "Aderezos" },
-  ];
-
-  const productsList = [
-    {
-      url: "http://assets.stickpng.com/thumbs/580b57fbd9996e24bc43c0de.png",
-      title: "Coca Cola",
-      price: "340",
-      expirationDate: "7 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://bimbocentroamerica-com-assets.s3.amazonaws.com/s3fs-public/inline-images/1-Pan-Blanco.png?gYmTW593ZNv45iX3zRB7iV9pQ7Njocpj",
-      title: "Pan Lactal Bimbo",
-      price: "230",
-      expirationDate: "4 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://sicarfarms.com/wp-content/uploads/2021/01/Platano.png",
-      title: "Bananas",
-      price: "404",
-      expirationDate: "5 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://cepadevinos.com/wp-content/uploads/2018/06/Santa-Julia-Reserva-Malbec-Cabernet-Franc.jpg",
-      title: "Santa Julia Malbec",
-      price: "478",
-      expirationDate: "1 día",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://www.casa-segal.com/wp-content/uploads/2019/10/chocolate-taza-aguila-semi-amargo-100-gramos-reposteria-mendoza-casa-segal.jpg",
-      title: "Chocolate aguila",
-      price: "239",
-      expirationDate: "7 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://www.distribuidorapop.com.ar/wp-content/uploads/2019/05/galletitas-oreo-venta-ml.jpg",
-      title: "Oreo",
-      price: "187",
-      expirationDate: "2 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://hiperlibertad.vteximg.com.br/arquivos/ids/160060-600-600/345303-01.a.jpg?v=637248023600270000",
-      title: "Fideos Matarazzo",
-      price: "146",
-      expirationDate: "5 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://elsuperweb.com/wp-content/uploads/2020/07/GARBANZO-768x768.png",
-      title: "Garbanzos en lata",
-      price: "86",
-      expirationDate: "4 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://statics.dinoonline.com.ar/imagenes/full_600x600_ma/2120128_f.jpg",
-      title: "Pan dulce",
-      price: "530",
-      expirationDate: "4 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-    {
-      url: "https://http2.mlstatic.com/D_NQ_NP_698348-MLA44886982846_022021-O.jpg",
-      title: "Tofu soyana",
-      price: "326",
-      expirationDate: "7 días",
-      seller: {
-        url: "http://assets.stickpng.com/images/5842906ca6515b1e0ad75abb.png",
-        title: "Carrefour",
-      },
-    },
-  ];
 
   const navigator = useNavigation();
 
@@ -224,7 +117,10 @@ const GroupListScreen = ({ route }) => {
             </View>
           </View>
           <View style={{ marginTop: 20 }}>
-            <AllSubcategories idProvider={idProvider} />
+            <AllSubcategories
+              idProvider={idProvider}
+              parentCallback={callback}
+            />
           </View>
           <Text
             style={[
