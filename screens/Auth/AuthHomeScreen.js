@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -23,7 +24,7 @@ import { login } from "../../store/userSlice";
 const AuthHomeScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [isLoading, setIsLoading] = useState(true);
   const navigator = useNavigation();
   const dispatch = useDispatch();
 
@@ -33,14 +34,39 @@ const AuthHomeScreen = () => {
     navigator.navigate("Home");
   };
 
+  const verifyData = (data) => {
+    if (data) {
+      //setIsLoading(true);
+      console.log("data true"); 
+    } else {
+      //setIsLoading(false);
+      console.log("data false");
+      setIsLoading(false)
+    }
+  };
+
   useEffect(async () => {
+
+    setTimeout(() => {
+      console.log('procede a mostrar botones de login') // la logica de esto es esperar a que traiga los datos en el GET, y si
+      setIsLoading(false);                              // no trae los datos muestra los botones 
+   }, 2000)
+
     try {
       const token = await AsyncStorage.getItem("@me");
       const user = await axios.get(
         `http://${localhost}/api/users/retrieveUser`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      user ? me(user.data, token) : console.log("any user");
+      console.log("userrr", user.data); //hacer un if user.data es undefined que muestre el loading . la idea es que espere 10segs y cambie el estado
+      user ? me(user.data, token) : setIsLoading(false);
+      //!user ? setIsLoading(false) : setIsLoading(true);
+      //user ? setIsLoading(false) : setIsLoading(true);
+       
+      //verifyData(user.data)
+      //user ? setIsLoading(true) : setIsLoading(false);
+      // SI isLoading es TRUE se muestra el loading
+      // funcion que haga un await en data y despues verifique si es true y si es false, y a partir de eso haga cambios
     } catch (error) {
       console.log(error);
     }
@@ -76,33 +102,36 @@ const AuthHomeScreen = () => {
           ¡Bienvenidx a Ecooff!
         </Text>
       </View>
-
-      {/* BUTTONS */}
-      <View style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}>
-        <TouchableOpacity
-          onPress={() => navigator.navigate("Login")}
-          style={[
-            styles.loginButton,
-            globalStyles.button,
-            globalStyles.primary,
-            globalStyles.widthFluid,
-          ]}
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#00ff00" />
+      ) : (
+        <View
+          style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}
         >
-          <Text style={globalStyles.textWhite}>Iniciar sesión</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigator.navigate("Login")}
+            style={[
+              styles.loginButton,
+              globalStyles.button,
+              globalStyles.primary,
+              globalStyles.widthFluid,
+            ]}
+          >
+            <Text style={globalStyles.textWhite}>Iniciar sesión</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => navigator.navigate("Signup")}
-          style={[
-            globalStyles.button,
-            globalStyles.secondary,
-            globalStyles.widthFluid,
-          ]}
-        >
-          <Text style={globalStyles.textWhite}>Registrarme</Text>
-        </TouchableOpacity>
-      </View>
-
+          <TouchableOpacity
+            onPress={() => navigator.navigate("Signup")}
+            style={[
+              globalStyles.button,
+              globalStyles.secondary,
+              globalStyles.widthFluid,
+            ]}
+          >
+            <Text style={globalStyles.textWhite}>Registrarme</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       {/* ROCIAL ROW */}
       <View
         style={[
