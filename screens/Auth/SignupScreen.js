@@ -10,6 +10,7 @@ import {
   Image,
   ActivityIndicator,
   Alert,
+  Platform
 } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import globalStyles from "../../styles/styles";
@@ -74,8 +75,8 @@ const SignupScreen = () => {
     <ScrollView>
       <KeyboardAvoidingView
         style={[globalStyles.scrollContainer, styles.scrollContainer]}
-        behavior="height"
-        // keyboardVerticalOffset={100}
+        behavior={Platform.OS == "ios" ? "position" : ""}
+        keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 1000} // nota: esta linea estaba comentada
       >
         {/* BACK ARROW */}
         <View
