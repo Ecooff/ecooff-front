@@ -26,10 +26,18 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 const CartScreen = () => {
   const [cartItems, setCartItems] = useState([]);
 
-  const { addToCart } = CartService;
+  const { addToCart, openCart } = CartService;
 
   useEffect(() => {
-    addToCart().then((response) => setCartItems(response.products));
+    // addToCart().then((response) => setCartItems(response.products));
+    openCart(user).then((response) =>
+      console.log(
+        "userITems",
+        setCartItems(
+          response.data.map((item) => console.log("ITEM", item.stock))
+        )
+      )
+    );
   }, []);
 
   console.log("ItemsInCart", cartItems);
@@ -89,23 +97,22 @@ const CartScreen = () => {
       return (
         <View key={i} style={styles.productCard}>
           <View style={styles.cardImage}>
-            <Image style={styles.productImage} source={{ uri: product.url }} />
+            <Image style={styles.productImage} source={{ uri: product.img }} />
           </View>
 
           <View style={styles.dataContainer}>
             <View style={styles.productHeader}>
               <Text style={styles.productHeaderText}>{product.name}</Text>
               <Text style={styles.productHeaderText}>
-                $ {counter <= product.quantity && product.price * counter}
+                $ {counter <= product.stock && product.expPrice * counter}
               </Text>
             </View>
-
             <Text style={styles.subHeaderText}>{product.date}</Text>
-
+            {/* CAMBIE STOCK POR QUANTITY */}
             {/* BOTONERA */}
             <View style={styles.botonera}>
               <Pressable
-                onPress={() => product.quantity > counter && increaseAmount()}
+                onPress={() => product.stock > counter && increaseAmount()}
               >
                 <FontAwesome5 name="plus-square" size={20} color="#3D9D5D" />
               </Pressable>
@@ -276,8 +283,8 @@ const styles = StyleSheet.create({
   },
 
   productImage: {
-    width: 60,
-    height: 60,
+    width: 75,
+    height: 75,
   },
 
   subHeaderText: {

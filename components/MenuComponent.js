@@ -22,16 +22,22 @@ import { selectUser } from "../store/userSlice";
 
 export const MenuComponent = ({ onPress }) => {
   const [cartItems, setCartItems] = useState([]); // tiene que tener algo cargado para que no tome undefined o length sin nada
+  const [lenghtCart, setLenghtCart] = useState({});
 
   const navigator = useNavigation();
 
   const user = useSelector(selectUser);
 
-  const { addToCart } = cartService;
+  const { addToCart, cartLength } = cartService;
 
   useEffect(() => {
-    addToCart(user).then((response) => setCartItems(response));
+    // addToCart(user).then((response) => setCartItems(response));
+    cartLength(user).then((response) =>
+      setLenghtCart(response.data.cartLength)
+    );
   }, []);
+
+  console.log("NNNN", lenghtCart);
 
   // console.log("AAAA", cartItems);
 
@@ -64,7 +70,7 @@ export const MenuComponent = ({ onPress }) => {
       <Image style={styles.menuLogo} source={theIcon} />
       <View style={[globalStyles.row, globalStyles]}>
         <Pressable onPress={() => navigator.navigate("Cart")}>
-          {cartItems > 0 ? (
+          {lenghtCart > 0 ? (
             <View
               style={{
                 borderRadius: 10,
@@ -83,7 +89,7 @@ export const MenuComponent = ({ onPress }) => {
                   fontWeight: "bold",
                 }}
               >
-                {cartItems}
+                {lenghtCart}
               </Text>
             </View>
           ) : (

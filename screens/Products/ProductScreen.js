@@ -20,8 +20,6 @@ const ProductScreen = ({ route }) => {
   const { title, expPrice, expDate, img, providerName, description } =
     route.params.product;
 
-  console.log("BBB TITLE", title);
-
   console.log("AAA ROUTE", route.params);
 
   const navigator = useNavigation();
