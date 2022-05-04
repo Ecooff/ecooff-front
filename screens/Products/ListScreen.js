@@ -152,11 +152,11 @@ const ListScreen = ({ route }) => {
               />
             </View>
 
-            <View style={styles.filterContainerBox}>
+            {/* <View style={styles.filterContainerBox}>
               <View style={styles.filterContainer}>
                 <AntDesign name="filter" size={24} color="#979797" />
               </View>
-            </View>
+            </View> */}
           </View>
 
           <Text
@@ -327,12 +327,12 @@ const styles = StyleSheet.create({
   },
 
   inputSearch: {
-    width: "83%",
+    width: "100%",
     flexDirection: "row",
-    backgroundColor: "#F9FAFB",
+    backgroundColor: "#f8f4f4",
     alignItems: "center",
     borderRadius: 12,
-    height: "100%",
+    height: "90%",
   },
 
   filterContainerBox: {

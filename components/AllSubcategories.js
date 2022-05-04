@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+
+import React from 'react'
+
 import globalStyles from "../styles/styles";
 
 const AllSubcategories = ({
@@ -19,7 +22,10 @@ const AllSubcategories = ({
 
   console.log("routeAllSubcategories", route);
 
+  const [buttonNumber, setButtonNumber] = React.useState(0);
+
   const MERCADO = [
+    { title: "Todos", icon: require("../assets/icons/store.png") },
     { title: "Panaderia", icon: require("../assets/icons/bread.png") },
     { title: "Infusiones", icon: require("../assets/icons/infutions.png") },
     { title: "Enlatados", icon: require("../assets/icons/can.png") },
@@ -72,11 +78,11 @@ const AllSubcategories = ({
         (4 === 4 && SORPRESAS)
       ).map((item, index) => {
         return (
-          <View key={index} style={styles.iconsContainer}>
+          <TouchableOpacity key={index} onPress={()=> setButtonNumber(index)} style={buttonNumber===index ? styles.iconsContainerGray : styles.iconsContainerWhite}>
             <Image style={styles.icons} source={item.icon} />
 
             <Text style={globalStyles.fontXSmall}>{item.title}</Text>
-          </View>
+          </TouchableOpacity>
         );
       })}
     </ScrollView>
@@ -114,10 +120,19 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 
-  iconsContainer: {
+  iconsContainerGray: {
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
+    backgroundColor: "#f8f4f4",
+    borderRadius: 5,
+  },
+  iconsContainerWhite: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    backgroundColor: "white",
+    borderRadius: 10,
   },
 
   icons: {

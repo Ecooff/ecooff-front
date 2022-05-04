@@ -110,11 +110,11 @@ const GroupListScreen = ({ route }) => {
               />
             </View>
 
-            <View style={styles.filterContainerBox}>
+            {/* <View style={styles.filterContainerBox}>
               <View style={styles.filterContainer}>
                 <AntDesign name="filter" size={24} color="#979797" />
               </View>
-            </View>
+            </View> */}
           </View>
           <View style={{ marginTop: 20 }}>
             <AllSubcategories
@@ -246,7 +246,8 @@ const styles = StyleSheet.create({
   },
 
   inputSearch: {
-    width: "83%",
+    width: "100%",
+    height: "90%",
     flexDirection: "row",
     backgroundColor: "#F9FAFB",
     alignItems: "center",

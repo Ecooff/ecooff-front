@@ -316,8 +316,9 @@ const styles = StyleSheet.create({
 
   inputSearch: {
     width: "100%",
+    height: "90%",
     flexDirection: "row",
-    backgroundColor: "#D9D2D2",
+    backgroundColor: "#f8f4f4",
     alignItems: "center",
     borderRadius: 12,
   },

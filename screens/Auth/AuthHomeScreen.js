@@ -103,7 +103,7 @@ const AuthHomeScreen = () => {
         </Text>
       </View>
       {isLoading ? (
-        <ActivityIndicator size="large" color="#00ff00" />
+        <ActivityIndicator size="large" color="#4db591" />
       ) : (
         <View
           style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}
