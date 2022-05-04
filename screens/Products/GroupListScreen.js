@@ -30,6 +30,8 @@ const GroupListScreen = ({ route }) => {
 
   const user = useSelector(selectUser);
 
+  console.log("ROUTEPARAMSS", route.params.product);
+
   const { img, name } = route.params.product;
 
   console.log(img, name);
@@ -122,16 +124,21 @@ const GroupListScreen = ({ route }) => {
               parentCallback={callback}
             />
           </View>
-          <Text
-            style={[
-              styles.scrollTitle,
-              globalStyles.fontLarge,
-              globalStyles.fontBold,
-            ]}
-          >
-            {titleProvider}
-          </Text>
-
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text
+              style={[
+                styles.scrollTitle,
+                globalStyles.fontLarge,
+                globalStyles.fontBold,
+              ]}
+            >
+              {name}
+            </Text>
+            <Image
+              source={{ uri: img }}
+              style={{ width: 55, height: 55, marginLeft: 20 }}
+            />
+          </View>
           {/* CATEGORIES SCROLL */}
           <ScrollView
             showsVerticalScrollIndicator={false}

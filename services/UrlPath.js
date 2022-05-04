@@ -24,6 +24,8 @@ export const getByUserId = URL + "orders/getByUserId";
 
 // Cart
 export const addToCart = URL + "cart/addToCart";
+export const cartLength = URL + "cart/cartLength";
+export const openCart = URL + "cart/openCart";
 
 // Get by sorpresas
 export const getBySorpresas = URL + "stock/getByCategory/Sorpresas";
@@ -67,6 +69,8 @@ const URLPath = {
   addUserAdress,
   changeDefaultAdress,
   validateUser,
+  cartLength,
+  openCart,
 };
 
 export default URLPath;

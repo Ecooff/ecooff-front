@@ -26,10 +26,13 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 const CartScreen = () => {
   const [cartItems, setCartItems] = useState([]);
 
-  const { addToCart } = CartService;
+  const { addToCart, openCart } = CartService;
 
   useEffect(() => {
-    addToCart().then((response) => setCartItems(response.products));
+    // addToCart().then((response) => setCartItems(response.products));
+    openCart(user).then((response) =>
+      setCartItems(response.data.map((item) => item.stock[0]))
+    );
   }, []);
 
   console.log("ItemsInCart", cartItems);
@@ -89,23 +92,24 @@ const CartScreen = () => {
       return (
         <View key={i} style={styles.productCard}>
           <View style={styles.cardImage}>
-            <Image style={styles.productImage} source={{ uri: product.url }} />
+            <Image style={styles.productImage} source={{ uri: product.img }} />
           </View>
 
           <View style={styles.dataContainer}>
             <View style={styles.productHeader}>
               <Text style={styles.productHeaderText}>{product.name}</Text>
               <Text style={styles.productHeaderText}>
-                $ {counter <= product.quantity && product.price * counter}
+                ${" "}
+                {(counter <= product.stock && product.expPrice * counter) ||
+                  (product.stock === 0 && product.expPrice)}
               </Text>
             </View>
-
             <Text style={styles.subHeaderText}>{product.date}</Text>
-
+            {/* CAMBIE STOCK POR QUANTITY */}
             {/* BOTONERA */}
             <View style={styles.botonera}>
               <Pressable
-                onPress={() => product.quantity > counter && increaseAmount()}
+                onPress={() => product.stock > counter && increaseAmount()}
               >
                 <FontAwesome5 name="plus-square" size={20} color="#3D9D5D" />
               </Pressable>
@@ -158,11 +162,9 @@ const CartScreen = () => {
   return (
     <View style={styles.homeContainer}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
+      <MenuComponent onPress={() => navigator.goBack()} />
+      <Text style={styles.header}>Tu carrito</Text>
       <ScrollView style={styles.menuContainer}>
-        <MenuComponent onPress={() => navigator.goBack()} />
-
-        <Text style={styles.header}>Tu carrito</Text>
-
         <MyBasket />
       </ScrollView>
       <View style={styles.deliveryMainContainer}>
@@ -221,6 +223,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: 20,
     marginVertical: 3,
+    marginLeft: 10,
   },
 
   footerMainText: {
@@ -265,7 +268,6 @@ const styles = StyleSheet.create({
   },
 
   menuContainer: {
-    paddingTop: 40,
     paddingHorizontal: 10,
   },
 
@@ -276,8 +278,8 @@ const styles = StyleSheet.create({
   },
 
   productImage: {
-    width: 60,
-    height: 60,
+    width: 90,
+    height: 85,
   },
 
   subHeaderText: {
@@ -289,7 +291,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 10,
-    marginBottom: 20,
+    marginBottom: 30,
+    paddingRight: 10,
     backgroundColor: "white",
   },
 
@@ -336,5 +339,6 @@ const styles = StyleSheet.create({
   },
   editText: {
     textDecorationLine: "underline",
+    marginLeft: 15,
   },
 });

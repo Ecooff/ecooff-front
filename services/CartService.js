@@ -16,6 +16,18 @@ const CartService = {
         return error;
       });
   },
+  cartLength: (user) => {
+    const data = axios.get(URLPath.cartLength, {
+      headers: setHeader(user.token),
+    });
+    return data;
+  },
+  openCart: (user) => {
+    const data = axios.get(URLPath.openCart, {
+      headers: setHeader(user.token),
+    });
+    return data;
+  },
 };
 
 export default CartService;
