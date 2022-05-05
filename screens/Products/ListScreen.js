@@ -13,15 +13,15 @@ import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
-import productService from "../../services/ProductService";
 import AllSubcategories from "../../components/AllSubcategories";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 
-{
-  /* COMPONENTS */
-}
+{/* COMPONENTS */}
 import { MenuComponent, FooterComponent } from "../../components";
+
+// SERVICES
+import productService from "../../services/ProductService";
 
 const ListScreen = ({ route }) => {
   const [search, setQuery] = useState("");
@@ -29,6 +29,7 @@ const ListScreen = ({ route }) => {
   const [cosmetica, setCosmetica] = useState([]);
   const [mercado, setMercado] = useState([]);
   const [farmacia, setFarmacia] = useState([]);
+  const [subcategory, setSubcategory] = useState(null);
   const { getBySorpresas, getByCosmetica, getByMercado, getByFarmacia } =
     productService;
 
@@ -44,8 +45,6 @@ const ListScreen = ({ route }) => {
   const title = route.params.item.title;
 
   const idSubcategory = route.params.item.id;
-
-  console.log("ASI SI", title);
 
   const shadowStyle = {
     shadowColor: "#000",
@@ -67,57 +66,47 @@ const ListScreen = ({ route }) => {
     shadowRadius: 4,
   };
 
-  const items = [
-    { icon: require("../../assets/icons/bread.png"), title: "Panaderia" },
-    { icon: require("../../assets/icons/infutions.png"), title: "Infusiones" },
-    { icon: require("../../assets/icons/can.png"), title: "Enlatados" },
-    { icon: require("../../assets/icons/snacks.png"), title: "Snacks" },
-    { icon: require("../../assets/icons/flour.png"), title: "Harinas" },
-    { icon: require("../../assets/icons/rice.png"), title: "Cereales" },
-    { icon: require("../../assets/icons/sauces.png"), title: "Aderezos" },
-  ];
-
-  const MERCADO = [
-    { title: "Panaderia" },
-    { title: "Infusiones" },
-    { title: "Enlatados" },
-    { title: "Snacks" },
-    { title: "Harinas" },
-    { title: "Cereales" },
-    { title: "Aderezos" },
-  ];
-
-  const COSMETICA = [
-    { title: "Cosmetico 1" },
-    { title: "Cosmetico 2" },
-    { title: "Cosmetico 3" },
-    { title: "Cosmetico 4" },
-    { title: "Cosmetico 5" },
-    { title: "Cosmetico 6" },
-    { title: "Cosmetico 7" },
-  ];
-
-  const FARMACIA = [
-    { title: "Dermocosmética" },
-    { title: "Higiene" },
-    { title: "Higiene Personal" },
-    { title: "Higiene de la cabeza" },
-    { title: "Higiene de la piel" },
-    { title: "Higiene de la ropa" },
-    { title: "Higiene de la piel" },
-  ];
-
-  const SORPRESAS = [
-    { title: "Sorpresas 1" },
-    { title: "Sorpresas 2" },
-    { title: "Sorpresas 3" },
-    { title: "Sorpresas 4" },
-    { title: "Sorpresas 5" },
-    { title: "Sorpresas 6" },
-    { title: "Sorpresas 7" },
-  ];
-
   const navigator = useNavigation();
+
+  // Revieve the subcategoy from child when it changes
+  const callback = (param) => {
+    // If the subcategory is equal to de category, it means the user is looking to all items in that category, soy subcategory should bbe null
+    if(param != 'Todos'){
+      setSubcategory(param);
+    }else {
+      setSubcategory(null);
+    }
+  }
+
+  // Do Search
+  const doSearch = (query) => {
+
+    // Set Query for input
+    setQuery(query);
+
+    // Call API
+    productService.getByProvSubcat(user, query, title, subcategory)
+      .then((response) => {
+        switch(title) {
+          case "Sorpresas":
+            setSorpresas(response.data);
+            break;
+          case "Cosmetica":
+            setCosmetica(response.data);
+            break;
+          case "Mercado":
+            setMercado(response.data);
+            break;
+          case "Farmacia":
+            setFarmacia(response.data);
+            break;
+        }
+      })
+      .catch((err) => {
+        console.log("Something was wrong", err);
+      });
+
+  }
 
   return (
     <View style={[styles.homeContainer]}>
@@ -129,7 +118,9 @@ const ListScreen = ({ route }) => {
       </View>
 
       <ScrollView style={styles.scrollContainer}>
+        
         <View style={styles.products}>
+
           {/* SEARCHER */}
           <View
             style={[
@@ -147,8 +138,9 @@ const ListScreen = ({ route }) => {
                 value={search}
                 keyboardType="email-address"
                 icon="mail"
-                onChangeText={(query) => setQuery(query)}
-                style={styles.searchInput}
+                onChangeText={(query) => doSearch(query)}
+  //            onSubmitEditing={this.searchSubmit}
+                style={globalStyles.input}
               />
             </View>
 
@@ -159,6 +151,7 @@ const ListScreen = ({ route }) => {
             </View> */}
           </View>
 
+          {/* TITLE */}
           <Text
             style={[
               styles.scrollTitle,
@@ -170,8 +163,7 @@ const ListScreen = ({ route }) => {
           </Text>
 
           {/* CATEGORIES SCROLL */}
-
-          <AllSubcategories idSubcategory={idSubcategory} />
+          <AllSubcategories idSubcategory={idSubcategory} parentCallback={callback} />
 
           <Text style={[styles.scrollTitle, globalStyles.fontSmall]}>
             Productos
@@ -322,8 +314,8 @@ const styles = StyleSheet.create({
   },
 
   searchContainer: {
-    justifyContent: "space-between",
     marginTop: 10,
+    justifyContent: "space-between",
   },
 
   inputSearch: {
@@ -331,8 +323,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#f8f4f4",
     alignItems: "center",
-    borderRadius: 12,
-    height: "90%",
+    borderRadius: 12
   },
 
   filterContainerBox: {

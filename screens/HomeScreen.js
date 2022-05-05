@@ -55,33 +55,6 @@ const HomeScreen = () => {
 
   const everything = [closeToExpire, featured, providers];
 
-  // useEffect(() => {
-  //   dispatch(myOrder(fakeData.orderHistory[0]))
-  //   axios
-  //     .get(`http://${localhost}/api/orders/getByUserId`, {userId: user.id}, {
-  //       headers: {
-  //         Authorization: `Bearer ${user?.token}`,
-  //       },
-  //     })
-  //     .then(({ data }) => data ? setOrderComing(data) : "")
-  //     .catch((err) => console.log(err));
-  // }, []);
-
-  // useEffect(() => {
-  //   axios // PRODUCTS CLOSE TO EXP
-  //     .get(`http://${localhost}/api/stock/closeToExp`, { headers: { Authorization: `Bearer ${user?.token}` } })
-  //     .then(({ data }) => data ? setProductsCloseToExp(data) : "")
-  //     .catch((err) => console.log(err));
-  //   axios  // PRODUCTS FOR YOU
-  //     .get(`http://${localhost}/api/stock/forYou`, { headers: { Authorization: `Bearer ${user?.token}` } })
-  //     .then(({ data }) => data ? setProductsForYou(data) : "")
-  //     .catch((err) => console.log(err));
-  //   axios // PROVIDERS
-  //     .get(`http://${localhost}/api/providers`, { headers: { Authorization: `Bearer ${user?.token}` } })
-  //     .then(({ data }) => data ? setProviders(data) : "")
-  //     .catch((err) => console.log(err));
-  // }, []);
-
   const shadowStyle = {
     shadowColor: "#000",
     shadowOffset: {
@@ -130,7 +103,6 @@ const HomeScreen = () => {
         {/* CATEGORIES SCROLL */}
         <View
           style={[
-            styles.categoryScroll,
             globalStyles.row,
             globalStyles.alignItemsCenter,
             globalStyles.justifyContentBetween,
@@ -158,6 +130,7 @@ const HomeScreen = () => {
         </View>
 
         <View style={styles.products}>
+          
           {/* SEARCHER */}
           <View
             style={[

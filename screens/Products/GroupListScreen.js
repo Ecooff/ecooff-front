@@ -13,14 +13,14 @@ import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
-import productService from "../../services/ProductService";
 import AllSubcategories from "../../components/AllSubcategories";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 
-{
-  /* COMPONENTS */
-}
+{ /* SERVICES */ }
+import productService from "../../services/ProductService";
+
+{ /* COMPONENTS */ }
 import { MenuComponent, FooterComponent } from "../../components";
 
 const GroupListScreen = ({ route }) => {
@@ -30,11 +30,7 @@ const GroupListScreen = ({ route }) => {
 
   const user = useSelector(selectUser);
 
-  console.log("ROUTEPARAMSS", route.params.product);
-
-  const { img, name } = route.params.product;
-
-  console.log(img, name);
+  const { img, name, _id } = route.params.product;
 
   const [search, setQuery] = useState("");
   const [productsProvider, setProductsProvider] = useState([]);
@@ -45,17 +41,14 @@ const GroupListScreen = ({ route }) => {
     );
   }, []);
 
-  const callback = (IDSUBCATEGORY) => {
-    console.log("IDSUBCATEGGORY", IDSUBCATEGORY);
-  };
-
-  // const CARREFOUR = productsProvider.filter((product) => product.providerName === 'Carrefour');
-  // const COTO = productsProvider.filter((product) => product.providerName === 'Coto');
-  // const DIA = productsProvider.filter((product) => product.providerName === 'Dia');
-  // const FARMACITY = productsProvider.filter((product) => product.providerName === 'Farmacity');
-  // const KIOSCO = productsProvider.filter((product) => product.providerName === '365');
-
-  console.log("productsProvider", productsProvider);
+  const callback = (param) => {
+    // If the subcategory is equal to de category, it means the user is looking to all items in that category, soy subcategory should bbe null
+    if(param != 'Todos'){
+      setSubcategory(param);
+    }else {
+      setSubcategory(null);
+    }
+  }
 
   const shadowStyle = {
     shadowColor: "#000",
@@ -77,6 +70,38 @@ const GroupListScreen = ({ route }) => {
     shadowRadius: 4,
   };
 
+  const items = [
+    { icon: require("../assets/icons/store.png"), title: "Mercado", id: 1 },
+    {
+      icon: require("../assets/icons/cosmetic.png"),
+      title: "Cosmetica",
+      id: 2,
+    },
+    { icon: require("../assets/icons/pharmacy.png"), title: "Farmacia", id: 3 },
+    {
+      icon: require("../assets/icons/surprice.png"),
+      title: "Sorpresas",
+      id: 4,
+    },
+  ];
+
+  // Do Search
+  const doSearch = (query) => {
+
+    // Set Query for input
+    setQuery(query);
+
+    // Call API
+    productService.getByProvSubcat(user, query, null, null, _id)
+      .then((response) => {
+        setProductsProvider(response.data);
+      })
+      .catch((err) => {
+        console.log("Something was wrong", err);
+      });
+
+  }
+
   const navigator = useNavigation();
 
   return (
@@ -90,6 +115,7 @@ const GroupListScreen = ({ route }) => {
 
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.products}>
+          
           {/* SEARCHER */}
           <View
             style={[
@@ -107,7 +133,8 @@ const GroupListScreen = ({ route }) => {
                 value={search}
                 keyboardType="email-address"
                 icon="mail"
-                onChangeText={(query) => setQuery(query)}
+                onChangeText={(query) => doSearch(query)}
+  //            onSubmitEditing={this.searchSubmit}
                 style={globalStyles.input}
               />
             </View>
@@ -118,13 +145,51 @@ const GroupListScreen = ({ route }) => {
               </View>
             </View> */}
           </View>
+
           <View style={{ marginTop: 20 }}>
-            <AllSubcategories
-              idProvider={idProvider}
-              parentCallback={callback}
-            />
+
+            {/* CATEGORIES SCROLL */}
+            {/* CATEGORIES SCROLL */}
+        <View
+          style={[
+            styles.categoryScroll,
+            globalStyles.row,
+            globalStyles.alignItemsCenter,
+            globalStyles.justifyContentBetween,
+          ]}
+        >
+          {items.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() => navigator.navigate("List", { item })}
+                // onPress={() => navigator}
+                // onPress={() => console.log("demo")}
+                style={styles.iconsContainer}
+              >
+                <Image
+                  style={styles.icons}
+                  source={item.icon}
+                  onPress={() => console.log("demo")}
+                />
+
+                <Text style={globalStyles.fontXSmall}>{item.title}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+            
+            <AllSubcategories idProvider={idProvider} parentCallback={callback} />
+            
           </View>
+
           <View style={{ flexDirection: "row", alignItems: "center" }}>
+
+          <Image
+              source={{ uri: img }}
+              style={{ width: 25, height: 25, marginRight: 10 }}
+            />
+
             <Text
               style={[
                 styles.scrollTitle,
@@ -134,10 +199,7 @@ const GroupListScreen = ({ route }) => {
             >
               {name}
             </Text>
-            <Image
-              source={{ uri: img }}
-              style={{ width: 55, height: 55, marginLeft: 20 }}
-            />
+
           </View>
           {/* CATEGORIES SCROLL */}
           <ScrollView
@@ -159,7 +221,7 @@ const GroupListScreen = ({ route }) => {
                     <View style={styles.cardImage}>
                       <Image
                         style={styles.product}
-                        source={{ uri: product.url }}
+                        source={{ uri: product.img }}
                       />
                     </View>
 
@@ -254,7 +316,6 @@ const styles = StyleSheet.create({
 
   inputSearch: {
     width: "100%",
-    height: "90%",
     flexDirection: "row",
     backgroundColor: "#F9FAFB",
     alignItems: "center",

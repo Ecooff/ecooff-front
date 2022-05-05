@@ -15,12 +15,8 @@ const AllSubcategories = ({
   idSubcategory,
   idProvider,
   route,
-  parentCallback,
+  parentCallback
 }) => {
-  console.log("IDPROVIER", idProvider);
-  console.log("IDSUB", idSubcategory);
-
-  console.log("routeAllSubcategories", route);
 
   const [buttonNumber, setButtonNumber] = React.useState(0);
 
@@ -35,35 +31,10 @@ const AllSubcategories = ({
     { title: "Aderezos", icon: require("../assets/icons/sauces.png") },
   ];
 
-  const COSMETICA = [
-    { title: "Cosmetico 1" },
-    { title: "Cosmetico 2" },
-    { title: "Cosmetico 3" },
-    { title: "Cosmetico 4" },
-    { title: "Cosmetico 5" },
-    { title: "Cosmetico 6" },
-    { title: "Cosmetico 7" },
-  ];
-
-  const FARMACIA = [
-    { title: "Dermocosmética" },
-    { title: "Higiene" },
-    { title: "Higiene Personal" },
-    { title: "Higiene de la cabeza" },
-    { title: "Higiene de la piel" },
-    { title: "Higiene de la ropa" },
-    { title: "Higiene de la piel" },
-  ];
-
-  const SORPRESAS = [
-    { title: "Sorpresas 1" },
-    { title: "Sorpresas 2" },
-    { title: "Sorpresas 3" },
-    { title: "Sorpresas 4" },
-    { title: "Sorpresas 5" },
-    { title: "Sorpresas 6" },
-    { title: "Sorpresas 7" },
-  ];
+  const setSubcat = (i, subcategory) => {
+    setButtonNumber(i);
+    parentCallback(subcategory);
+  }
 
   return (
     <ScrollView
@@ -71,20 +42,18 @@ const AllSubcategories = ({
       style={styles.categoryScroll}
       horizontal={true}
     >
-      {(
-        (1 === 1 && MERCADO) ||
-        (2 === 2 && COSMETICA) ||
-        (3 === 3 && FARMACIA) ||
-        (4 === 4 && SORPRESAS)
-      ).map((item, index) => {
-        return (
-          <TouchableOpacity key={index} onPress={()=> setButtonNumber(index)} style={buttonNumber===index ? styles.iconsContainerGray : styles.iconsContainerWhite}>
-            <Image style={styles.icons} source={item.icon} />
+      {
+        idSubcategory == 1 ?
+          (MERCADO).map((item, index) => {
+            return (
+              <TouchableOpacity key={index} onPress={()=> setSubcat(index, item.title)} style={styles.iconsSelected}>
+                <Image style={[styles.icons, styles.opacity, buttonNumber===index ? styles.selected : null]} source={item.icon} />
 
-            <Text style={globalStyles.fontXSmall}>{item.title}</Text>
-          </TouchableOpacity>
-        );
-      })}
+                <Text style={[globalStyles.fontXSmall, styles.opacity, buttonNumber===index ? styles.selected : null]}>{item.title}</Text>
+              </TouchableOpacity>
+            );
+          }): null
+      }
     </ScrollView>
   );
 };
@@ -112,7 +81,7 @@ const styles = StyleSheet.create({
 
   categoryScroll: {
     marginHorizontal: -20,
-    paddingLeft: 10,
+    paddingLeft: 10
   },
 
   scrollTitle: {
@@ -120,25 +89,25 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 
-  iconsContainerGray: {
+  iconsSelected: {
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
-    backgroundColor: "#f8f4f4",
     borderRadius: 5,
-  },
-  iconsContainerWhite: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    backgroundColor: "white",
-    borderRadius: 10,
   },
 
   icons: {
     width: 60,
     height: 65,
-    marginBottom: 10,
+    marginBottom: 10
+  },
+
+  opacity: {
+    opacity: 0.4
+  },
+
+  selected: {
+    opacity: 1
   },
 
   searchContainer: {
