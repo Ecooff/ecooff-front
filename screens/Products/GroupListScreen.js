@@ -36,8 +36,9 @@ const GroupListScreen = ({ route }) => {
   const [productsProvider, setProductsProvider] = useState([]);
 
   useEffect(() => {
-    getByProvSubcat(idProvider, "1", user).then((response) =>
+    productService.getByProvider(user, idProvider).then((response) => {
       setProductsProvider(response.data)
+    }
     );
   }, []);
 
@@ -71,15 +72,15 @@ const GroupListScreen = ({ route }) => {
   };
 
   const items = [
-    { icon: require("../assets/icons/store.png"), title: "Mercado", id: 1 },
+    { icon: require("../../assets/icons/store.png"), title: "Mercado", id: 1 },
     {
-      icon: require("../assets/icons/cosmetic.png"),
+      icon: require("../../assets/icons/cosmetic.png"),
       title: "Cosmetica",
       id: 2,
     },
-    { icon: require("../assets/icons/pharmacy.png"), title: "Farmacia", id: 3 },
+    { icon: require("../../assets/icons/pharmacy.png"), title: "Farmacia", id: 3 },
     {
-      icon: require("../assets/icons/surprice.png"),
+      icon: require("../../assets/icons/surprice.png"),
       title: "Sorpresas",
       id: 4,
     },
@@ -92,7 +93,7 @@ const GroupListScreen = ({ route }) => {
     setQuery(query);
 
     // Call API
-    productService.getByProvSubcat(user, query, null, null, _id)
+    productService.queryPartialMatch(user, query, null, null, _id)
       .then((response) => {
         setProductsProvider(response.data);
       })
@@ -149,8 +150,7 @@ const GroupListScreen = ({ route }) => {
           <View style={{ marginTop: 20 }}>
 
             {/* CATEGORIES SCROLL */}
-            {/* CATEGORIES SCROLL */}
-        <View
+        {/* <View
           style={[
             styles.categoryScroll,
             globalStyles.row,
@@ -177,7 +177,7 @@ const GroupListScreen = ({ route }) => {
               </TouchableOpacity>
             );
           })}
-        </View>
+        </View> */}
             
             <AllSubcategories idProvider={idProvider} parentCallback={callback} />
             

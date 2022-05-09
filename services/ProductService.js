@@ -4,7 +4,6 @@ import { URLPath } from "../services";
 const ProductService = {
 
   getAllProviders: async (user) => {
-    console.log("UUSERR", user.token);
     const data = await axios.get(URLPath.getAllProviders, {
       headers: setHeader(user.token),
     });
@@ -70,7 +69,17 @@ const ProductService = {
     return data;
   },
 
-  getByProvSubcat: (user, name, category, subcategory, providerId) => {
+  getByProvider: (user, providerId) => {
+    const data = axios.get(
+      URLPath.getByProv + providerId,
+      {
+        headers: setHeader(user.token),
+      }
+    );
+    return data;
+  },
+
+  queryPartialMatch: (user, name, category, subcategory, providerId) => {
 
     let URL = URLPath.partialMatch + "?name=" + name;
 

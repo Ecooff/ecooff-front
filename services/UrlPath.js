@@ -31,6 +31,8 @@ export const getByMercado = URL + "stock/getByCategory/Mercado";
 export const getByFarmacia = URL + "stock/getByCategory/Farmacia";
 //Get provider by subcat
 export const getByProvSubcat = URL + "stock/getByProvSubcat/";
+//Get provider Provider
+export const getByProv = URL + "stock/getByProvider/";
 // Search
 export const partialMatch = URL + "stock/partialMatch";
 
@@ -71,7 +73,8 @@ const URLPath = {
   validateUser,
   cartLength,
   openCart,
-  partialMatch
+  partialMatch,
+  getByProv
 };
 
 export default URLPath;

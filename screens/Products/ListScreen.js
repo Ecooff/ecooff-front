@@ -85,8 +85,9 @@ const ListScreen = ({ route }) => {
     setQuery(query);
 
     // Call API
-    productService.getByProvSubcat(user, query, title, subcategory)
+    productService.queryPartialMatch(user, query, title, subcategory)
       .then((response) => {
+
         switch(title) {
           case "Sorpresas":
             setSorpresas(response.data);
