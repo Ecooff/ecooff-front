@@ -17,10 +17,14 @@ import AllSubcategories from "../../components/AllSubcategories";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 
-{ /* SERVICES */ }
+{
+  /* SERVICES */
+}
 import productService from "../../services/ProductService";
 
-{ /* COMPONENTS */ }
+{
+  /* COMPONENTS */
+}
 import { MenuComponent, FooterComponent } from "../../components";
 
 const GroupListScreen = ({ route }) => {
@@ -43,12 +47,12 @@ const GroupListScreen = ({ route }) => {
 
   const callback = (param) => {
     // If the subcategory is equal to de category, it means the user is looking to all items in that category, soy subcategory should bbe null
-    if(param != 'Todos'){
+    if (param != "Todos") {
       setSubcategory(param);
-    }else {
+    } else {
       setSubcategory(null);
     }
-  }
+  };
 
   const shadowStyle = {
     shadowColor: "#000",
@@ -71,15 +75,19 @@ const GroupListScreen = ({ route }) => {
   };
 
   const items = [
-    { icon: require("../assets/icons/store.png"), title: "Mercado", id: 1 },
+    { icon: require("../../assets/icons/store.png"), title: "Mercado", id: 1 },
     {
-      icon: require("../assets/icons/cosmetic.png"),
+      icon: require("../../assets/icons/cosmetic.png"),
       title: "Cosmetica",
       id: 2,
     },
-    { icon: require("../assets/icons/pharmacy.png"), title: "Farmacia", id: 3 },
     {
-      icon: require("../assets/icons/surprice.png"),
+      icon: require("../../assets/icons/pharmacy.png"),
+      title: "Farmacia",
+      id: 3,
+    },
+    {
+      icon: require("../../assets/icons/surprice.png"),
       title: "Sorpresas",
       id: 4,
     },
@@ -87,20 +95,19 @@ const GroupListScreen = ({ route }) => {
 
   // Do Search
   const doSearch = (query) => {
-
     // Set Query for input
     setQuery(query);
 
     // Call API
-    productService.getByProvSubcat(user, query, null, null, _id)
+    productService
+      .getByProvSubcat(user, query, null, null, _id)
       .then((response) => {
         setProductsProvider(response.data);
       })
       .catch((err) => {
         console.log("Something was wrong", err);
       });
-
-  }
+  };
 
   const navigator = useNavigation();
 
@@ -115,7 +122,6 @@ const GroupListScreen = ({ route }) => {
 
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.products}>
-          
           {/* SEARCHER */}
           <View
             style={[
@@ -134,7 +140,7 @@ const GroupListScreen = ({ route }) => {
                 keyboardType="email-address"
                 icon="mail"
                 onChangeText={(query) => doSearch(query)}
-  //            onSubmitEditing={this.searchSubmit}
+                //            onSubmitEditing={this.searchSubmit}
                 style={globalStyles.input}
               />
             </View>
@@ -147,45 +153,45 @@ const GroupListScreen = ({ route }) => {
           </View>
 
           <View style={{ marginTop: 20 }}>
-
             {/* CATEGORIES SCROLL */}
             {/* CATEGORIES SCROLL */}
-        <View
-          style={[
-            styles.categoryScroll,
-            globalStyles.row,
-            globalStyles.alignItemsCenter,
-            globalStyles.justifyContentBetween,
-          ]}
-        >
-          {items.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => navigator.navigate("List", { item })}
-                // onPress={() => navigator}
-                // onPress={() => console.log("demo")}
-                style={styles.iconsContainer}
-              >
-                <Image
-                  style={styles.icons}
-                  source={item.icon}
-                  onPress={() => console.log("demo")}
-                />
+            <View
+              style={[
+                styles.categoryScroll,
+                globalStyles.row,
+                globalStyles.alignItemsCenter,
+                globalStyles.justifyContentBetween,
+              ]}
+            >
+              {items.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => navigator.navigate("List", { item })}
+                    // onPress={() => navigator}
+                    // onPress={() => console.log("demo")}
+                    style={styles.iconsContainer}
+                  >
+                    <Image
+                      style={styles.icons}
+                      source={item.icon}
+                      onPress={() => console.log("demo")}
+                    />
 
-                <Text style={globalStyles.fontXSmall}>{item.title}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-            
-            <AllSubcategories idProvider={idProvider} parentCallback={callback} />
-            
+                    <Text style={globalStyles.fontXSmall}>{item.title}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+
+            <AllSubcategories
+              idProvider={idProvider}
+              parentCallback={callback}
+            />
           </View>
 
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-
-          <Image
+            <Image
               source={{ uri: img }}
               style={{ width: 25, height: 25, marginRight: 10 }}
             />
@@ -199,7 +205,6 @@ const GroupListScreen = ({ route }) => {
             >
               {name}
             </Text>
-
           </View>
           {/* CATEGORIES SCROLL */}
           <ScrollView
