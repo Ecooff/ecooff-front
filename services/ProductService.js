@@ -31,29 +31,15 @@ const ProductService = {
     return data;
   },
 
-  getBySorpresas: (user) => {
-    const data = axios.get(URLPath.getBySorpresas, {
+  getByCategory: (user, category) => {
+    const data = axios.get(URLPath.getByCategory + category, {
       headers: setHeader(user.token),
     });
     return data;
   },
 
-  getByCosmetica: (user) => {
-    const data = axios.get(URLPath.getByCosmetica, {
-      headers: setHeader(user.token),
-    });
-    return data;
-  },
-
-  getByMercado: (user) => {
-    const data = axios.get(URLPath.getByMercado, {
-      headers: setHeader(user.token),
-    });
-    return data;
-  },
-
-  getByFarmacia: (user) => {
-    const data = axios.get(URLPath.getByFarmacia, {
+  getBySubcategory: (user, subcategory) => {
+    const data = axios.get(URLPath.getBySubcategory + subcategory, {
       headers: setHeader(user.token),
     });
     return data;
@@ -86,8 +72,6 @@ const ProductService = {
     category != null ? URL = URL.concat('&category=', category) : null;
     subcategory != null ? URL = URL.concat('&subcategory=', subcategory) : null;
     providerId != null ? URL = URL.concat('&providerId=', providerId) : null;
-
-    console.log(URL);
 
     const data = axios.get(
       URL,

@@ -13,15 +13,17 @@ import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
-import AllSubcategories from "../../components/AllSubcategories";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
+import { MaterialIcons } from '@expo/vector-icons';
 
 { /* SERVICES */ }
 import productService from "../../services/ProductService";
 
 { /* COMPONENTS */ }
 import { MenuComponent, FooterComponent } from "../../components";
+import AllSubcategories from "../../components/AllSubcategories";
+import ProductList from "../../components/ProductList";
 
 const GroupListScreen = ({ route }) => {
   const { getByProvSubcat } = productService;
@@ -36,17 +38,20 @@ const GroupListScreen = ({ route }) => {
   const [productsProvider, setProductsProvider] = useState([]);
 
   useEffect(() => {
+    callProducts();
+  }, []);
+
+  const callProducts = () => {
     productService.getByProvider(user, idProvider).then((response) => {
       setProductsProvider(response.data)
-    }
-    );
-  }, []);
+    });
+  }
 
   const callback = (param) => {
     // If the subcategory is equal to de category, it means the user is looking to all items in that category, soy subcategory should bbe null
-    if(param != 'Todos'){
+    if (param != 'Todos') {
       setSubcategory(param);
-    }else {
+    } else {
       setSubcategory(null);
     }
   }
@@ -59,16 +64,6 @@ const GroupListScreen = ({ route }) => {
     },
     shadowOpacity: 0.15,
     shadowRadius: 3.84,
-  };
-
-  const shadowStyleProducts = {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
   };
 
   const items = [
@@ -92,14 +87,18 @@ const GroupListScreen = ({ route }) => {
     // Set Query for input
     setQuery(query);
 
-    // Call API
-    productService.queryPartialMatch(user, query, null, null, _id)
-      .then((response) => {
-        setProductsProvider(response.data);
-      })
-      .catch((err) => {
-        console.log("Something was wrong", err);
-      });
+    if (query != null && query != '') {
+      // Call API
+      productService.queryPartialMatch(user, query, null, null, _id)
+        .then((response) => {
+          setProductsProvider(response.data);
+        })
+        .catch((err) => {
+          console.log("Something was wrong", err);
+        });
+    } else {
+      callProducts();
+    }
 
   }
 
@@ -107,7 +106,6 @@ const GroupListScreen = ({ route }) => {
 
   return (
     <View style={[styles.homeContainer]}>
-      {/* <StatusBar backgroundColor="blue" barStyle="dark-content" /> */}
 
       <View style={styles.menuContainer}>
         {/* MENU */}
@@ -115,8 +113,9 @@ const GroupListScreen = ({ route }) => {
       </View>
 
       <ScrollView style={styles.scrollContainer}>
+        
         <View style={styles.products}>
-          
+
           {/* SEARCHER */}
           <View
             style={[
@@ -135,7 +134,7 @@ const GroupListScreen = ({ route }) => {
                 keyboardType="email-address"
                 icon="mail"
                 onChangeText={(query) => doSearch(query)}
-  //            onSubmitEditing={this.searchSubmit}
+                //            onSubmitEditing={this.searchSubmit}
                 style={globalStyles.input}
               />
             </View>
@@ -150,7 +149,7 @@ const GroupListScreen = ({ route }) => {
           <View style={{ marginTop: 20 }}>
 
             {/* CATEGORIES SCROLL */}
-        {/* <View
+            {/* <View
           style={[
             styles.categoryScroll,
             globalStyles.row,
@@ -178,14 +177,14 @@ const GroupListScreen = ({ route }) => {
             );
           })}
         </View> */}
-            
+
             <AllSubcategories idProvider={idProvider} parentCallback={callback} />
-            
+
           </View>
 
           <View style={{ flexDirection: "row", alignItems: "center" }}>
 
-          <Image
+            <Image
               source={{ uri: img }}
               style={{ width: 25, height: 25, marginRight: 10 }}
             />
@@ -206,56 +205,16 @@ const GroupListScreen = ({ route }) => {
             showsVerticalScrollIndicator={false}
             style={styles.productScroll}
           >
-            {productsProvider.map((product, index) => {
-              return (
-                <View key={index} style={shadowStyleProducts}>
-                  <TouchableOpacity
-                    onPress={() => navigator.navigate("Product", { product })}
-                    style={[
-                      styles.productCard,
-                      globalStyles.row,
-                      shadowStyle,
-                      globalStyles.alignItemsCenter,
-                    ]}
-                  >
-                    <View style={styles.cardImage}>
-                      <Image
-                        style={styles.product}
-                        source={{ uri: product.img }}
-                      />
-                    </View>
-
-                    <View>
-                      <Text
-                        style={[
-                          { paddingLeft: 15 },
-                          styles.cardTitles,
-                          globalStyles.fontSmall,
-                          globalStyles.fontBold,
-                        ]}
-                      >
-                        {product.name}
-                      </Text>
-
-                      <View style={[{ width: "100%" }, globalStyles.row]}>
-                        <View style={[styles.cardBody, { width: "70%" }]}>
-                          <Text
-                            style={[styles.cardTitles, globalStyles.fontSmall]}
-                          >
-                            $ {product.expPrice}
-                          </Text>
-                          <Text
-                            style={[styles.cardTitles, globalStyles.fontSmall]}
-                          >
-                            {product.expirationDate}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
+            {
+              productsProvider.length > 0 ?
+                productsProvider.map((product, index) => {
+                  return (
+                    <ProductList  key={product._id} product={product} index={index} />
+                  );
+                }) : <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
+                  <MaterialIcons name="search-off" size={200} color="lightgrey" />
                 </View>
-              );
-            })}
+            }
           </ScrollView>
         </View>
       </ScrollView>
@@ -381,31 +340,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  productCard: {
-    borderRadius: 10,
-    marginBottom: 20,
-    backgroundColor: "white",
-  },
-
-  cardImage: {
-    padding: 5,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 10,
-  },
-
-  product: {
-    width: 90,
-    height: 90,
-  },
-
-  cardBody: {
-    paddingHorizontal: 15,
-  },
-
-  cardTitles: {
-    marginBottom: 8,
-  },
-
   bannerLargeMargin: {
     width: "30%",
     justifyContent: "flex-end",
@@ -415,5 +349,6 @@ const styles = StyleSheet.create({
   productListSeller: {
     width: 30,
     height: 30,
-  },
+  }
+
 });

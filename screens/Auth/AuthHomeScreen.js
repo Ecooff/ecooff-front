@@ -58,7 +58,7 @@ const AuthHomeScreen = () => {
         `http://${localhost}/api/users/retrieveUser`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log("userrr", user.data); //hacer un if user.data es undefined que muestre el loading . la idea es que espere 10segs y cambie el estado
+      //hacer un if user.data es undefined que muestre el loading . la idea es que espere 10segs y cambie el estado
       user ? me(user.data, token) : setIsLoading(false);
       //!user ? setIsLoading(false) : setIsLoading(true);
       //user ? setIsLoading(false) : setIsLoading(true);

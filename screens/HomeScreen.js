@@ -20,18 +20,20 @@ import SplashLogo from "../assets/splash.png";
 import { BackHandler } from "react-native";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
+import { MaterialIcons } from '@expo/vector-icons';
 
-{
-  /* COMPONENTS */
-}
+{ /* COMPONENTS */ }
 import { MenuComponent, FooterComponent } from "../components";
-// import OrderOnRequestComponent from "../components/OrderOnRequestComponent"; //comente esto tambien porque no encuentra el componente
+import ProductList from "../components/ProductList";
+
+{ /* SERVICES */ }
 import productService from "../services/ProductService";
 
 const HomeScreen = () => {
   const { getAllProviders, closeToExp, forYou, getByUserId } = productService;
 
   const [search, setQuery] = useState("");
+  const [queryProducts, setQueryProducts] = useState([]);
   const [orderOnRequest, setOrderOnRequest] = useState(true);
   const [providers, setProviders] = useState([]);
   const [closeToExpire, setCloseToExpire] = useState([]);
@@ -40,8 +42,6 @@ const HomeScreen = () => {
   const [todos, setTodos] = useState([]);
 
   const user = useSelector(selectUser);
-
-  // console.log("THEEUSERRR", user);
 
   useEffect(() => {
     getAllProviders(user)
@@ -88,6 +88,29 @@ const HomeScreen = () => {
 
   const navigator = useNavigation();
 
+  // Do Search
+  const doSearch = (query) => {
+
+    // Set Query for input
+    setQuery(query);
+
+    // Call API
+    if (query != null && query != '') {
+
+      productService.queryPartialMatch(user, query)
+        .then((response) => {
+          setQueryProducts(response.data);
+        })
+        .catch((err) => {
+          console.log("Something was wrong", err);
+        });
+
+    } else {
+      setQueryProducts([]);
+    }
+
+  }
+
   return (
     <View style={[styles.homeContainer]}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
@@ -130,7 +153,7 @@ const HomeScreen = () => {
         </View>
 
         <View style={styles.products}>
-          
+
           {/* SEARCHER */}
           <View
             style={[
@@ -148,103 +171,119 @@ const HomeScreen = () => {
                 value={search}
                 keyboardType="email-address"
                 icon="mail"
-                onChangeText={(query) => setQuery(query)}
+                onChangeText={(query) => doSearch(query)}
                 style={globalStyles.input}
               />
             </View>
-            {/* <Pressable
-              style={styles.filterContainerBox}
-              onPress={() => navigator.navigate("Filter")} //Testing(FilterComponet)
-            >
-              <View style={styles.filterContainer}>
-                <AntDesign name="filter" size={24} color="#979797" />
-              </View>
-            </Pressable> */}
-            {/* <FilterComponent /> */}
-            {/* comente esto porque no encontraba el componente ( FIlterComponent )  */}
           </View>
 
           {/* ROW PRODUCTS */}
-          {listOfProducts.map((list, index) => {
-            return (
-              <View key={index} style={styles.productsListContainer}>
-                <View
-                  style={[
-                    styles.listTitle,
-                    globalStyles.row,
-                    globalStyles.alignItemsCenter,
-                    globalStyles.justifyContentBetween,
-                  ]}
-                >
-                  <Text style={[globalStyles.fontMedium]}>{list}</Text>
+          {
 
-                  <TouchableOpacity
-                    onPress={() => navigator.navigate("GroupList")}
-                    // onPress={() => console.log("demo")}
-                    style={globalStyles.fontSmall}
-                  >
-                    {/* <Text>Ver todos</Text> */}
-                  </TouchableOpacity>
+            // IF I'M SEARCHING
+            (search == null || search == '') ?
+
+              listOfProducts.map((list, index) => {
+                return (
+                  <View key={index} style={styles.productsListContainer}>
+                    <View
+                      style={[
+                        styles.listTitle,
+                        globalStyles.row,
+                        globalStyles.alignItemsCenter,
+                        globalStyles.justifyContentBetween,
+                      ]}
+                    >
+                      <Text style={[globalStyles.fontMedium]}>{list}</Text>
+
+                      <TouchableOpacity
+                        onPress={() => navigator.navigate("GroupList")}
+                        // onPress={() => console.log("demo")}
+                        style={globalStyles.fontSmall}
+                      >
+                        {/* <Text>Ver todos</Text> */}
+                      </TouchableOpacity>
+                    </View>
+
+                    <ScrollView
+                      showsHorizontalScrollIndicator={false}
+                      style={styles.productScroll}
+                      horizontal={true}
+                    >
+                      {everything[index].map((product, y) => {
+                        return (
+                          <TouchableOpacity
+                            key={y}
+                            onPress={() =>
+                              index <= 1
+                                ? navigator.navigate("Product", { product })
+                                : navigator.navigate("GroupList", { product })
+                            }
+                            // onPress={() => console.log("demo")}
+                            style={styles.productsContainer}
+                          >
+                            <View style={shadowStyle}>
+                              <Image
+                                style={
+                                  index < 2
+                                    ? styles.productOfList
+                                    : styles.commerceOfList
+                                }
+                                source={{ uri: product.img }}
+                              />
+                            </View>
+
+                            <Text
+                              style={[
+                                styles.alignTextStart,
+                                globalStyles.fontSmall,
+                                globalStyles.fontBold,
+                                globalStyles.widthFluid,
+                                index >= 2 ? globalStyles.textCenter : null,
+                              ]}
+                            >
+                              {product.provider || product.name}
+                            </Text>
+                            {index < 2 ? (
+                              <Text
+                                style={[
+                                  styles.alignTextStart,
+                                  styles.secondLabel,
+                                  globalStyles.fontSmall,
+                                ]}
+                              >
+                                $ {product.expPrice}
+                              </Text>
+                            ) : null}
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                );
+              })
+
+              :
+
+              // IF I'M SEARCHING HANDLER RESULTS/ NO RESULTS
+              queryProducts.length > 0 ?
+
+                queryProducts.map((product, index) => {
+                  return (
+                    <ProductList key={product._id} product={product} index={index} />
+                  );
+                })
+
+                :
+
+                <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
+                  <MaterialIcons name="search-off" size={200} color="lightgrey" />
                 </View>
 
-                <ScrollView
-                  showsHorizontalScrollIndicator={false}
-                  style={styles.productScroll}
-                  horizontal={true}
-                >
-                  {everything[index].map((product, y) => {
-                    return (
-                      <TouchableOpacity
-                        key={y}
-                        onPress={() =>
-                          index <= 1
-                            ? navigator.navigate("Product", { product })
-                            : navigator.navigate("GroupList", { product })
-                        }
-                        // onPress={() => console.log("demo")}
-                        style={styles.productsContainer}
-                      >
-                        <View style={shadowStyle}>
-                          <Image
-                            style={
-                              index < 2
-                                ? styles.productOfList
-                                : styles.commerceOfList
-                            }
-                            source={{ uri: product.img }}
-                          />
-                        </View>
+          }
 
-                        <Text
-                          style={[
-                            styles.alignTextStart,
-                            globalStyles.fontSmall,
-                            globalStyles.fontBold,
-                            globalStyles.widthFluid,
-                            index >= 2 ? globalStyles.textCenter : null,
-                          ]}
-                        >
-                          {product.provider || product.name}
-                        </Text>
-                        {index < 2 ? (
-                          <Text
-                            style={[
-                              styles.alignTextStart,
-                              styles.secondLabel,
-                              globalStyles.fontSmall,
-                            ]}
-                          >
-                            $ {product.expPrice}
-                          </Text>
-                        ) : null}
-                      </TouchableOpacity>
-                    );
-                  })}
-                </ScrollView>
-              </View>
-            );
-          })}
         </View>
+
       </ScrollView>
 
       {/* FOOTER */}

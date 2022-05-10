@@ -13,36 +13,37 @@ import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
-import AllSubcategories from "../../components/AllSubcategories";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
+import { MaterialIcons } from '@expo/vector-icons';
 
-{/* COMPONENTS */}
+{/* COMPONENTS */ }
 import { MenuComponent, FooterComponent } from "../../components";
+import AllSubcategories from "../../components/AllSubcategories";
+import ProductList from "../../components/ProductList";
 
 // SERVICES
 import productService from "../../services/ProductService";
 
 const ListScreen = ({ route }) => {
   const [search, setQuery] = useState("");
-  const [sorpresas, setSorpresas] = useState([]);
-  const [cosmetica, setCosmetica] = useState([]);
-  const [mercado, setMercado] = useState([]);
-  const [farmacia, setFarmacia] = useState([]);
+  const [products, setProducts] = useState([]);
   const [subcategory, setSubcategory] = useState(null);
-  const { getBySorpresas, getByCosmetica, getByMercado, getByFarmacia } =
-    productService;
-
   const user = useSelector(selectUser);
+  const title = route.params.item.title;
+
 
   useEffect(() => {
-    getBySorpresas(user).then((response) => setSorpresas(response.data));
-    getByCosmetica(user).then((response) => setCosmetica(response.data));
-    getByMercado(user).then((response) => setMercado(response.data));
-    getByFarmacia(user).then((response) => setFarmacia(response.data));
+    callByCategory()
   }, []);
 
-  const title = route.params.item.title;
+  useEffect(() => {
+    if(search != null && search != '') {
+      doSearch(search);
+    } else {
+      subcategory != null ? callSubcategory() : callByCategory();
+    }
+  }, [subcategory]);
 
   const idSubcategory = route.params.item.id;
 
@@ -56,26 +57,25 @@ const ListScreen = ({ route }) => {
     shadowRadius: 3.84,
   };
 
-  const shadowStyleProducts = {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  };
-
   const navigator = useNavigation();
+
+  const callByCategory = () => {
+    productService.getByCategory(user, title).then((response) => setProducts(response.data));
+  }
+
+  const callSubcategory = () => {
+    productService.getBySubcategory(user, subcategory).then((response) => setProducts(response.data));
+  }
 
   // Revieve the subcategoy from child when it changes
   const callback = (param) => {
     // If the subcategory is equal to de category, it means the user is looking to all items in that category, soy subcategory should bbe null
-    if(param != 'Todos'){
+    if (param != 'Todos') {
       setSubcategory(param);
-    }else {
+    } else {
       setSubcategory(null);
     }
+
   }
 
   // Do Search
@@ -85,27 +85,21 @@ const ListScreen = ({ route }) => {
     setQuery(query);
 
     // Call API
-    productService.queryPartialMatch(user, query, title, subcategory)
-      .then((response) => {
+    if (query != null && query != '') {
 
-        switch(title) {
-          case "Sorpresas":
-            setSorpresas(response.data);
-            break;
-          case "Cosmetica":
-            setCosmetica(response.data);
-            break;
-          case "Mercado":
-            setMercado(response.data);
-            break;
-          case "Farmacia":
-            setFarmacia(response.data);
-            break;
-        }
-      })
-      .catch((err) => {
-        console.log("Something was wrong", err);
-      });
+      productService.queryPartialMatch(user, query, title, subcategory)
+        .then((response) => {
+          setProducts(response.data);
+        })
+        .catch((err) => {
+          console.log("Something was wrong", err);
+        });
+
+    } else if(subcategory == null) {
+      callByCategory();
+    } else {
+      callSubcategory()
+    }
 
   }
 
@@ -119,7 +113,7 @@ const ListScreen = ({ route }) => {
       </View>
 
       <ScrollView style={styles.scrollContainer}>
-        
+
         <View style={styles.products}>
 
           {/* SEARCHER */}
@@ -140,16 +134,10 @@ const ListScreen = ({ route }) => {
                 keyboardType="email-address"
                 icon="mail"
                 onChangeText={(query) => doSearch(query)}
-  //            onSubmitEditing={this.searchSubmit}
                 style={globalStyles.input}
               />
             </View>
 
-            {/* <View style={styles.filterContainerBox}>
-              <View style={styles.filterContainer}>
-                <AntDesign name="filter" size={24} color="#979797" />
-              </View>
-            </View> */}
           </View>
 
           {/* TITLE */}
@@ -175,90 +163,17 @@ const ListScreen = ({ route }) => {
             showsVerticalScrollIndicator={false}
             style={styles.productScroll}
           >
-            {(
-              (title === "Sorpresas" && sorpresas) ||
-              (title === "Cosmetica" && cosmetica) ||
-              (title === "Mercado" && mercado) ||
-              (title === "Farmacia" && farmacia)
-            ).map((product, index) => {
-              return (
-                <View key={index} style={shadowStyleProducts}>
-                  <TouchableOpacity
-                    onPress={() => navigator.navigate("Product", { product })}
-                    style={[
-                      styles.productCard,
-                      globalStyles.row,
-                      shadowStyle,
-                      globalStyles.alignItemsCenter,
-                    ]}
-                  >
-                    <View style={styles.cardImage}>
-                      <Image
-                        style={styles.product}
-                        source={{ uri: product.img }}
-                      />
-                    </View>
-
-                    <View>
-                      <Text
-                        style={[
-                          { paddingLeft: 15 },
-                          styles.cardTitles,
-                          globalStyles.fontSmall,
-                          globalStyles.fontBold,
-                        ]}
-                      >
-                        {product.name}
-                      </Text>
-
-                      <View style={[{ width: "100%" }, globalStyles.row]}>
-                        <View style={[styles.cardBody, { width: "50%" }]}>
-                          <Text
-                            style={[
-                              styles.productPrice,
-                              globalStyles.fontSmall,
-                            ]}
-                          >
-                            $ {product.price}
-                          </Text>
-                          <Text
-                            style={[styles.cardTitles, globalStyles.fontSmall]}
-                          >
-                            {product.expirationDate}
-                          </Text>
-
-                          <View
-                            style={[
-                              styles.cardTitles,
-                              styles.seller,
-                              globalStyles.row,
-                              globalStyles.alignItemsCenter,
-                              globalStyles.fontSmall,
-                            ]}
-                          >
-                            {/* <Image style={styles.productListSeller} source={{ uri: product.seller.url }} /> */}
-
-                            <Text>{product.providerName}</Text>
-                          </View>
-                        </View>
-
-                        <View
-                          style={[
-                            styles.bannerLargeMargin,
-                            globalStyles.row,
-                            globalStyles.alignItemsCenter,
-                          ]}
-                        >
-                          <Text style={globalStyles.sellIcons}>-</Text>
-                          <Text style={{ marginHorizontal: 10 }}>1</Text>
-                          <Text style={globalStyles.sellIcons}>+</Text>
-                        </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
+            
+            {
+              products.length > 0 ?
+                products.map((product, index) => {
+                  return (
+                    <ProductList key={product._id} product={product} index={index} />
+                  );
+                }) : <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
+                  <MaterialIcons name="search-off" size={200} color="lightgrey" />
                 </View>
-              );
-            })}
+            }
           </ScrollView>
         </View>
       </ScrollView>
@@ -389,32 +304,6 @@ const styles = StyleSheet.create({
   productScroll: {
     marginHorizontal: -20,
     paddingHorizontal: 20,
-  },
-
-  productCard: {
-    borderRadius: 10,
-    marginBottom: 20,
-    backgroundColor: "white",
-  },
-
-  cardImage: {
-    padding: 5,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 10,
-    borderWidth: 0.2,
-  },
-
-  product: {
-    width: 70,
-    height: 70,
-  },
-
-  cardBody: {
-    paddingHorizontal: 15,
-  },
-
-  cardTitles: {
-    // marginBottom: 5,
   },
 
   bannerLargeMargin: {

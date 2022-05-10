@@ -17,23 +17,12 @@ export const validateUser = URL + "users/verifyEmail";
 export const getAllProviders = URL + "providers/";
 
 // STOCK
-// Close to expire
 export const closeToExp = URL + "stock/closeToExp";
-// For you (destacados)
 export const forYou = URL + "stock/forYou";
-// Get by sorpresas
-export const getBySorpresas = URL + "stock/getByCategory/Sorpresas";
-// Get by cosmetica
-export const getByCosmetica = URL + "stock/getByCategory/Cosmetica";
-// Get by mercado
-export const getByMercado = URL + "stock/getByCategory/Mercado";
-//Get by Farmacia
-export const getByFarmacia = URL + "stock/getByCategory/Farmacia";
-//Get provider by subcat
+export const getByCategory = URL + "stock/getByCategory/";
+export const getBySubcategory = URL + "stock//getBySubcategory/";
 export const getByProvSubcat = URL + "stock/getByProvSubcat/";
-//Get provider Provider
 export const getByProv = URL + "stock/getByProvider/";
-// Search
 export const partialMatch = URL + "stock/partialMatch";
 
 // Get by user Id
@@ -62,10 +51,8 @@ const URLPath = {
   forYou,
   getByUserId,
   addToCart,
-  getBySorpresas,
-  getByCosmetica,
-  getByMercado,
-  getByFarmacia,
+  getByCategory,
+  getBySubcategory,
   getByProvSubcat,
   getUserAddresses,
   addUserAdress,

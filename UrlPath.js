@@ -22,16 +22,7 @@ export const getByUserId = URL + "orders/getByUserId";
 export const addToCart = URL + "cart/addToCart";
 
 // Get by sorpresas
-export const getBySorpresas = URL + "stock/getByCategory/Sorpresas";
-
-// Get by cosmetica
-export const getByCosmetica = URL + "stock/getByCategory/Cosmetica";
-
-// Get by mercado
-export const getByMercado = URL + "stock/getByCategory/Mercado";
-
-//Get by Farmacia
-export const getByFarmacia = URL + "stock/getByCategory/Farmacia";
+export const getBySubcat = URL + "stock/getByCategory";
 
 //Get provider by subcat
 export const getByProvSubcat = URL + "stock/getByProvSubcat/";
@@ -54,10 +45,7 @@ const URLPath = {
   forYou,
   getByUserId,
   addToCart,
-  getBySorpresas,
-  getByCosmetica,
-  getByMercado,
-  getByFarmacia,
+  getBySubcat,
   getByProvSubcat,
   getUserAddresses,
   addUserAdress,
