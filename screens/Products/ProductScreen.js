@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MenuComponent } from "../../components";
 
 const ProductScreen = ({ route }) => {
-  const { title, expPrice, expDate, img, providerName, description } =
+  const { name, expPrice, expDate, img, providerName, description } =
     route.params.product;
 
   console.log("AAA ROUTE", route.params);
@@ -43,7 +43,7 @@ const ProductScreen = ({ route }) => {
               globalStyles.fontMain,
             ]}
           >
-            {title}
+            {name}
           </Text>
 
           <View

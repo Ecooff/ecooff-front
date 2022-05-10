@@ -234,7 +234,7 @@ const GroupListScreen = ({ route }) => {
                           globalStyles.fontBold,
                         ]}
                       >
-                        {product.title}
+                        {product.name}
                       </Text>
 
                       <View style={[{ width: "100%" }, globalStyles.row]}>
