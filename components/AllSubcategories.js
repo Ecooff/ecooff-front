@@ -47,9 +47,9 @@ const AllSubcategories = ({
           (MERCADO).map((item, index) => {
             return (
               <TouchableOpacity key={index} onPress={()=> setSubcat(index, item.title)} style={styles.iconsSelected}>
-                <Image style={[styles.icons, styles.opacity, buttonNumber===index ? styles.selected : null]} source={item.icon} />
+                <Image style={[styles.icons, styles.opacity, buttonNumber === index ? styles.selected : null]} source={item.icon} />
 
-                <Text style={[globalStyles.fontXSmall, styles.opacity, buttonNumber===index ? styles.selected : null]}>{item.title}</Text>
+                <Text style={[globalStyles.fontXSmall, styles.opacity, buttonNumber === index ? styles.selected : null]}>{item.title}</Text>
               </TouchableOpacity>
             );
           }): null

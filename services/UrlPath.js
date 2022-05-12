@@ -31,6 +31,8 @@ export const getByMercado = URL + "stock/getByCategory/Mercado";
 export const getByFarmacia = URL + "stock/getByCategory/Farmacia";
 //Get provider by subcat
 export const getByProvSubcat = URL + "stock/getByProvSubcat/";
+//Get provider Provider
+export const getByProv = URL + "stock/getByProvider/";
 // Search
 export const partialMatch = URL + "stock/partialMatch";
 
@@ -41,6 +43,8 @@ export const getByUserId = URL + "orders/getByUserId";
 export const addToCart = URL + "cart/addToCart";
 export const cartLength = URL + "cart/cartLength";
 export const openCart = URL + "cart/openCart";
+export const productLength = URL + "cart/productLength/";
+export const deleteItem = URL + "cart/deleteItem/";
 
 //Get User Adresses
 export const getUserAddresses = URL + "users/getUserAddresses";
@@ -71,7 +75,10 @@ const URLPath = {
   validateUser,
   cartLength,
   openCart,
-  partialMatch
+  partialMatch,
+  getByProv,
+  productLength,
+  deleteItem,
 };
 
 export default URLPath;

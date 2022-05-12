@@ -296,22 +296,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 
-  // filterContainerBox: {
-  //   width: "10%",
-  //   justifyContent: "flex-end",
-  //   marginRight: 10,
-  // },
-
-  // filterContainer: {
-  //   backgroundColor: "#F9FAFB",
-  //   textAlign: "center",
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   width: 45,
-  //   paddingVertical: 10,
-  //   borderRadius: 12,
-  // },
-
   productsListContainer: {
     marginBottom: 25,
   },

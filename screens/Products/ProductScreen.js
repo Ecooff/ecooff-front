@@ -7,18 +7,46 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/userSlice";
 
 {
   /* COMPONENTS */
 }
 import { MenuComponent } from "../../components";
+import CartService from "../../services/CartService";
 
 const ProductScreen = ({ route }) => {
-  const { title, expPrice, expDate, img, providerName, description } =
+  const { addToCart, productLength } = CartService;
+  const { title, expPrice, expDate, img, providerName, description, _id } =
     route.params.product;
+
+  const [alreadyInCart, setAlreadyInCart] = useState(false);
+  const [productLenght, setProductLenght] = useState(0);
+
+  useEffect(async () => {
+    productLength(user, _id).then((response) => {
+      setProductLenght(response.data.productLength);
+    });
+  }, []);
+
+  useEffect(() => {
+    productLenght > 0 && setAlreadyInCart(true);
+  }, [productLenght]);
+
+  console.log("number lenght:", productLenght);
+
+  const user = useSelector(selectUser);
+
+  const AddProductToCart = () => {
+    addToCart(user, { productId: _id, quantity: "1" })
+      .then((response) => response)
+      .catch((error) => console.log("CATCH", error.response));
+    setAlreadyInCart(true);
+  };
 
   console.log("AAA ROUTE", route.params);
 
@@ -156,17 +184,19 @@ const ProductScreen = ({ route }) => {
           <View style={{ height: 180 }}></View>
         </ScrollView>
       </View>
-
       {/* BUTTON */}
       <TouchableOpacity
-        onPress={() => navigator.navigate("Home")}
+        onPress={() => AddProductToCart()}
+        disabled={alreadyInCart}
         style={[
           styles.purchaseButton,
           globalStyles.widthFluid,
-          globalStyles.primary,
+          alreadyInCart ? styles.added : globalStyles.primary,
         ]}
       >
-        <Text style={globalStyles.textWhite}>Agregar al carrito</Text>
+        <Text style={globalStyles.textWhite}>
+          {!alreadyInCart ? "Agregar al carrito" : "Agregado en el carrito"}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -227,5 +257,8 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 20,
     justifyContent: "center",
     alignItems: "center",
+  },
+  added: {
+    backgroundColor: "#979797",
   },
 });

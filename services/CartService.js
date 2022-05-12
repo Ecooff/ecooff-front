@@ -2,30 +2,45 @@ import axios from "axios";
 import { URLPath } from "../services";
 
 const CartService = {
-  addToCart: async (user) => {
-    console.log("TOKENUSER", user.token);
-    return fetch(URLPath.addToCart, {
-      method: "POST",
+  addToCart: (user, props) => {
+    console.log("como llega al servicio addToCart", user, props);
+    const data = axios.post(URLPath.addToCart, props, {
       headers: setHeader(user.token),
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        return json;
-      })
-      .catch((error) => {
-        return error;
-      });
+    });
+    return data;
   },
+
   cartLength: (user) => {
     const data = axios.get(URLPath.cartLength, {
       headers: setHeader(user.token),
     });
     return data;
   },
+
   openCart: (user) => {
     const data = axios.get(URLPath.openCart, {
       headers: setHeader(user.token),
     });
+    return data;
+  },
+
+  productLength: (user, id) => {
+    const data = axios.get(URLPath.productLength + id, {
+      headers: setHeader(user.token),
+    });
+    return data;
+  },
+
+  deleteItem: (user, id) => {
+    console.log(URLPath.deleteItem + id);
+    console.log("VVV", user.token);
+    const data = axios.put(
+      URLPath.deleteItem + id,
+      {},
+      {
+        headers: setHeader(user.token),
+      }
+    );
     return data;
   },
 };
