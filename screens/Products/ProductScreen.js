@@ -20,8 +20,7 @@ import { MenuComponent } from "../../components";
 import CartService from "../../services/CartService";
 
 const ProductScreen = ({ route }) => {
-  const { addToCart, productLength } = CartService;
-  const { title, expPrice, expDate, img, providerName, description, _id } =
+  const { name, expPrice, expDate, img, providerName, description } =
     route.params.product;
 
   const [alreadyInCart, setAlreadyInCart] = useState(false);
@@ -71,7 +70,7 @@ const ProductScreen = ({ route }) => {
               globalStyles.fontMain,
             ]}
           >
-            {title}
+            {name}
           </Text>
 
           <View

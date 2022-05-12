@@ -224,7 +224,7 @@ const HomeScreen = () => {
                             index >= 2 ? globalStyles.textCenter : null,
                           ]}
                         >
-                          {product.provider || product.title}
+                          {product.provider || product.name}
                         </Text>
                         {index < 2 ? (
                           <Text
