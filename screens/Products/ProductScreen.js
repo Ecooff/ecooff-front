@@ -20,8 +20,12 @@ import { MenuComponent } from "../../components";
 import CartService from "../../services/CartService";
 
 const ProductScreen = ({ route }) => {
-  const { name, expPrice, expDate, img, providerName, description } =
+  const { name, expPrice, expDate, img, providerName, description, _id } =
     route.params.product;
+
+  console.log(route.params);
+
+  const { addToCart, productLength } = CartService;
 
   const [alreadyInCart, setAlreadyInCart] = useState(false);
   const [productLenght, setProductLenght] = useState(0);
@@ -41,7 +45,7 @@ const ProductScreen = ({ route }) => {
   const user = useSelector(selectUser);
 
   const AddProductToCart = () => {
-    addToCart(user, { productId: _id, quantity: "1" })
+    addToCart(user, { productId: _id, quantity: 1 })
       .then((response) => response)
       .catch((error) => console.log("CATCH", error.response));
     setAlreadyInCart(true);

@@ -79,11 +79,11 @@ const CartScreen = () => {
           {
             console.log("RRRRR", quantity);
           }
-          const decreaseAmount = (id) => {
+          const decreaseAmount = () => {
             return quantity > 1 ? setQuantity(quantity - 1) : "";
           };
 
-          const increaseAmount = (id) => {
+          const increaseAmount = () => {
             return setQuantity(quantity + 1);
           };
 
@@ -110,15 +110,15 @@ const CartScreen = () => {
                   <Text style={styles.productHeaderText}>
                     ${" "}
                     {(quantity <= product.quantity &&
-                      product.expPrice * quantity) ||
-                      (product.quantity === 0 && product.expPrice)}
+                      product.price * quantity) ||
+                      (product.quantity === 0 && product.price)}
                   </Text>
                 </View>
                 <Text style={styles.subHeaderText}>{product.date}</Text>
                 {/* CAMBIE STOCK POR QUANTITY */}
                 {/* BOTONERA */}
                 <View style={styles.botonera}>
-                  <Pressable onPress={() => decreaseAmount(product._id)}>
+                  <Pressable onPress={() => decreaseAmount(product.id)}>
                     <FontAwesome5
                       name="minus-square"
                       size={20}
@@ -134,7 +134,7 @@ const CartScreen = () => {
                   </Text>
                   <Pressable
                     onPress={() =>
-                      product.stock > quantity && increaseAmount(product._id)
+                      product.quantity > quantity && increaseAmount(product.id)
                     }
                   >
                     <FontAwesome5
