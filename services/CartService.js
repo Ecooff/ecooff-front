@@ -3,7 +3,6 @@ import { URLPath } from "../services";
 
 const CartService = {
   addToCart: (user, props) => {
-    console.log("como llega al servicio addToCart", user, props);
     const data = axios.post(URLPath.addToCart, props, {
       headers: setHeader(user.token),
     });

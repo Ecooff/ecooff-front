@@ -25,8 +25,9 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 const CartScreen = () => {
   const [cartItems, setCartItems] = useState([]);
+
   const [total, setTotal] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+
   const [newCart, setNewCart] = useState([]);
 
   const { addToCart, openCart, productLength, deleteItem } = CartService;
@@ -36,11 +37,22 @@ const CartScreen = () => {
     openCart(user).then((response) => setCartItems(response.data));
   }, [newCart]);
 
-  console.log("ItemsInCart", cartItems);
+  const totalPrice = cartItems.map((item) => item.price);
+  console.log("SEE PRICE", totalPrice.concat());
 
   const user = useSelector(selectUser);
   const [basket, setBasket] = useState([]);
   const navigator = useNavigation();
+
+  const updateQuantity = (id, quantity, i) => {
+    addToCart(user, {
+      productId: id,
+      quantity: quantity,
+    }).then(() => {
+      cartItems[i].quantity = quantity;
+      setNewCart((product) => [...cartItems, product]);
+    });
+  };
 
   useEffect(() => {
     axios
@@ -76,21 +88,8 @@ const CartScreen = () => {
         </Text>
       ) : (
         cartItems.map((product, i) => {
-          {
-            console.log("RRRRR", quantity);
-          }
-          const decreaseAmount = () => {
-            return quantity > 1 ? setQuantity(quantity - 1) : "";
-          };
-
-          const increaseAmount = () => {
-            return setQuantity(quantity + 1);
-          };
-
-          const removeProduct = (id) => {
-            console.log("IDPROCUT", id);
-            console.log("removeProduct is working");
-            deleteItem(user, id)
+          const removeProduct = () => {
+            deleteItem(user, product.cartId)
               .then((response) => setNewCart(response.data))
               .catch((err) => console.log("Catch", err.response));
           };
@@ -109,8 +108,7 @@ const CartScreen = () => {
                   <Text style={styles.productHeaderText}>{product.name}</Text>
                   <Text style={styles.productHeaderText}>
                     ${" "}
-                    {(quantity <= product.quantity &&
-                      product.price * quantity) ||
+                    {product.price * product.quantity ||
                       (product.quantity === 0 && product.price)}
                   </Text>
                 </View>
@@ -118,23 +116,23 @@ const CartScreen = () => {
                 {/* CAMBIE STOCK POR QUANTITY */}
                 {/* BOTONERA */}
                 <View style={styles.botonera}>
-                  <Pressable onPress={() => decreaseAmount(product.id)}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      updateQuantity(product.id, product.quantity - 1, i)
+                    }
+                  >
                     <FontAwesome5
                       name="minus-square"
                       size={20}
                       color="#3D9D5D"
                     />
-                  </Pressable>
+                  </TouchableOpacity>
                   <Text style={{ marginHorizontal: 10 }}>
-                    {quantity > product.quantity ? (
-                      <Text>out of stock</Text>
-                    ) : (
-                      product.quantity
-                    )}
+                    {product.quantity}
                   </Text>
-                  <Pressable
+                  <TouchableOpacity
                     onPress={() =>
-                      product.quantity > quantity && increaseAmount(product.id)
+                      updateQuantity(product.id, product.quantity + 1, i)
                     }
                   >
                     <FontAwesome5
@@ -142,9 +140,9 @@ const CartScreen = () => {
                       size={20}
                       color="#3D9D5D"
                     />
-                  </Pressable>
+                  </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => removeProduct(product.id)}>
+                  <TouchableOpacity onPress={() => removeProduct()}>
                     <FontAwesome5
                       name="trash-alt"
                       size={20}
@@ -160,6 +158,30 @@ const CartScreen = () => {
       );
     }
   };
+
+  //         addToCart(user, {
+  //           productId: product.id,
+  //           quantity: quantity >= 1 && quantity - 1,
+  //         })
+  //           .then((response) => response)
+  //           .catch((error) => console.log("CATCH", error.response));
+  //         {
+  //           console.log("PRODUCT", product);
+  //           console.log("QUANTITY", quantity);
+  //         }
+  //         const decreaseAmount = () => {
+  //           return quantity > 1 && setQuantity(product.quantity - 1);
+  //         };
+
+  //         const increaseAmount = () => {
+  //           return setQuantity(product.quantity + 1);
+  //         };
+
+  //         const removeProduct = () => {
+  //           deleteItem(user, product.cartId)
+  //             .then((response) => setNewCart(response.data))
+  //             .catch((err) => console.log("Catch", err.response));
+  //         };
 
   const Total = () => {
     return (

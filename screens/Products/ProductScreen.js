@@ -23,7 +23,7 @@ const ProductScreen = ({ route }) => {
   const { name, expPrice, expDate, img, providerName, description, _id } =
     route.params.product;
 
-  console.log(route.params);
+  console.log(_id);
 
   const { addToCart, productLength } = CartService;
 
@@ -40,8 +40,6 @@ const ProductScreen = ({ route }) => {
     productLenght > 0 && setAlreadyInCart(true);
   }, [productLenght]);
 
-  console.log("number lenght:", productLenght);
-
   const user = useSelector(selectUser);
 
   const AddProductToCart = () => {
@@ -50,8 +48,6 @@ const ProductScreen = ({ route }) => {
       .catch((error) => console.log("CATCH", error.response));
     setAlreadyInCart(true);
   };
-
-  console.log("AAA ROUTE", route.params);
 
   const navigator = useNavigation();
 

@@ -22,20 +22,21 @@ import { selectUser } from "../store/userSlice";
 
 export const MenuComponent = ({ onPress }) => {
   const [cartItems, setCartItems] = useState([]); // tiene que tener algo cargado para que no tome undefined o length sin nada
-  const [lenghtCart, setLenghtCart] = useState({});
+  const [lenghtCart, setLenghtCart] = useState(0);
 
   const navigator = useNavigation();
 
   const user = useSelector(selectUser);
 
-  const { addToCart, cartLength } = cartService;
+  const { cartLength, openCart } = cartService;
 
   useEffect(() => {
-    // addToCart(user).then((response) => setCartItems(response));
     cartLength(user).then((response) =>
       setLenghtCart(response.data.cartLength)
     );
   }, []);
+
+  console.log("cartNumber", lenghtCart);
 
   return (
     <SafeAreaView
