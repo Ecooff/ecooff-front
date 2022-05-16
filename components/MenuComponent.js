@@ -43,6 +43,7 @@ export const MenuComponent = ({ onPress }) => {
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
+        paddingTop: "5%",
         // alignItems: "baseline",
       }}
     >
@@ -67,7 +68,7 @@ export const MenuComponent = ({ onPress }) => {
       <Image style={styles.menuLogo} source={theIcon} />
       <View style={[globalStyles.row, globalStyles]}>
         <Pressable onPress={() => navigator.navigate("Cart")}>
-          {lenghtCart > 0 ? (
+          {lenghtCart > 0 && (
             <View
               style={{
                 borderRadius: 10,
@@ -89,8 +90,6 @@ export const MenuComponent = ({ onPress }) => {
                 {lenghtCart}
               </Text>
             </View>
-          ) : (
-            <Text></Text>
           )}
 
           <Ionicons
@@ -116,7 +115,6 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 20,
     marginRight: 190,
-    alignSelf: "stretch",
   },
 
   icon: {
@@ -126,6 +124,6 @@ const styles = StyleSheet.create({
   cartIcon: {
     marginRight: 20,
     marginTop: 3,
-    alignSelf: "stretch",
+    position: "relative",
   },
 });

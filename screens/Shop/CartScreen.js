@@ -205,10 +205,6 @@ const CartScreen = () => {
             <Text style={styles.footerSecondaryText}>Delivery</Text>
             <Text style={styles.footerSecondaryText}>$ 200</Text>
           </View>
-          <View style={styles.footerContainer}>
-            <Text style={styles.footerSecondaryText}>Productos</Text>
-            <Text style={styles.footerSecondaryText}>$ 650</Text>
-          </View>
         </View>
       </View>
     );

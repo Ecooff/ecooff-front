@@ -108,8 +108,12 @@ const OrdersScreen = () => {
           <Text style={styles.savingText}>8 litros</Text>
         </View>
         <View style={styles.savingTextContainer}>
-          <Text style={styles.savingText}>Comida</Text>
+          <Text style={styles.savingText}>Huella de Carbono</Text>
           <Text style={styles.savingText}>3 platos</Text>
+        </View>
+        <View style={styles.savingTextContainer}>
+          <Text style={styles.savingText}>Dinero</Text>
+          <Text style={styles.savingText}>$200</Text>
         </View>
       </View>
     );
@@ -132,7 +136,7 @@ const OrdersScreen = () => {
 
         {/* <DeliveryAndPayment /> */}
 
-        <Text style={styles.savingHeader}>Ahorraste</Text>
+        <Text style={styles.savingHeader}>Ahorras</Text>
 
         <Saving />
 
