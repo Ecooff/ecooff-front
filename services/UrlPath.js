@@ -34,6 +34,7 @@ export const cartLength = URL + "cart/cartLength";
 export const openCart = URL + "cart/openCart";
 export const productLength = URL + "cart/productLength/";
 export const deleteItem = URL + "cart/deleteItem/";
+export const confirmCart = URL + "cart/confirmCart";
 
 //Get User Adresses
 export const getUserAddresses = URL + "users/getUserAddresses";
@@ -66,6 +67,7 @@ const URLPath = {
   getByProv,
   productLength,
   deleteItem,
+  confirmCart
 };
 
 export default URLPath;
