@@ -8,6 +8,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
   Pressable,
   Modal,
 } from "react-native";
@@ -38,8 +39,7 @@ const HomeScreen = () => {
   const [providers, setProviders] = useState([]);
   const [closeToExpire, setCloseToExpire] = useState([]);
   const [featured, setFeatured] = useState([]);
-  const [userById, setUserById] = useState({});
-  const [todos, setTodos] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
 
   const user = useSelector(selectUser);
 
@@ -92,6 +92,7 @@ const HomeScreen = () => {
   const doSearch = (query) => {
 
     // Set Query for input
+    setSearchLoading(true);
     setQuery(query);
 
     // Call API
@@ -100,13 +101,16 @@ const HomeScreen = () => {
       productService.queryPartialMatch(user, query)
         .then((response) => {
           setQueryProducts(response.data);
+          setSearchLoading(false);
         })
         .catch((err) => {
           console.log("Something was wrong", err);
+          setSearchLoading(false);
         });
 
     } else {
       setQueryProducts([]);
+      setSearchLoading(false);
     }
 
   }
@@ -164,7 +168,11 @@ const HomeScreen = () => {
             ]}
           >
             <View style={styles.inputSearch}>
+            {searchLoading ? (
+              <ActivityIndicator style={[globalStyles.icons, {left:2}, {marginEnd:4}]} color="#4db591" />
+              ) : (
               <EvilIcons name="search" style={globalStyles.icons} />
+              )}
 
               <TextInput
                 placeholder="Buscar"

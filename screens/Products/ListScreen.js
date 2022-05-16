@@ -8,6 +8,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
@@ -31,7 +32,7 @@ const ListScreen = ({ route }) => {
   const [subcategory, setSubcategory] = useState(null);
   const user = useSelector(selectUser);
   const title = route.params.item.title;
-
+  const [searchLoading, setSearchLoading] = useState(false);
 
   useEffect(() => {
     callByCategory()
@@ -82,6 +83,7 @@ const ListScreen = ({ route }) => {
   const doSearch = (query) => {
 
     // Set Query for input
+    setSearchLoading(true);
     setQuery(query);
 
     // Call API
@@ -90,15 +92,19 @@ const ListScreen = ({ route }) => {
       productService.queryPartialMatch(user, query, title, subcategory)
         .then((response) => {
           setProducts(response.data);
+      setSearchLoading(false);
         })
         .catch((err) => {
           console.log("Something was wrong", err);
+      setSearchLoading(false);
         });
 
     } else if(subcategory == null) {
       callByCategory();
+      setSearchLoading(false);
     } else {
-      callSubcategory()
+      callSubcategory();
+      setSearchLoading(false);
     }
 
   }
@@ -126,8 +132,13 @@ const ListScreen = ({ route }) => {
             ]}
           >
             <View style={styles.inputSearch}>
-              <EvilIcons name="search" style={globalStyles.icons} />
 
+            {searchLoading ? (
+              <ActivityIndicator style={[globalStyles.icons, {left:2}, {marginEnd:4}]} color="#4db591" />
+              ) : (
+              <EvilIcons name="search" style={globalStyles.icons} />
+              )}
+              
               <TextInput
                 placeholder="Buscar"
                 value={search}

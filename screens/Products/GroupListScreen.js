@@ -8,6 +8,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
@@ -29,6 +30,7 @@ const GroupListScreen = ({ route }) => {
   const { getByProvSubcat } = productService;
   const titleProvider = route.params.product.providerName;
   const idProvider = route.params.product._id;
+  const [searchLoading, setSearchLoading] = useState(false);
 
   const user = useSelector(selectUser);
 
@@ -85,6 +87,7 @@ const GroupListScreen = ({ route }) => {
   const doSearch = (query) => {
 
     // Set Query for input
+    setSearchLoading(true);
     setQuery(query);
 
     if (query != null && query != '') {
@@ -92,12 +95,15 @@ const GroupListScreen = ({ route }) => {
       productService.queryPartialMatch(user, query, null, null, _id)
         .then((response) => {
           setProductsProvider(response.data);
+          setSearchLoading(false);
         })
         .catch((err) => {
           console.log("Something was wrong", err);
+          setSearchLoading(false);
         });
     } else {
       callProducts();
+      setSearchLoading(false);
     }
 
   }
@@ -126,7 +132,12 @@ const GroupListScreen = ({ route }) => {
             ]}
           >
             <View style={styles.inputSearch}>
+              
+            {searchLoading ? (
+              <ActivityIndicator style={[globalStyles.icons, {left:2}, {marginEnd:4}]} color="#4db591" />
+              ) : (
               <EvilIcons name="search" style={globalStyles.icons} />
+              )}
 
               <TextInput
                 placeholder="Buscar"
