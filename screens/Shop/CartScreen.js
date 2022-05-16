@@ -25,21 +25,21 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 const CartScreen = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [newCart, setNewCart] = useState([]);
 
-  const { addToCart, openCart } = CartService;
+  const { addToCart, openCart, productLength, deleteItem } = CartService;
 
   useEffect(() => {
     // addToCart().then((response) => setCartItems(response.products));
-    openCart(user).then((response) =>
-      setCartItems(response.data.map((item) => item.stock[0]))
-    );
-  }, []);
+    openCart(user).then((response) => setCartItems(response.data));
+  }, [newCart]);
 
   console.log("ItemsInCart", cartItems);
 
   const user = useSelector(selectUser);
   const [basket, setBasket] = useState([]);
-  // const [total, setTotal] =useState(0);
   const navigator = useNavigation();
 
   useEffect(() => {
@@ -62,80 +62,103 @@ const CartScreen = () => {
   }, []);
 
   const MyBasket = () => {
-    cartItems.length === 1 && (
-      <Text
-        style={{
-          fontSize: 20,
-          textAlign: "center",
-          marginTop: "20%",
-          fontWeight: "700",
-        }}
-      >
-        No hay nada en el carrito
-      </Text>
-    );
-    return cartItems.map((product, i) => {
-      const [counter, setCounter] = useState(1);
+    {
+      return cartItems.length === 0 ? (
+        <Text
+          style={{
+            fontSize: 20,
+            textAlign: "center",
+            marginTop: "20%",
+            fontWeight: "700",
+          }}
+        >
+          No hay nada en el carrito
+        </Text>
+      ) : (
+        cartItems.map((product, i) => {
+          {
+            console.log("RRRRR", quantity);
+          }
+          const decreaseAmount = (id) => {
+            return quantity > 1 ? setQuantity(quantity - 1) : "";
+          };
 
-      const decreaseAmount = () => {
-        return counter > 1 ? setCounter(counter - 1) : "";
-      };
+          const increaseAmount = (id) => {
+            return setQuantity(quantity + 1);
+          };
 
-      const increaseAmount = () => {
-        return setCounter(counter + 1);
-      };
+          const removeProduct = (id) => {
+            console.log("IDPROCUT", id);
+            console.log("removeProduct is working");
+            deleteItem(user, id)
+              .then((response) => setNewCart(response.data))
+              .catch((err) => console.log("Catch", err.response));
+          };
 
-      const removeProduct = () => {
-        console.log("removeProduct is working");
-      };
-
-      return (
-        <View key={i} style={styles.productCard}>
-          <View style={styles.cardImage}>
-            <Image style={styles.productImage} source={{ uri: product.img }} />
-          </View>
-
-          <View style={styles.dataContainer}>
-            <View style={styles.productHeader}>
-              <Text style={styles.productHeaderText}>{product.name}</Text>
-              <Text style={styles.productHeaderText}>
-                ${" "}
-                {(counter <= product.stock && product.expPrice * counter) ||
-                  (product.stock === 0 && product.expPrice)}
-              </Text>
-            </View>
-            <Text style={styles.subHeaderText}>{product.date}</Text>
-            {/* CAMBIE STOCK POR QUANTITY */}
-            {/* BOTONERA */}
-            <View style={styles.botonera}>
-              <Pressable
-                onPress={() => product.stock > counter && increaseAmount()}
-              >
-                <FontAwesome5 name="plus-square" size={20} color="#3D9D5D" />
-              </Pressable>
-              <Text style={{ marginHorizontal: 10 }}>
-                {counter > product.quantity ? (
-                  <Text>out of stock</Text>
-                ) : (
-                  counter
-                )}
-              </Text>
-              <Pressable onPress={() => decreaseAmount()}>
-                <FontAwesome5 name="minus-square" size={20} color="#3D9D5D" />
-              </Pressable>
-              <Pressable onPress={() => removeProduct()}>
-                <FontAwesome5
-                  name="trash-alt"
-                  size={20}
-                  color="#3D9D5D"
-                  style={styles.trashIcon}
+          return (
+            <View key={i} style={styles.productCard}>
+              <View style={styles.cardImage}>
+                <Image
+                  style={styles.productImage}
+                  source={{ uri: product.img }}
                 />
-              </Pressable>
+              </View>
+
+              <View style={styles.dataContainer}>
+                <View style={styles.productHeader}>
+                  <Text style={styles.productHeaderText}>{product.name}</Text>
+                  <Text style={styles.productHeaderText}>
+                    ${" "}
+                    {(quantity <= product.quantity &&
+                      product.expPrice * quantity) ||
+                      (product.quantity === 0 && product.expPrice)}
+                  </Text>
+                </View>
+                <Text style={styles.subHeaderText}>{product.date}</Text>
+                {/* CAMBIE STOCK POR QUANTITY */}
+                {/* BOTONERA */}
+                <View style={styles.botonera}>
+                  <Pressable onPress={() => decreaseAmount(product._id)}>
+                    <FontAwesome5
+                      name="minus-square"
+                      size={20}
+                      color="#3D9D5D"
+                    />
+                  </Pressable>
+                  <Text style={{ marginHorizontal: 10 }}>
+                    {quantity > product.quantity ? (
+                      <Text>out of stock</Text>
+                    ) : (
+                      product.quantity
+                    )}
+                  </Text>
+                  <Pressable
+                    onPress={() =>
+                      product.stock > quantity && increaseAmount(product._id)
+                    }
+                  >
+                    <FontAwesome5
+                      name="plus-square"
+                      size={20}
+                      color="#3D9D5D"
+                    />
+                  </Pressable>
+
+                  <TouchableOpacity onPress={() => removeProduct(product.id)}>
+                    <FontAwesome5
+                      name="trash-alt"
+                      size={20}
+                      color="#3D9D5D"
+                      style={styles.trashIcon}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
+          );
+        })
       );
-    });
+    }
   };
 
   const Total = () => {
@@ -143,7 +166,7 @@ const CartScreen = () => {
       <View style={styles.menuContainer}>
         <View style={styles.footerContainer}>
           <Text style={[styles.footerMainText]}>Total</Text>
-          <Text style={[styles.footerMainText]}>$850</Text>
+          <Text style={[styles.footerMainText]}>{total}</Text>
         </View>
         <View>
           <View style={styles.footerContainer}>

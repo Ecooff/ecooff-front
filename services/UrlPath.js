@@ -32,6 +32,8 @@ export const getByUserId = URL + "orders/getByUserId";
 export const addToCart = URL + "cart/addToCart";
 export const cartLength = URL + "cart/cartLength";
 export const openCart = URL + "cart/openCart";
+export const productLength = URL + "cart/productLength/";
+export const deleteItem = URL + "cart/deleteItem/";
 
 //Get User Adresses
 export const getUserAddresses = URL + "users/getUserAddresses";
@@ -61,7 +63,9 @@ const URLPath = {
   cartLength,
   openCart,
   partialMatch,
-  getByProv
+  getByProv,
+  productLength,
+  deleteItem,
 };
 
 export default URLPath;

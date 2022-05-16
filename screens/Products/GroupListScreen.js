@@ -18,10 +18,14 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import { MaterialIcons } from '@expo/vector-icons';
 
-{ /* SERVICES */ }
+{
+  /* SERVICES */
+}
 import productService from "../../services/ProductService";
 
-{ /* COMPONENTS */ }
+{
+  /* COMPONENTS */
+}
 import { MenuComponent, FooterComponent } from "../../components";
 import AllSubcategories from "../../components/AllSubcategories";
 import ProductList from "../../components/ProductList";
@@ -45,6 +49,7 @@ const GroupListScreen = ({ route }) => {
 
   const callProducts = () => {
     productService.getByProvider(user, idProvider).then((response) => {
+<<<<<<< HEAD
       setProductsProvider(response.data)
     });
   }
@@ -52,11 +57,20 @@ const GroupListScreen = ({ route }) => {
   const callback = (param) => {
     // If the subcategory is equal to de category, it means the user is looking to all items in that category, soy subcategory should bbe null
     if (param != 'Todos') {
+=======
+      setProductsProvider(response.data);
+    });
+  }, []);
+
+  const callback = (param) => {
+    // If the subcategory is equal to de category, it means the user is looking to all items in that category, soy subcategory should bbe null
+    if (param != "Todos") {
+>>>>>>> 3d0d19c0d00b894061c0641b9aba6786a9f6b1ec
       setSubcategory(param);
     } else {
       setSubcategory(null);
     }
-  }
+  };
 
   const shadowStyle = {
     shadowColor: "#000",
@@ -75,7 +89,11 @@ const GroupListScreen = ({ route }) => {
       title: "Cosmetica",
       id: 2,
     },
-    { icon: require("../../assets/icons/pharmacy.png"), title: "Farmacia", id: 3 },
+    {
+      icon: require("../../assets/icons/pharmacy.png"),
+      title: "Farmacia",
+      id: 3,
+    },
     {
       icon: require("../../assets/icons/surprice.png"),
       title: "Sorpresas",
@@ -85,7 +103,6 @@ const GroupListScreen = ({ route }) => {
 
   // Do Search
   const doSearch = (query) => {
-
     // Set Query for input
     setSearchLoading(true);
     setQuery(query);
@@ -121,7 +138,10 @@ const GroupListScreen = ({ route }) => {
       <ScrollView style={styles.scrollContainer}>
         
         <View style={styles.products}>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3d0d19c0d00b894061c0641b9aba6786a9f6b1ec
           {/* SEARCHER */}
           <View
             style={[
@@ -158,7 +178,6 @@ const GroupListScreen = ({ route }) => {
           </View>
 
           <View style={{ marginTop: 20 }}>
-
             {/* CATEGORIES SCROLL */}
             {/* <View
           style={[
@@ -189,12 +208,22 @@ const GroupListScreen = ({ route }) => {
           })}
         </View> */}
 
+<<<<<<< HEAD
             <AllSubcategories idProvider={idProvider} parentCallback={callback} />
 
           </View>
 
           <View style={{ flexDirection: "row", alignItems: "center" }}>
 
+=======
+            <AllSubcategories
+              idProvider={idProvider}
+              parentCallback={callback}
+            />
+          </View>
+
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+>>>>>>> 3d0d19c0d00b894061c0641b9aba6786a9f6b1ec
             <Image
               source={{ uri: img }}
               style={{ width: 25, height: 25, marginRight: 10 }}
@@ -209,7 +238,6 @@ const GroupListScreen = ({ route }) => {
             >
               {name}
             </Text>
-
           </View>
           {/* CATEGORIES SCROLL */}
           <ScrollView
