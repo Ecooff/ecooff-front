@@ -43,8 +43,6 @@ export const MenuComponent = ({ onPress }) => {
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingTop: "5%",
-        // alignItems: "baseline",
       }}
     >
       <Pressable onPress={() => navigator.navigate("Home")} />

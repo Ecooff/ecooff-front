@@ -13,6 +13,7 @@ import {
   Pressable,
   View,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import CartService from "../../services/CartService";
 import { useSelector } from "react-redux";
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     width: "100%",
     backgroundColor: "#3D9D5D",
-    // bottom: -20,
+    bottom: -20,
     marginTop: 20,
     height: 50,
   },

@@ -6,19 +6,14 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Modal,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 
 import { MenuComponent } from "../../components";
-import Checkout from "./Checkout";
-import { localhost } from "../../localhost.json";
-import { fakeData } from "../../utils/fakeData";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
-import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import CartService from "../../services/CartService";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
@@ -31,11 +26,12 @@ const CartScreen = () => {
   const { addToCart, openCart, deleteItem } = CartService;
 
   useEffect(() => {
-    openCart(user).then((response) => setCartItems(response.data));
+    openCart(user).then((response) =>
+      setCartItems(response.data.listOfProducts)
+    );
   }, [newCart]);
 
   const totalPrice = cartItems.map((item) => item.price);
-  console.log("SEE PRICE", totalPrice);
 
   const getTotal = (a) => {
     let total = 0;
@@ -47,10 +43,7 @@ const CartScreen = () => {
 
   const verTotal = getTotal(totalPrice);
 
-  console.log(verTotal);
-
   const user = useSelector(selectUser);
-  const [basket, setBasket] = useState([]);
   const navigator = useNavigation();
 
   const updateQuantity = (id, quantity, i) => {
@@ -62,25 +55,6 @@ const CartScreen = () => {
       setNewCart((product) => [...cartItems, product]);
     });
   };
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://${localhost}/api/cart`, {
-  //       //this doesnt work, i need me cart/basket
-  //       headers: {
-  //         Authorization: `Bearer ${user?.token}`,
-  //       },
-  //     })
-  //     .then(({ data }) =>
-  //       data.products
-  //         ? setBasket(data.products)
-  //         : setBasket(fakeData.productsList)
-  //     )
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setBasket(fakeData.productsList); //line to delete
-  //     });
-  // }, []);
 
   const MyBasket = () => {
     {
@@ -168,30 +142,6 @@ const CartScreen = () => {
       );
     }
   };
-
-  //         addToCart(user, {
-  //           productId: product.id,
-  //           quantity: quantity >= 1 && quantity - 1,
-  //         })
-  //           .then((response) => response)
-  //           .catch((error) => console.log("CATCH", error.response));
-  //         {
-  //           console.log("PRODUCT", product);
-  //           console.log("QUANTITY", quantity);
-  //         }
-  //         const decreaseAmount = () => {
-  //           return quantity > 1 && setQuantity(product.quantity - 1);
-  //         };
-
-  //         const increaseAmount = () => {
-  //           return setQuantity(product.quantity + 1);
-  //         };
-
-  //         const removeProduct = () => {
-  //           deleteItem(user, product.cartId)
-  //             .then((response) => setNewCart(response.data))
-  //             .catch((err) => console.log("Catch", err.response));
-  //         };
 
   const Total = () => {
     return (
