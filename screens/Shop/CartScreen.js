@@ -26,19 +26,28 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 const CartScreen = () => {
   const [cartItems, setCartItems] = useState([]);
 
-  const [total, setTotal] = useState(0);
-
   const [newCart, setNewCart] = useState([]);
 
-  const { addToCart, openCart, productLength, deleteItem } = CartService;
+  const { addToCart, openCart, deleteItem } = CartService;
 
   useEffect(() => {
-    // addToCart().then((response) => setCartItems(response.products));
     openCart(user).then((response) => setCartItems(response.data));
   }, [newCart]);
 
   const totalPrice = cartItems.map((item) => item.price);
-  console.log("SEE PRICE", totalPrice.concat());
+  console.log("SEE PRICE", totalPrice);
+
+  const getTotal = (a) => {
+    let total = 0;
+    for (let i in a) {
+      total += a[i];
+    }
+    return total;
+  };
+
+  const verTotal = getTotal(totalPrice);
+
+  console.log(verTotal);
 
   const user = useSelector(selectUser);
   const [basket, setBasket] = useState([]);
@@ -54,24 +63,24 @@ const CartScreen = () => {
     });
   };
 
-  useEffect(() => {
-    axios
-      .get(`http://${localhost}/api/cart`, {
-        //this doesnt work, i need me cart/basket
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      })
-      .then(({ data }) =>
-        data.products
-          ? setBasket(data.products)
-          : setBasket(fakeData.productsList)
-      )
-      .catch((err) => {
-        console.log(err);
-        setBasket(fakeData.productsList); //line to delete
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://${localhost}/api/cart`, {
+  //       //this doesnt work, i need me cart/basket
+  //       headers: {
+  //         Authorization: `Bearer ${user?.token}`,
+  //       },
+  //     })
+  //     .then(({ data }) =>
+  //       data.products
+  //         ? setBasket(data.products)
+  //         : setBasket(fakeData.productsList)
+  //     )
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setBasket(fakeData.productsList); //line to delete
+  //     });
+  // }, []);
 
   const MyBasket = () => {
     {
@@ -88,6 +97,7 @@ const CartScreen = () => {
         </Text>
       ) : (
         cartItems.map((product, i) => {
+          console.log("price in map", product);
           const removeProduct = () => {
             deleteItem(user, product.cartId)
               .then((response) => setNewCart(response.data))
@@ -188,16 +198,16 @@ const CartScreen = () => {
       <View style={styles.menuContainer}>
         <View style={styles.footerContainer}>
           <Text style={[styles.footerMainText]}>Total</Text>
-          <Text style={[styles.footerMainText]}>{total}</Text>
+          <Text style={[styles.footerMainText]}>$ {verTotal}</Text>
         </View>
         <View>
           <View style={styles.footerContainer}>
             <Text style={styles.footerSecondaryText}>Delivery</Text>
-            <Text style={styles.footerSecondaryText}>$200</Text>
+            <Text style={styles.footerSecondaryText}>$ 200</Text>
           </View>
           <View style={styles.footerContainer}>
             <Text style={styles.footerSecondaryText}>Productos</Text>
-            <Text style={styles.footerSecondaryText}>$650</Text>
+            <Text style={styles.footerSecondaryText}>$ 650</Text>
           </View>
         </View>
       </View>
@@ -246,7 +256,7 @@ const CartScreen = () => {
       >
         <View style={styles.buttonContainer}>
           <Text style={styles.textStyle}>Confirmar pago</Text>
-          <Text style={styles.textStyle}>$850</Text>
+          <Text style={styles.textStyle}>$ {verTotal}</Text>
         </View>
       </Pressable>
     </View>

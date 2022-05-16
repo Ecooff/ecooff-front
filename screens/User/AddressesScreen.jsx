@@ -29,15 +29,13 @@ const AddressesScreen = () => {
     setUserAdresses(userAdresses => [...userAdresses, newAddress])
   }
 
-  // 
-
   useEffect(() => {
     getUserAddresses(user).then(response => setUserAdresses(response.data[0].addresses))
   }, [])
 
   const selectFn = (id, i) => {
     selected ? setSelected(false) : setSelected(true);
-    AdressService.changeDefaultAdress(id, i, user).then(response => {}).catch(error => console.log('ERROR', error.response.data.message))
+    AdressService.changeDefaultAdress(id, user).then(response => {}).catch(error => console.log('ERROR', error.response.data.message))
     userAdresses.map(address => {
       address.defaultAddress = false;
     })

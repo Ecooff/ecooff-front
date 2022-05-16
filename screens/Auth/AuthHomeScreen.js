@@ -37,20 +37,19 @@ const AuthHomeScreen = () => {
   const verifyData = (data) => {
     if (data) {
       //setIsLoading(true);
-      console.log("data true"); 
+      console.log("data true");
     } else {
       //setIsLoading(false);
       console.log("data false");
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
   useEffect(async () => {
-
     setTimeout(() => {
-      console.log('procede a mostrar botones de login') // la logica de esto es esperar a que traiga los datos en el GET, y si
-      setIsLoading(false);                              // no trae los datos muestra los botones 
-   }, 2000)
+      console.log("procede a mostrar botones de login"); // la logica de esto es esperar a que traiga los datos en el GET, y si
+      setIsLoading(false); // no trae los datos muestra los botones
+    }, 2000);
 
     try {
       const token = await AsyncStorage.getItem("@me");
@@ -58,11 +57,11 @@ const AuthHomeScreen = () => {
         `http://${localhost}/api/users/retrieveUser`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log("userrr", user.data); //hacer un if user.data es undefined que muestre el loading . la idea es que espere 10segs y cambie el estado
+      //hacer un if user.data es undefined que muestre el loading . la idea es que espere 10segs y cambie el estado
       user ? me(user.data, token) : setIsLoading(false);
       //!user ? setIsLoading(false) : setIsLoading(true);
       //user ? setIsLoading(false) : setIsLoading(true);
-       
+
       //verifyData(user.data)
       //user ? setIsLoading(true) : setIsLoading(false);
       // SI isLoading es TRUE se muestra el loading

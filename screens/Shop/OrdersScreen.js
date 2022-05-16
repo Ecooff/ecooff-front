@@ -17,16 +17,26 @@ import globalStyles from "../../styles/styles";
 import productStyles from "../../styles/productStyles";
 import { fakeData } from "../../utils/fakeData";
 import Checkout from "./Checkout";
+import CartService from "../../services/CartService";
+import { useSelector } from "react-redux";
+import { selectUser } from "'./../../store/userSlice";
 
 const OrdersScreen = () => {
+  const user = useSelector(selectUser);
+
+  const { openCart } = CartService;
+
   const [order, setOrder] = useState([]);
 
   // const { title } = route.params.item;
   const navigator = useNavigation();
 
   useEffect(() => {
+    openCart(user).then((response) => setOrder(response.data));
     setOrder(fakeData.productsList);
   }, []);
+
+  console.log("set order", order);
 
   const MyOrder = () => {
     if (order.length === 0) return <Text>Nada en esta orden</Text>;
@@ -43,7 +53,7 @@ const OrdersScreen = () => {
             ]}
           >
             <View style={styles.cardImage}>
-              <Image style={styles.product} source={{ uri: product.url }} />
+              <Image style={styles.product} source={{ uri: product.img }} />
             </View>
 
             <View>
@@ -55,7 +65,7 @@ const OrdersScreen = () => {
                   globalStyles.fontBold,
                 ]}
               >
-                {!product.amount ? 1 : product.amount} x {product.title}
+                {!product.quantity ? 1 : product.quantity} x {product.name}
               </Text>
             </View>
           </TouchableOpacity>
@@ -112,12 +122,13 @@ const OrdersScreen = () => {
   return (
     <View>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <ScrollView style={styles.menuContainer}>
+      <View style={styles.menuContainer}>
         <MenuComponent onPress={() => navigator.goBack()} />
 
         <Text style={styles.header}>Con tu compra</Text>
-
-        <MyOrder />
+        <ScrollView style={{ maxHeight: 350 }}>
+          <MyOrder />
+        </ScrollView>
 
         {/* <DeliveryAndPayment /> */}
 
@@ -129,7 +140,7 @@ const OrdersScreen = () => {
           <Text style={styles.buttonText}>Continuar</Text>
         </Pressable> */}
         <Checkout />
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -146,7 +157,7 @@ const styles = StyleSheet.create({
     fontSize: 38,
     alignSelf: "center",
     marginBottom: 20,
-    marginTop: 20,
+    marginTop: 8,
   },
   deliveryMainContainer: {
     margin: 10,
@@ -190,7 +201,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 24,
     alignSelf: "center",
-    marginTop: 60,
+    marginTop: 15,
   },
   savingTextContainer: {
     justifyContent: "space-between",

@@ -1,18 +1,44 @@
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  TouchableOpacity,
+} from "react-native";
+import CartService from "../../services/CartService";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/userSlice";
 // import CheckoutContent from './CheckoutContent';
 
 const Checkout = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [order, setOrder] = useState({});
   const [total, setTotal] = useState(0);
+  const [lenghtCart, setLenghtCart] = useState(0);
   const navigator = useNavigation();
+
+  const user = useSelector(selectUser);
+
+  const { cartLength } = CartService;
 
   // useEffect(() => {
   //   // setOrder and setTotal
   // },[])
+
+  useEffect(() => {
+    cartLength(user).then((response) =>
+      setLenghtCart(response.data.cartLength)
+    );
+  }, []);
 
   const confirmOrder = () => {
     setModalVisible(!modalVisible);
@@ -28,10 +54,14 @@ const Checkout = () => {
     return (
       <View style={styles.content}>
         <View style={styles.container}>
-          <MaterialCommunityIcons name="shopping-outline" size={18} color="#3D9D5D" />
+          <MaterialCommunityIcons
+            name="shopping-outline"
+            size={18}
+            color="#3D9D5D"
+          />
           <View style={styles.mainText}>
-            <Text style={styles.baseText}>Cantindad de productos: </Text>
-            <Text>{order.products?.length ? order.products.length : 3}</Text>
+            <Text style={styles.baseText}>Cantidad de productos: </Text>
+            <Text>{lenghtCart}</Text>
           </View>
         </View>
         <View style={styles.container}>
@@ -45,10 +75,14 @@ const Checkout = () => {
           </Pressable>
         </View>
         <View style={styles.container}>
-          <MaterialCommunityIcons name="truck-fast-outline" size={18} color="#3D9D5D" />
+          <MaterialCommunityIcons
+            name="truck-fast-outline"
+            size={18}
+            color="#3D9D5D"
+          />
           <View style={styles.mainText}>
             <Text style={styles.baseText}>Entrega estimada: </Text>
-            <Text>{order.deliveryTime ? order.deliveryTime : "90 mins" }</Text>
+            <Text>{order.deliveryTime ? order.deliveryTime : "90 mins"}</Text>
           </View>
         </View>
         <View style={styles.container}>
@@ -73,7 +107,7 @@ const Checkout = () => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}
-        >
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalHeaderText}>
@@ -89,20 +123,20 @@ const Checkout = () => {
               <Pressable
                 style={[styles.button, styles.cancelModelButton]}
                 onPress={() => setModalVisible(!modalVisible)}
-                >
+              >
                 <Text style={styles.cancelModelText}>Cancelar</Text>
               </Pressable>
-              <Pressable
+              <TouchableOpacity
                 style={[styles.button, styles.confirmModelButton]}
                 onPress={() => confirmOrder()}
-                >
+              >
                 <Text style={styles.textStyle}>Confirmar</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
-        </View>    
+        </View>
       </Modal>
-      
+
       {/* confirm btn's first style */}
       {/* <Pressable
         style={styles.buttonPurchase}
@@ -115,10 +149,10 @@ const Checkout = () => {
       </Pressable> */}
       {/* second style */}
       <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
-          <Text style={styles.buttonText}>Continuar</Text>
+        <Text style={styles.buttonText}>Continuar</Text>
       </Pressable>
     </View>
-        // </View>
+    // </View>
   );
 };
 
@@ -165,11 +199,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
+    borderTopStartRadius: 20,
+    borderTopEndRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
     elevation: 2,
     width: "100%",
     backgroundColor: "#3D9D5D",
+    // bottom: -20,
+    marginTop: 20,
+    height: 50,
   },
   buttonPurchase: {
     borderTopStartRadius: 20,
@@ -224,15 +263,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   /* confirm btn's second style */
-  button: {
-    borderRadius: 10,
-    padding: 10,
-    elevation: 2,
-    width: "95%",
-    backgroundColor: "#3D9D5D",
-    alignSelf: "center",
-    marginTop: 10,
-  },
+  // button: {
+  //   borderRadius: 10,
+  //   padding: 10,
+  //   elevation: 2,
+  //   width: "95%",
+  //   backgroundColor: "#3D9D5D",
+  //   alignSelf: "center",
+  //   marginTop: 10,
+  // },
   buttonText: {
     color: "white",
     fontWeight: "bold",

@@ -15,6 +15,7 @@ const AdressService = {
     return data;
   },
   changeDefaultAdress: (adressID, user) => {
+    console.log("TOKENADDRESS", user);
     const data = axios.put(
       URLPath.changeDefaultAdress + adressID,
       {},
