@@ -8,7 +8,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
@@ -16,7 +16,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 
 {
   /* SERVICES */
@@ -49,23 +49,13 @@ const GroupListScreen = ({ route }) => {
 
   const callProducts = () => {
     productService.getByProvider(user, idProvider).then((response) => {
-<<<<<<< HEAD
-      setProductsProvider(response.data)
-    });
-  }
-
-  const callback = (param) => {
-    // If the subcategory is equal to de category, it means the user is looking to all items in that category, soy subcategory should bbe null
-    if (param != 'Todos') {
-=======
       setProductsProvider(response.data);
     });
-  }, []);
+  };
 
   const callback = (param) => {
     // If the subcategory is equal to de category, it means the user is looking to all items in that category, soy subcategory should bbe null
     if (param != "Todos") {
->>>>>>> 3d0d19c0d00b894061c0641b9aba6786a9f6b1ec
       setSubcategory(param);
     } else {
       setSubcategory(null);
@@ -107,9 +97,10 @@ const GroupListScreen = ({ route }) => {
     setSearchLoading(true);
     setQuery(query);
 
-    if (query != null && query != '') {
+    if (query != null && query != "") {
       // Call API
-      productService.queryPartialMatch(user, query, null, null, _id)
+      productService
+        .queryPartialMatch(user, query, null, null, _id)
         .then((response) => {
           setProductsProvider(response.data);
           setSearchLoading(false);
@@ -122,26 +113,19 @@ const GroupListScreen = ({ route }) => {
       callProducts();
       setSearchLoading(false);
     }
-
-  }
+  };
 
   const navigator = useNavigation();
 
   return (
     <View style={[styles.homeContainer]}>
-
       <View style={styles.menuContainer}>
         {/* MENU */}
         <MenuComponent onPress={() => navigator.goBack()} />
       </View>
 
       <ScrollView style={styles.scrollContainer}>
-        
         <View style={styles.products}>
-<<<<<<< HEAD
-
-=======
->>>>>>> 3d0d19c0d00b894061c0641b9aba6786a9f6b1ec
           {/* SEARCHER */}
           <View
             style={[
@@ -152,11 +136,13 @@ const GroupListScreen = ({ route }) => {
             ]}
           >
             <View style={styles.inputSearch}>
-              
-            {searchLoading ? (
-              <ActivityIndicator style={[globalStyles.icons, {left:2}, {marginEnd:4}]} color="#4db591" />
+              {searchLoading ? (
+                <ActivityIndicator
+                  style={[globalStyles.icons, { left: 2 }, { marginEnd: 4 }]}
+                  color="#4db591"
+                />
               ) : (
-              <EvilIcons name="search" style={globalStyles.icons} />
+                <EvilIcons name="search" style={globalStyles.icons} />
               )}
 
               <TextInput
@@ -208,14 +194,6 @@ const GroupListScreen = ({ route }) => {
           })}
         </View> */}
 
-<<<<<<< HEAD
-            <AllSubcategories idProvider={idProvider} parentCallback={callback} />
-
-          </View>
-
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-
-=======
             <AllSubcategories
               idProvider={idProvider}
               parentCallback={callback}
@@ -223,7 +201,6 @@ const GroupListScreen = ({ route }) => {
           </View>
 
           <View style={{ flexDirection: "row", alignItems: "center" }}>
->>>>>>> 3d0d19c0d00b894061c0641b9aba6786a9f6b1ec
             <Image
               source={{ uri: img }}
               style={{ width: 25, height: 25, marginRight: 10 }}
@@ -244,16 +221,27 @@ const GroupListScreen = ({ route }) => {
             showsVerticalScrollIndicator={false}
             style={styles.productScroll}
           >
-            {
-              productsProvider.length > 0 ?
-                productsProvider.map((product, index) => {
-                  return (
-                    <ProductList  key={product._id} product={product} index={index} />
-                  );
-                }) : <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
-                  <MaterialIcons name="search-off" size={200} color="lightgrey" />
-                </View>
-            }
+            {productsProvider.length > 0 ? (
+              productsProvider.map((product, index) => {
+                return (
+                  <ProductList
+                    key={product._id}
+                    product={product}
+                    index={index}
+                  />
+                );
+              })
+            ) : (
+              <View
+                style={[
+                  styles.scrollTitle,
+                  globalStyles.row,
+                  globalStyles.justifyContentCenter,
+                ]}
+              >
+                <MaterialIcons name="search-off" size={200} color="lightgrey" />
+              </View>
+            )}
           </ScrollView>
         </View>
       </ScrollView>
@@ -388,6 +376,5 @@ const styles = StyleSheet.create({
   productListSeller: {
     width: 30,
     height: 30,
-  }
-
+  },
 });
