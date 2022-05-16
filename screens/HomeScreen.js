@@ -22,6 +22,7 @@ import { BackHandler } from "react-native";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { MaterialIcons } from '@expo/vector-icons';
+import { commonFunctions } from "../utils";
 
 { /* COMPONENTS */ }
 import { MenuComponent, FooterComponent } from "../components";
@@ -104,7 +105,6 @@ const HomeScreen = () => {
           setSearchLoading(false);
         })
         .catch((err) => {
-          console.log("Something was wrong", err);
           setSearchLoading(false);
         });
 
@@ -250,7 +250,7 @@ const HomeScreen = () => {
                                 index >= 2 ? globalStyles.textCenter : null,
                               ]}
                             >
-                              {product.provider || product.name}
+                              {product.provider || commonFunctions.capitalize(product.name)}
                             </Text>
                             {index < 2 ? (
                               <Text

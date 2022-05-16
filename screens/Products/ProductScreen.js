@@ -12,6 +12,8 @@ import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
+import { commonFunctions } from "../../utils";
+
 
 {
   /* COMPONENTS */
@@ -20,10 +22,8 @@ import { MenuComponent } from "../../components";
 import CartService from "../../services/CartService";
 
 const ProductScreen = ({ route }) => {
-  const { name, expPrice, expDate, img, providerName, description, _id } =
+  const { name, expPrice, expDate, img, providerName, description, _id, providerImg } =
     route.params.product;
-
-  console.log(_id);
 
   const { addToCart, productLength } = CartService;
 
@@ -70,7 +70,7 @@ const ProductScreen = ({ route }) => {
               globalStyles.fontMain,
             ]}
           >
-            {name}
+            {commonFunctions.capitalize(name)}
           </Text>
 
           <View
@@ -105,7 +105,7 @@ const ProductScreen = ({ route }) => {
                 Fecha de Vencimiento
               </Text>
               <Text style={[styles.bannerSamllMargin, globalStyles.fontMedium]}>
-                {expDate}
+                {commonFunctions.dateParse(expDate)}
               </Text>
               {/* El objeto no trae "expiration date" */}
             </View>
@@ -133,14 +133,15 @@ const ProductScreen = ({ route }) => {
                   globalStyles.fontSmall,
                 ]}
               >
-                {/* <Image
+                <Image
                   style={styles.productSeller}
-                  source={{ uri: seller.url }}
-                /> */}
+                  source={{ uri: providerImg }}
+                />
 
                 {/* <Text>{seller.title}</Text> */}
                 <Text>{providerName}</Text>
               </View>
+
             </View>
 
             <View style={globalStyles.widthHalf}>
@@ -215,12 +216,14 @@ const styles = StyleSheet.create({
 
   productTitle: {
     fontSize: 38,
-    width: "50%",
+    width: "100%",
+    marginBottom: 40
   },
 
   productSeller: {
-    width: 40,
-    height: 40,
+    width: 25,
+    height: 25,
+    marginRight: 10
   },
 
   productBanner: {

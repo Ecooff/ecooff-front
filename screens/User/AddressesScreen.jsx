@@ -21,8 +21,6 @@ const AddressesScreen = () => {
 
  const navigator = useNavigation();
 
-//  console.log('user' , user)
-
   const callback = (newAddress) => {
     // do something with value in parent component, like save to state
     console.log('nueva direccion', newAddress)

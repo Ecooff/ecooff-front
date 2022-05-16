@@ -50,26 +50,6 @@ const LoginScreen = () => {
       password: password,
     };
 
-    // AuthService.login(user) //NOTE: comment to delete
-    //   .then((res) => {
-    //     console.log("LOGIN LOGIN LOGIN---> ", res); // line to delete
-
-    //     // if (response.message) {
-    //     //     createAlert(response.message);
-    //     // } else if (!response.verified) {
-    //     //     createAlert(response.message);
-    //     // } else {
-    //     //     navigator.navigate('Home')
-    //     // }
-
-    //     res.verified
-    //       ? navigator.navigate("Home")
-    //       : createAlert(res.message || "Por favor verifique su cuenta");
-
-    //     setLoader(false);
-    //   })
-    //   .catch((err) => console.log("something was wrong", err))
-
     AuthService.login(user)
       .then((response) => {
         if (response.message) {

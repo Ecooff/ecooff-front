@@ -52,7 +52,6 @@ const SignupScreen = () => {
 
     if (password === repetePassword) {
       AuthService.signUp(newUser).then((response) => {
-        console.log("checking response-->", response); //tst
         if (response.message) {
           createAlert(response.message);
         } else {

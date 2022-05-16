@@ -62,7 +62,7 @@ const ProductList = ({
               globalStyles.fontBold,
             ]}
           >
-            {product.name}
+            {commonFunctions.capitalize(product.name)}
           </Text>
 
           <View style={[{ width: "100%" }, globalStyles.row]}>

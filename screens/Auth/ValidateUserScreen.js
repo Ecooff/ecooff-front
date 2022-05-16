@@ -55,12 +55,10 @@ const ValidateUserScreen = () => {
 
     AuthService.validateUser({ token: token })
       .then((response) => {
-        console.log(response);
         if (response.message) {
           createAlert(response.message);
         } else {
           storeData(response.newToken);
-          console.log("dataa verifivation-->", response);
           navigator.navigate("Home");
         }
       })

@@ -2,84 +2,64 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { ScrollView, Pressable, StyleSheet, Text, View } from "react-native";
-import { FooterComponent, MenuComponent } from "../../components";
 import { fakeData } from "../../utils/fakeData";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
-import localhost from "../../localhost.json";
-import axios from "axios";
+import globalStyles from "../../styles/styles";
+import { MaterialIcons } from '@expo/vector-icons';
+
+// SERVICES
+import ordersService from "../../services/OrdersService";
+
+// COMMPONENTS
+import { FooterComponent, MenuComponent } from "../../components";
+import OrderListComponent from "../../components/OrderListComponent";
 
 const OrderHistoyScreen = () => {
   const user = useSelector(selectUser);
   const [orders, setOrders] = useState([]);
   const navigator = useNavigation();
 
-  /* FOR DEMO ONLY */
   useEffect(() => {
-    setOrders(fakeData.orderHistory)
-  }, [])
-  //-------------------------
+    ordersService.getListOfOrders(user).then((response) => {
+      setOrders(response.data);
+    })
+  }, []);
 
-  // useEffect(() => {
-  //   axios.get(`http://${localhost}/api/orders`, {
-  //     headers: { Authorization: `Bearer ${user?.token}` },
-  //   }) //it shoud get only user's orders
-  //   .then(({ data }) => data?.length > 0 ? setOrders(data) : setOrders(fakeData.orderHistory))
-  //   .catch((err) => console.log(err))
-  // }, []);
-
-  const MyOrderHistory = () => {
-    return orders.map((order, i) => {
-      let statusColor;
-      order.status === "Pendiente"
-        ? (statusColor = "#FF1200")
-        : (statusColor = "#3D9D5D");
-      return (
-        <View style={styles.mainContainer} key={i}>
-          <View>
-            <View style={styles.leftTextContainer}>
-              <Text style={styles.leftText}>{order.date}</Text>
-              <Text style={[styles.leftText, { color: statusColor }]}>
-                {order.status}
-              </Text>
-            </View>
-            <View style={styles.iconsContainer}>
-            <View style={styles.icons}>
-              <AntDesign name="edit" size={18} color={statusColor} />
-              
-            </View>
-            <View style={styles.icons}>
-            <Ionicons name="trash-outline" size={18} color={statusColor} />
-            </View>
-            </View>
-          </View>
-
-          <View style={styles.rightSide}>
-            <Text style={styles.priceText}>${order.totalPrice}</Text>
-            <Pressable
-              onPress={() => navigator.navigate("OrderDetail", { order })}
-            >
-              <Text style={styles.editText}>Ver detalle</Text>
-            </Pressable>
-          </View>
-        </View>
-      );
-    });
-  };
+  const getOrderDetail = (id) => {
+    ordersService.getOrderById(user, id).then((response) => {
+      console.log('Orders data: ', response.data);
+    })
+  }
 
   return (
     <View style={styles.homeConteiner}>
+
       <ScrollView>
+
         <MenuComponent onPress={() => navigator.goBack()} />
 
         <Text style={styles.title}>Mis pedidos</Text>
 
-        <MyOrderHistory />
+        {
+          orders.length > 0 ?
+            orders.map((order, i) => {
+              <OrderListComponent key={order._id} order={order} />
+            })
+            :
+            <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
+                  <MaterialIcons name="search-off" size={200} color="lightgrey" />
+            </View>
+        }
+
       </ScrollView>
 
       <View>
+
         <FooterComponent />
+
       </View>
+
     </View>
   );
 };
@@ -87,16 +67,24 @@ const OrderHistoyScreen = () => {
 export default OrderHistoyScreen;
 
 const styles = StyleSheet.create({
+
   homeConteiner: {
     flex: 1,
     paddingHorizontal: 20,
   },
+
   title: {
     fontWeight: "bold",
     fontSize: 38,
     alignSelf: "center",
     marginBottom: 40,
   },
+
+  scrollTitle: {
+    marginTop: 30,
+    marginBottom: 30,
+  },
+
   mainContainer: {
     margin: 10,
     padding: 10,
@@ -111,18 +99,22 @@ const styles = StyleSheet.create({
       width: 0,
       height: 4,
     },
+
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
   },
+
   leftTextContainer: {
     alignItems: "center",
     marginBottom: 8,
   },
+
   leftText: {
     fontSize: 17,
     marginTop: 5
   },
+
   icons: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -138,21 +130,26 @@ const styles = StyleSheet.create({
     marginRight: 20,
     padding: 3
   },
+
   rightSide: {
     marginRight: 10,
   },
+
   editText: {
     fontSize: 12,
     textDecorationLine: "underline",
     textAlign: "center",
   },
+
   priceText: {
     fontSize: 21,
     textAlign: "center",
     marginBottom: 4
   },
+
   iconsContainer: {
     flexDirection: 'row',
     marginLeft: 10
   }
+
 });

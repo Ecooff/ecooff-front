@@ -37,17 +37,15 @@ const AuthHomeScreen = () => {
   const verifyData = (data) => {
     if (data) {
       //setIsLoading(true);
-      console.log("data true");
     } else {
       //setIsLoading(false);
-      console.log("data false");
       setIsLoading(false);
     }
   };
 
   useEffect(async () => {
     setTimeout(() => {
-      console.log("procede a mostrar botones de login"); // la logica de esto es esperar a que traiga los datos en el GET, y si
+      // la logica de esto es esperar a que traiga los datos en el GET, y si
       setIsLoading(false); // no trae los datos muestra los botones
     }, 2000);
 

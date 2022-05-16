@@ -5,12 +5,10 @@ const dateParse = (date) => {
 }
 
 function navigateToPage(page) {
-    console.log(page);
     useNavigation().navigate(page);
 };
 
 const navigateBack = () => {
-    console.log('2');
     return useNavigation().goBack;
 };
 
@@ -20,9 +18,15 @@ const getTotal = (arr) => {
     return array.reduce((a, c) => a + c);
 }
 
+const capitalize = (text) => {
+    if (typeof text !== 'string') return ''
+    return text.charAt(0).toUpperCase() + text.slice(1)
+  }
+
 export {
     navigateToPage,
     navigateBack,
     getTotal,
-    dateParse
+    dateParse,
+    capitalize
  };
