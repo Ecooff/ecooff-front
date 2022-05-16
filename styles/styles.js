@@ -124,7 +124,7 @@ export default StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 15,
     width: "100%",
-    height: "90%",
+    height: "100%",
   },
 
   button: {

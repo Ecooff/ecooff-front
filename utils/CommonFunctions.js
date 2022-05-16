@@ -1,5 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 
+const dateParse = (date) => {
+    return date.split('T')[0].split('-')[2] + '-' + date.split('T')[0].split('-')[1] + '-' + date.split('T')[0].split('-')[0];
+}
+
 function navigateToPage(page) {
     console.log(page);
     useNavigation().navigate(page);
@@ -20,4 +24,5 @@ export {
     navigateToPage,
     navigateBack,
     getTotal,
+    dateParse
  };
