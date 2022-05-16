@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -20,14 +21,23 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 const CartScreen = () => {
   const [cartItems, setCartItems] = useState([]);
-
   const [newCart, setNewCart] = useState([]);
-
+  const [loadingItems, setLoadingItems] = useState(false);
   const { addToCart, openCart, deleteItem } = CartService;
 
   useEffect(() => {
-    openCart(user).then((response) =>
-      setCartItems(response.data.listOfProducts)
+    setLoadingItems(true);
+    openCart(user).then((response) => {
+      setCartItems(response.data.listOfProducts);
+      setLoadingItems(false);
+    }
+    );
+  }, []);
+
+  useEffect(() => {
+    openCart(user).then((response) => {
+      setCartItems(response.data.listOfProducts);
+    }
     );
   }, [newCart]);
 
@@ -166,7 +176,12 @@ const CartScreen = () => {
       <MenuComponent onPress={() => navigator.goBack()} />
       <Text style={styles.header}>Tu carrito</Text>
       <ScrollView style={styles.menuContainer}>
-        <MyBasket />
+        {
+          loadingItems ?
+            <ActivityIndicator style={[{ fontSize: 30 }, { left: 2 }, { marginEnd: 4 }]} color="#4db591" />
+            :
+            <MyBasket />
+        }
       </ScrollView>
       <View style={styles.deliveryMainContainer}>
         <View style={styles.deliveryContainer}>
@@ -279,8 +294,9 @@ const styles = StyleSheet.create({
   },
 
   productImage: {
-    width: 90,
-    height: 85,
+    width: 80,
+    height: 80,
+    borderRadius: 50,
   },
 
   subHeaderText: {

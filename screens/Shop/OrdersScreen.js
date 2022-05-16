@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
+  ActivityIndicator
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -75,7 +76,8 @@ const OrdersScreen = () => {
               )
             })
             :
-            <Text>No hay nada en el carrito</Text>
+            <ActivityIndicator style={[{fontSize:30}, {left:2}, {marginEnd:4}]} color="#4db591" />
+
         }
 
       </ScrollView>
@@ -165,6 +167,7 @@ const styles = StyleSheet.create({
   productImage: {
     width: 50,
     height: 50,
+    borderRadius: 50,
   },
 
   saveingItems: {
