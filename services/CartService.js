@@ -41,15 +41,14 @@ const CartService = {
     return data;
   },
 
-  confirmCart: (user) => {
+  confirmCart: async (user) => {
+    console.log(user.token);
     const data = axios.get(URLPath.confirmCart, {
       headers: setHeader(user.token),
     });
-
+    console.log("comollega", data);
     return data;
-
   },
-
 };
 
 export default CartService;

@@ -23,28 +23,31 @@ import CartService from "../../services/CartService";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 
-// SERVICES
-const cartService = CartService;
-
 const OrdersScreen = () => {
   const user = useSelector(selectUser);
   const [cart, setCart] = useState([]);
   const [saving, setSaving] = useState({});
 
+  const { confirmCart } = CartService;
+
   const navigator = useNavigation();
 
   useEffect(() => {
-    cartService.confirmCart(user).then((response) => {
-      setCart(response.data.listOfProducts);
-      setSaving(response.data.savings);
-    });
+    confirmCart(user)
+      .then((response) => {
+        setCart(response.data.listOfProducts);
+        setSaving(response.data.savings);
+      })
+      .catch((error) => console.log("CATHORDERS", error));
   }, []);
 
   return (
     <View style={[styles.homeContainer, { flex: 1 }]}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
 
-      <MenuComponent onPress={() => navigator.goBack()} />
+      <View style={{ marginTop: 25 }}>
+        <MenuComponent onPress={() => navigator.goBack()} />
+      </View>
 
       <Text style={styles.header}>Con tu compra</Text>
 
