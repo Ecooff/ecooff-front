@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -71,12 +72,13 @@ const CartScreen = () => {
         </Text>
       ) : (
         cartItems.map((product, i) => {
-          console.log("price in map", product);
           const removeProduct = () => {
             deleteItem(user, product.cartId)
               .then((response) => setNewCart(response.data))
               .catch((err) => console.log("Catch", err.response));
           };
+
+          console.log("que da?", newCart);
 
           return (
             <View key={i} style={styles.productCard}>
@@ -266,6 +268,7 @@ const styles = StyleSheet.create({
   // ............
   homeContainer: {
     flex: 1,
+    marginTop: 25,
   },
 
   menuContainer: {
