@@ -36,7 +36,7 @@ export const productLength = URL + "cart/productLength/";
 export const deleteItem = URL + "cart/deleteItem/";
 
 // Orders
-export const listOfOrders = URL + "orders/getByUserId";
+export const listOfOrders = URL + "orders/listOfOrders";
 export const orderById = URL + "orders/openOrder/";
 
 //Get User Adresses

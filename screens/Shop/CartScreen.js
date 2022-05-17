@@ -5,8 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Modal,
+  View
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -60,6 +59,13 @@ const CartScreen = () => {
     });
   };
 
+  const removeProduct = (i) => {
+    deleteItem(user, product.cartId)
+      .then((response) => {
+        setNewCart(response.data)
+      }).catch((err) => console.log("Catch", err.response));
+  };
+
   const MyBasket = () => {
     {
       return cartItems.length === 0 ? (
@@ -74,13 +80,8 @@ const CartScreen = () => {
           No hay nada en el carrito
         </Text>
       ) : (
-        cartItems.map((product, i) => {
-          const removeProduct = () => {
-            deleteItem(user, product.cartId)
-              .then((response) => setNewCart(response.data))
-              .catch((err) => console.log("Catch", err.response));
-          };
 
+        cartItems.map((product, i) => {
           return (
             <View key={i} style={styles.productCard}>
               <View style={styles.cardImage}>
@@ -129,7 +130,7 @@ const CartScreen = () => {
                     />
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => removeProduct()}>
+                  <TouchableOpacity onPress={() => removeProduct(i)}>
                     <FontAwesome5
                       name="trash-alt"
                       size={20}
@@ -137,9 +138,13 @@ const CartScreen = () => {
                       style={styles.trashIcon}
                     />
                   </TouchableOpacity>
+
                 </View>
+
               </View>
+
             </View>
+            
           );
         })
       );

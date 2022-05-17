@@ -113,7 +113,7 @@ const LoginScreen = () => {
             value={email}
             keyboardType="email-address"
             icon="mail"
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => setEmail(text.toLowerCase())}
             style={globalStyles.input}
           />
         </View>

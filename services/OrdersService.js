@@ -4,7 +4,6 @@ import { URLPath } from "../services";
 const OrdersService = {
 
   getListOfOrders: async (user) => {
-
     const data = await axios.get(URLPath.listOfOrders, {
       headers: setHeader(user.token),
     });
@@ -12,7 +11,6 @@ const OrdersService = {
   },
 
   getOrderById: async (user, id) => {
-
     const data = await axios.get(URLPath.orderById + id, {
       headers: setHeader(user.token),
     });

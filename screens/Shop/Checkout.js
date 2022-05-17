@@ -17,7 +17,6 @@ import {
 import CartService from "../../services/CartService";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
-// import CheckoutContent from './CheckoutContent';
 
 const Checkout = () => {
   const [modalVisible, setModalVisible] = useState(false);
