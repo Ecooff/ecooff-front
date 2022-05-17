@@ -40,6 +40,16 @@ const CartService = {
     );
     return data;
   },
+
+  confirmCart: (user) => {
+    const data = axios.get(URLPath.confirmCart, {
+      headers: setHeader(user.token),
+    });
+
+    return data;
+
+  },
+
 };
 
 export default CartService;

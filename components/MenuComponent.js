@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 
 export const MenuComponent = ({ onPress }) => {
-  const [cartItems, setCartItems] = useState([]); // tiene que tener algo cargado para que no tome undefined o length sin nada
+  const [cartItems, setCartItems] = useState(0); // tiene que tener algo cargado para que no tome undefined o length sin nada
   const [lenghtCart, setLenghtCart] = useState(0);
 
   const navigator = useNavigation();
@@ -30,18 +30,20 @@ export const MenuComponent = ({ onPress }) => {
 
   const { cartLength, openCart } = cartService;
 
-  useEffect(() => {
-    cartLength(user).then((response) =>
-      setLenghtCart(response.data.cartLength)
-    );
-  }, []);
+  useEffect(async () => {
+    const response = await cartLength(user);
+    setLenghtCart(response.data.cartLength);
+  });
+
+  cartLength(user).then((response) => setLenghtCart(response.data.cartLength));
+
+  console.log("numberOFThings", lenghtCart);
 
   return (
     <SafeAreaView
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        // alignItems: "baseline",
       }}
     >
       <Pressable onPress={() => navigator.navigate("Home")} />
@@ -65,7 +67,7 @@ export const MenuComponent = ({ onPress }) => {
       <Image style={styles.menuLogo} source={theIcon} />
       <View style={[globalStyles.row, globalStyles]}>
         <Pressable onPress={() => navigator.navigate("Cart")}>
-          {lenghtCart > 0 ? (
+          {lenghtCart > 0 && (
             <View
               style={{
                 borderRadius: 10,
@@ -87,8 +89,6 @@ export const MenuComponent = ({ onPress }) => {
                 {lenghtCart}
               </Text>
             </View>
-          ) : (
-            <Text></Text>
           )}
 
           <Ionicons
@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 20,
     marginRight: 190,
-    alignSelf: "stretch",
   },
 
   icon: {
@@ -124,6 +123,6 @@ const styles = StyleSheet.create({
   cartIcon: {
     marginRight: 20,
     marginTop: 3,
-    alignSelf: "stretch",
+    position: "relative",
   },
 });
