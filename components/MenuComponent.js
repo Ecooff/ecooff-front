@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 
 export const MenuComponent = ({ onPress }) => {
-  const [cartItems, setCartItems] = useState([]); // tiene que tener algo cargado para que no tome undefined o length sin nada
+  const [cartItems, setCartItems] = useState(0); // tiene que tener algo cargado para que no tome undefined o length sin nada
   const [lenghtCart, setLenghtCart] = useState(0);
 
   const navigator = useNavigation();
@@ -30,19 +30,20 @@ export const MenuComponent = ({ onPress }) => {
 
   const { cartLength, openCart } = cartService;
 
-  useEffect(() => {
-    cartLength(user).then((response) =>
-      setLenghtCart(response.data.cartLength)
-    );
-  }, []);
+  useEffect(async () => {
+    const response = await cartLength(user);
+    setLenghtCart(response.data.cartLength);
+  });
+
+  cartLength(user).then((response) => setLenghtCart(response.data.cartLength));
+
+  console.log("numberOFThings", lenghtCart);
 
   return (
     <SafeAreaView
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingTop: "5%",
-        // alignItems: "baseline",
       }}
     >
       <Pressable onPress={() => navigator.navigate("Home")} />
