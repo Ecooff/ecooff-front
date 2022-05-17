@@ -39,15 +39,10 @@ const AddAddressComponent = ({ parentCallback }) => {
       door: door.value,
       CP: CP.value
     }, user).then(response => {
-      console.log('FUNCIONA ADDADRESS', response.data)
       parentCallback(response.data);
     }).catch(err => console.log(err.response.data.message))
     setModalVisible(!modalVisible);
   }
-
-  // console.log(street.value)
-  console.log('BBBB', floor.value)
-
 
   const ModalContent = () => {
     return (

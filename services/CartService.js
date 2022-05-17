@@ -31,8 +31,6 @@ const CartService = {
   },
 
   deleteItem: (user, id) => {
-    console.log(URLPath.deleteItem + id);
-    console.log("VVV", user.token);
     const data = axios.put(
       URLPath.deleteItem + id,
       {},

@@ -5,8 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Modal,
+  View
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -35,7 +34,6 @@ const CartScreen = () => {
   }, [newCart]);
 
   const totalPrice = cartItems.map((item) => item.price);
-  console.log("SEE PRICE", totalPrice);
 
   const getTotal = (a) => {
     let total = 0;
@@ -46,8 +44,6 @@ const CartScreen = () => {
   };
 
   const verTotal = getTotal(totalPrice);
-
-  console.log(verTotal);
 
   const user = useSelector(selectUser);
   const [basket, setBasket] = useState([]);
@@ -63,24 +59,12 @@ const CartScreen = () => {
     });
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://${localhost}/api/cart`, {
-  //       //this doesnt work, i need me cart/basket
-  //       headers: {
-  //         Authorization: `Bearer ${user?.token}`,
-  //       },
-  //     })
-  //     .then(({ data }) =>
-  //       data.products
-  //         ? setBasket(data.products)
-  //         : setBasket(fakeData.productsList)
-  //     )
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setBasket(fakeData.productsList); //line to delete
-  //     });
-  // }, []);
+  const removeProduct = (i) => {
+    deleteItem(user, product.cartId)
+      .then((response) => {
+        setNewCart(response.data)
+      }).catch((err) => console.log("Catch", err.response));
+  };
 
   const MyBasket = () => {
     {
@@ -96,14 +80,8 @@ const CartScreen = () => {
           No hay nada en el carrito
         </Text>
       ) : (
-        cartItems.map((product, i) => {
-          console.log("price in map", product);
-          const removeProduct = () => {
-            deleteItem(user, product.cartId)
-              .then((response) => setNewCart(response.data))
-              .catch((err) => console.log("Catch", err.response));
-          };
 
+        cartItems.map((product, i) => {
           return (
             <View key={i} style={styles.productCard}>
               <View style={styles.cardImage}>
@@ -152,7 +130,7 @@ const CartScreen = () => {
                     />
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => removeProduct()}>
+                  <TouchableOpacity onPress={() => removeProduct(i)}>
                     <FontAwesome5
                       name="trash-alt"
                       size={20}
@@ -160,38 +138,18 @@ const CartScreen = () => {
                       style={styles.trashIcon}
                     />
                   </TouchableOpacity>
+
                 </View>
+
               </View>
+
             </View>
+            
           );
         })
       );
     }
   };
-
-  //         addToCart(user, {
-  //           productId: product.id,
-  //           quantity: quantity >= 1 && quantity - 1,
-  //         })
-  //           .then((response) => response)
-  //           .catch((error) => console.log("CATCH", error.response));
-  //         {
-  //           console.log("PRODUCT", product);
-  //           console.log("QUANTITY", quantity);
-  //         }
-  //         const decreaseAmount = () => {
-  //           return quantity > 1 && setQuantity(product.quantity - 1);
-  //         };
-
-  //         const increaseAmount = () => {
-  //           return setQuantity(product.quantity + 1);
-  //         };
-
-  //         const removeProduct = () => {
-  //           deleteItem(user, product.cartId)
-  //             .then((response) => setNewCart(response.data))
-  //             .catch((err) => console.log("Catch", err.response));
-  //         };
 
   const Total = () => {
     return (

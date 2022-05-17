@@ -36,8 +36,6 @@ const OrdersScreen = () => {
     setOrder(fakeData.productsList);
   }, []);
 
-  console.log("set order", order);
-
   const MyOrder = () => {
     if (order.length === 0) return <Text>Nada en esta orden</Text>;
     return order.map((product, i) => {

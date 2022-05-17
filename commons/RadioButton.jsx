@@ -7,11 +7,7 @@ import AdressService from "../services/AdressService";
 const RadioButton = ({select, style, innerStyle, userAdresses}) => {
   
     const [selected, setSelected] = useState(select);
-
-    console.log('ANNN', userAdresses)
-
     
-
     function adressID () {
         let id = userAdresses.find(adress => adress.id === adress.id )
         return id

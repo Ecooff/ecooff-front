@@ -106,7 +106,6 @@ const GroupListScreen = ({ route }) => {
           setSearchLoading(false);
         })
         .catch((err) => {
-          console.log("Something was wrong", err);
           setSearchLoading(false);
         });
     } else {
@@ -164,35 +163,6 @@ const GroupListScreen = ({ route }) => {
           </View>
 
           <View style={{ marginTop: 20 }}>
-            {/* CATEGORIES SCROLL */}
-            {/* <View
-          style={[
-            styles.categoryScroll,
-            globalStyles.row,
-            globalStyles.alignItemsCenter,
-            globalStyles.justifyContentBetween,
-          ]}
-        >
-          {items.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => navigator.navigate("List", { item })}
-                // onPress={() => navigator}
-                // onPress={() => console.log("demo")}
-                style={styles.iconsContainer}
-              >
-                <Image
-                  style={styles.icons}
-                  source={item.icon}
-                  onPress={() => console.log("demo")}
-                />
-
-                <Text style={globalStyles.fontXSmall}>{item.title}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View> */}
 
             <AllSubcategories
               idProvider={idProvider}

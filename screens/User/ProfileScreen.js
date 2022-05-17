@@ -28,8 +28,6 @@ const ProfileScreen = () => {
   const navigator = useNavigation();
   const dispatch = useDispatch();
 
-  console.log("USER PROFILE SCREEM", user);
-
   const shadowStyleProducts = {
     shadowColor: "#000",
     shadowOffset: {

@@ -14,7 +14,6 @@ const AddPaymentComponent = () => {
 
   const addPaymentMethod = () => {
     setModalVisible(!modalVisible);
-    console.log("addPaymentMethod is working");
   }
 // á é í ó ú
   const ModalContent = () => {

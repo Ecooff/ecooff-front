@@ -36,8 +36,6 @@ export const MenuComponent = ({ onPress }) => {
     );
   }, []);
 
-  console.log("cartNumber", lenghtCart);
-
   return (
     <SafeAreaView
       style={{

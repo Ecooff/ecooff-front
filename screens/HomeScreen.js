@@ -22,13 +22,16 @@ import { BackHandler } from "react-native";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { MaterialIcons } from '@expo/vector-icons';
+import { commonFunctions } from "../utils";
 
 { /* COMPONENTS */ }
 import { MenuComponent, FooterComponent } from "../components";
 import ProductList from "../components/ProductList";
+import CheckoutComponent from "../components/CheckOutCoponent"
 
 { /* SERVICES */ }
 import productService from "../services/ProductService";
+import ordersService from "../services/OrdersService";
 
 const HomeScreen = () => {
   const { getAllProviders, closeToExp, forYou, getByUserId } = productService;
@@ -36,22 +39,35 @@ const HomeScreen = () => {
   const [search, setQuery] = useState("");
   const [queryProducts, setQueryProducts] = useState([]);
   const [orderOnRequest, setOrderOnRequest] = useState(true);
+  const [order, setOrder] = useState({});
   const [providers, setProviders] = useState([]);
   const [closeToExpire, setCloseToExpire] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const user = useSelector(selectUser);
 
   useEffect(() => {
-    getAllProviders(user)
-      .then((response) => setProviders(response.data))
-      .catch((err) => console.log(err.response.data.message)),
+    getAllProviders(user).then((response) => setProviders(response.data)).catch((err) => console.log(err.response.data.message)),
+
       closeToExp(user).then((response) => setCloseToExpire(response.data)),
+
       forYou(user).then((response) => setFeatured(response.data));
+
+    ordersService.getListOfOrders(user).then((response) => {
+      setOrder(response.data[0].order);
+      console.log('Data ',response.data[0].order);
+    })
+
     BackHandler.removeEventListener(true);
-    // userById().then(response => setUserById(response.data))
+
   }, []);
+
+  // FOR CLOSEING THE MODAL 
+  const callback = (param) => {
+    setModalVisible(param)
+  }
 
   const everything = [closeToExpire, featured, providers];
 
@@ -104,7 +120,6 @@ const HomeScreen = () => {
           setSearchLoading(false);
         })
         .catch((err) => {
-          console.log("Something was wrong", err);
           setSearchLoading(false);
         });
 
@@ -156,6 +171,35 @@ const HomeScreen = () => {
           })}
         </View>
 
+        {
+          order != null && order.status != 'Completada' ?
+            <View style={styles.pendingOrder}>
+
+              <View style={[globalStyles.row, globalStyles.justifyContentBetween, globalStyles.alignItemsCenter, styles.infoText]}>
+
+                <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
+
+                  <View style={[styles.orderIcons, { paddingVertical: 8 }, { paddingHorizontal: 5 }]}>
+                    <EvilIcons name="location" size={24} color="green" />
+                  </View>
+
+                  <Text>Tenés un pedido en curso</Text>
+
+                </View>
+
+                <TouchableOpacity
+                onPress={() => setModalVisible(true)}
+                >
+                  <Text style={{ textDecorationLine: "underline" }}>Ver</Text>
+                </TouchableOpacity>
+
+              </View>
+
+            </View>
+            :
+            null
+        }
+
         <View style={styles.products}>
 
           {/* SEARCHER */}
@@ -168,10 +212,10 @@ const HomeScreen = () => {
             ]}
           >
             <View style={styles.inputSearch}>
-            {searchLoading ? (
-              <ActivityIndicator style={[globalStyles.icons, {left:2}, {marginEnd:4}]} color="#4db591" />
+              {searchLoading ? (
+                <ActivityIndicator style={[globalStyles.icons, { left: 2 }, { marginEnd: 4 }]} color="#4db591" />
               ) : (
-              <EvilIcons name="search" style={globalStyles.icons} />
+                <EvilIcons name="search" style={globalStyles.icons} />
               )}
 
               <TextInput
@@ -250,7 +294,7 @@ const HomeScreen = () => {
                                 index >= 2 ? globalStyles.textCenter : null,
                               ]}
                             >
-                              {product.provider || product.name}
+                              {product.provider || commonFunctions.capitalize(product.name)}
                             </Text>
                             {index < 2 ? (
                               <Text
@@ -296,6 +340,19 @@ const HomeScreen = () => {
 
       {/* FOOTER */}
       <FooterComponent />
+
+      {/* MODAL */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <CheckoutComponent orderId={order.orderId} user={user} parentCallback={callback} />
+      </Modal>
+
     </View>
   );
 };
@@ -385,4 +442,36 @@ const styles = StyleSheet.create({
     marginHorizontal: -20,
     paddingHorizontal: 10,
   },
+
+  pendingOrder: {
+    marginTop: 35,
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 15,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+
+  orderIcons: {
+    marginRight: 12,
+    backgroundColor: '#F4F4F4',
+    borderRadius: 50,
+    padding: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+
 });
