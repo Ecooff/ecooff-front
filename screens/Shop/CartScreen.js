@@ -21,15 +21,22 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 const CartScreen = () => {
   const [cartItems, setCartItems] = useState([]);
-
   const [newCart, setNewCart] = useState([]);
-
+  const [loadingItems, setLoadingItems] = useState(false);
   const { addToCart, openCart, deleteItem } = CartService;
 
   useEffect(() => {
-    openCart(user).then((response) =>
-      setCartItems(response.data.listOfProducts)
-    );
+    setLoadingItems(true);
+    openCart(user).then((response) => {
+      setCartItems(response.data.listOfProducts);
+      setLoadingItems(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    openCart(user).then((response) => {
+      setCartItems(response.data.listOfProducts);
+    });
   }, [newCart]);
 
   const totalPrice = cartItems.map((item) => item.price);
@@ -40,6 +47,16 @@ const CartScreen = () => {
       total += a[i];
     }
     return total;
+  };
+
+  const removeProduct = (i) => {
+    cartItems[i].loader = true;
+    deleteItem(user, cartItems[i].cartId)
+      .then((response) => {
+        setNewCart(response.data);
+        cartItems[i].loader = false;
+      })
+      .catch((err) => console.log("Catch", err.response));
   };
 
   const verTotal = getTotal(totalPrice);
@@ -72,12 +89,6 @@ const CartScreen = () => {
         </Text>
       ) : (
         cartItems.map((product, i) => {
-          const removeProduct = () => {
-            deleteItem(user, product.cartId)
-              .then((response) => setNewCart(response.data))
-              .catch((err) => console.log("Catch", err.response));
-          };
-
           console.log("que da?", newCart);
 
           return (
@@ -128,14 +139,22 @@ const CartScreen = () => {
                     />
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => removeProduct()}>
-                    <FontAwesome5
-                      name="trash-alt"
+                  {product.loader !== true ? (
+                    <TouchableOpacity onPress={() => removeProduct(i)}>
+                      <FontAwesome5
+                        name="trash-alt"
+                        size={20}
+                        color="#3D9D5D"
+                        style={styles.trashIcon}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <ActivityIndicator
                       size={20}
                       color="#3D9D5D"
                       style={styles.trashIcon}
                     />
-                  </TouchableOpacity>
+                  )}
                 </View>
               </View>
             </View>
@@ -168,7 +187,14 @@ const CartScreen = () => {
       <MenuComponent onPress={() => navigator.goBack()} />
       <Text style={styles.header}>Tu carrito</Text>
       <ScrollView style={styles.menuContainer}>
-        <MyBasket />
+        {loadingItems ? (
+          <ActivityIndicator
+            style={[{ fontSize: 30 }, { left: 2 }, { marginEnd: 4 }]}
+            color="#4db591"
+          />
+        ) : (
+          <MyBasket />
+        )}
       </ScrollView>
       <View style={styles.deliveryMainContainer}>
         <View style={styles.deliveryContainer}>
@@ -183,9 +209,6 @@ const CartScreen = () => {
               Order de más de $7000 tiene envío gratis
             </Text>
           </View>
-          <Pressable onPress={() => navigator.navigate("Profile")}>
-            <Text style={styles.editText}>Editar</Text>
-          </Pressable>
         </View>
         <View style={styles.deliveryContainer}>
           <MaterialIcons name="payment" size={33} color="#3D9D5D" />
@@ -282,8 +305,9 @@ const styles = StyleSheet.create({
   },
 
   productImage: {
-    width: 90,
-    height: 85,
+    width: 80,
+    height: 80,
+    borderRadius: 50,
   },
 
   subHeaderText: {

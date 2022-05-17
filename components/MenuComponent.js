@@ -30,6 +30,11 @@ export const MenuComponent = ({ onPress }) => {
 
   const { cartLength, openCart } = cartService;
 
+  useEffect(async () => {
+    const response = await cartLength(user);
+    setLenghtCart(response.data.cartLength);
+  });
+
   cartLength(user).then((response) => setLenghtCart(response.data.cartLength));
 
   console.log("numberOFThings", lenghtCart);
