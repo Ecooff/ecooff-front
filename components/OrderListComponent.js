@@ -5,7 +5,7 @@ import globalStyles from "../styles/styles";
 import { commonFunctions } from "../utils";
 
 // COMPONENTS
-import CheckoutComponent from "../components/CheckOutCoponent"
+import CheckoutComponent from "../components/CheckOutCoponent";
 
 const OrderListComponent = ({
   order,
@@ -31,7 +31,7 @@ const OrderListComponent = ({
       <View>
         <View style={styles.leftTextContainer}>
           <Text style={styles.leftText}>{commonFunctions.dateParse(order.date)}</Text>
-          <Text style={[styles.leftText, order.status == 'Completed' ? styles.success : styles.pending]}>
+          <Text style={[styles.leftText, order.status == 'Completada' ? styles.success : styles.pending]}>
             {order.status}
           </Text>
         </View>
