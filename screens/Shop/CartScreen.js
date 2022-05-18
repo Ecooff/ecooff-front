@@ -7,17 +7,21 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  Alert,
+  Modal,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-
+import { useSelector, useDispatch } from "react-redux";
 import { MenuComponent } from "../../components";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
+import { selectBasket, updateBasket } from "../../store/basketSlice";
 import { useNavigation } from "@react-navigation/native";
 import CartService from "../../services/CartService";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import globalStyles from "../../styles/styles";
+import Toast from "react-native-toast-message";
 
 const CartScreen = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -25,6 +29,9 @@ const CartScreen = () => {
   const [loadingItems, setLoadingItems] = useState(false);
   const { addToCart, openCart, deleteItem } = CartService;
   const [getDefaultAddress, setGetDefaultAddress] = useState({});
+  const dispatch = useDispatch();
+  const basket = useSelector(selectBasket);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     setLoadingItems(true);
@@ -58,6 +65,7 @@ const CartScreen = () => {
     cartItems[i].loader = true;
     deleteItem(user, cartItems[i].cartId)
       .then((response) => {
+        dispatch(updateBasket(basket - 1));
         setNewCart(response.data);
         cartItems[i].loader = false;
       })
@@ -69,30 +77,37 @@ const CartScreen = () => {
   const user = useSelector(selectUser);
   const navigator = useNavigation();
 
-
-  const updateQuantity = (id, quantity, i) => {
-    addToCart(user, {
-      productId: id,
-      quantity: quantity,
-    }).then(() => {
-      cartItems[i].quantity = quantity;
-      setNewCart((product) => [...cartItems, product]);
-    });
+  const updateQuantity = (id, quantity, stock, i) => {
+    console.log(quantity, stock);
+    if (quantity <= stock) {
+      addToCart(user, {
+        productId: id,
+        quantity: quantity,
+      }).then(() => {
+        cartItems[i].quantity = quantity;
+        setNewCart((product) => [...cartItems, product]);
+      });
+    } else {
+      setModalVisible(true);
+    }
   };
 
   const MyBasket = () => {
     {
       return cartItems.length === 0 ? (
-        <Text
-          style={{
-            fontSize: 20,
-            textAlign: "center",
-            marginTop: "20%",
-            fontWeight: "700",
-          }}
+        <View
+          style={[
+            styles.scrollTitle,
+            globalStyles.row,
+            globalStyles.justifyContentCenter,
+          ]}
         >
-          No hay nada en el carrito
-        </Text>
+          <MaterialCommunityIcons
+            name="cart-off"
+            size={160}
+            color="lightgrey"
+          />
+        </View>
       ) : (
         cartItems.map((product, i) => {
           return (
@@ -119,7 +134,12 @@ const CartScreen = () => {
                 <View style={styles.botonera}>
                   <TouchableOpacity
                     onPress={() =>
-                      updateQuantity(product.id, product.quantity - 1, i)
+                      updateQuantity(
+                        product.id,
+                        product.quantity - 1,
+                        product.stock,
+                        i
+                      )
                     }
                   >
                     <FontAwesome5
@@ -129,11 +149,20 @@ const CartScreen = () => {
                     />
                   </TouchableOpacity>
                   <Text style={{ marginHorizontal: 10 }}>
-                    {product.quantity}
+                    {product.quantity <= product.stock ? (
+                      product.quantity
+                    ) : (
+                      <Text></Text>
+                    )}
                   </Text>
                   <TouchableOpacity
                     onPress={() =>
-                      updateQuantity(product.id, product.quantity + 1, i)
+                      updateQuantity(
+                        product.id,
+                        product.quantity + 1,
+                        product.stock,
+                        i
+                      )
                     }
                   >
                     <FontAwesome5
@@ -160,6 +189,20 @@ const CartScreen = () => {
                     />
                   )}
                 </View>
+                {/* {product.quantity === product.stock && (
+                  <Text
+                    style={{
+                      backgroundColor: "black",
+                      width: 80,
+                      color: "white",
+                      marginTop: 5,
+                    }}
+                  >
+                    {product.quantity === product.stock && (
+                      <Text>Ultimo stock</Text>
+                    )}
+                  </Text>
+                )} */}
               </View>
             </View>
           );
@@ -254,6 +297,27 @@ const CartScreen = () => {
           <Text style={styles.textStyle}>$ {verTotal}</Text>
         </View>
       </Pressable>
+      <Modal
+        animationType="fade "
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Stock maximo alcanzado</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Entendido</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -392,5 +456,46 @@ const styles = StyleSheet.create({
   editText: {
     textDecorationLine: "underline",
     marginLeft: 15,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#4DB591",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
   },
 });
