@@ -10,10 +10,10 @@ import {
 import React, { useEffect, useState } from "react";
 import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../store/userSlice";
+import { selectBasket, updateBasket } from "../../store/basketSlice";
 import { commonFunctions } from "../../utils";
-
 
 {
   /* COMPONENTS */
@@ -22,8 +22,21 @@ import { MenuComponent } from "../../components";
 import CartService from "../../services/CartService";
 
 const ProductScreen = ({ route }) => {
-  const { name, expPrice, expDate, img, providerName, description, _id, providerImg } =
-    route.params.product;
+  const {
+    name,
+    expPrice,
+    expDate,
+    img,
+    providerName,
+    description,
+    _id,
+    providerImg,
+    stock,
+  } = route.params.product;
+
+  const dispatch = useDispatch();
+
+  const basket = useSelector(selectBasket);
 
   const { addToCart, productLength } = CartService;
 
@@ -44,10 +57,14 @@ const ProductScreen = ({ route }) => {
 
   const AddProductToCart = () => {
     addToCart(user, { productId: _id, quantity: 1 })
-      .then((response) => response)
-      .catch((error) => console.log("CATCH", error.response));
+      .then(() => dispatch(updateBasket(basket + 1)))
+      .catch((error) => console.log("CATCH", error));
     setAlreadyInCart(true);
   };
+
+  console.log("ONLY PRODUCT", route);
+
+  const updateQuantity = () => {};
 
   const navigator = useNavigation();
 
@@ -141,7 +158,6 @@ const ProductScreen = ({ route }) => {
                 {/* <Text>{seller.title}</Text> */}
                 <Text>{providerName}</Text>
               </View>
-
             </View>
 
             <View style={globalStyles.widthHalf}>
@@ -152,7 +168,7 @@ const ProductScreen = ({ route }) => {
                   globalStyles.fontBold,
                 ]}
               >
-                Cantidad
+                Stock
               </Text>
 
               <View
@@ -162,9 +178,15 @@ const ProductScreen = ({ route }) => {
                   globalStyles.alignItemsCenter,
                 ]}
               >
-                <Text style={globalStyles.sellIcons}>-</Text>
-                <Text style={{ marginHorizontal: 15 }}>1</Text>
-                <Text style={globalStyles.sellIcons}>+</Text>
+                <Text
+                  style={{
+                    marginHorizontal: 15,
+                    justifyContent: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  {stock}
+                </Text>
               </View>
             </View>
           </View>
@@ -217,13 +239,13 @@ const styles = StyleSheet.create({
   productTitle: {
     fontSize: 38,
     width: "100%",
-    marginBottom: 40
+    marginBottom: 40,
   },
 
   productSeller: {
     width: 25,
     height: 25,
-    marginRight: 10
+    marginRight: 10,
   },
 
   productBanner: {
