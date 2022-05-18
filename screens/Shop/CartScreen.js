@@ -24,6 +24,7 @@ const CartScreen = () => {
   const [newCart, setNewCart] = useState([]);
   const [loadingItems, setLoadingItems] = useState(false);
   const { addToCart, openCart, deleteItem } = CartService;
+  const [getDefaultAddress, setGetDefaultAddress] = useState({});
 
   useEffect(() => {
     setLoadingItems(true);
@@ -37,6 +38,10 @@ const CartScreen = () => {
     openCart(user).then((response) => {
       setCartItems(response.data.listOfProducts);
     });
+    const defaultAddress = user.addresses.filter(
+      (address) => address.defaultAddress === true
+    );
+    setGetDefaultAddress(defaultAddress[0]);
   }, [newCart]);
 
   const totalPrice = cartItems.map((item) => item.price);
@@ -63,6 +68,8 @@ const CartScreen = () => {
 
   const user = useSelector(selectUser);
   const navigator = useNavigation();
+
+  console.log("userInCart", user);
 
   const updateQuantity = (id, quantity, i) => {
     addToCart(user, {
@@ -203,6 +210,26 @@ const CartScreen = () => {
           />
           <View style={styles}>
             <Text style={styles.deliveryMainText}>Delivery a dirección</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                marginLeft: 10,
+                marginVertical: 4,
+              }}
+            >
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Calle:</Text>{" "}
+                {getDefaultAddress.street}
+              </Text>
+              <Text style={{ paddingHorizontal: 3 }}>
+                <Text style={{ fontWeight: "bold" }}>Piso:</Text>{" "}
+                {getDefaultAddress.floor}
+              </Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Numero de calle:</Text>{" "}
+                {getDefaultAddress.streetNumber}
+              </Text>
+            </View>
             <Text style={styles.deliverySmallText}>
               Order de más de $7000 tiene envío gratis
             </Text>

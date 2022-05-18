@@ -41,12 +41,10 @@ const CartService = {
     return data;
   },
 
-  confirmCart: async (user) => {
-    console.log(user.token);
-    const data = axios.get(URLPath.confirmCart, {
+  confirmCart: async (user, props) => {
+    const data = axios.post(URLPath.confirmCart, props, {
       headers: setHeader(user.token),
     });
-    console.log("comollega", data);
     return data;
   },
 };
