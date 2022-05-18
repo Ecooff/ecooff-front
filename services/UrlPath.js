@@ -12,6 +12,7 @@ export const serverAlive = URL + "users/serverAlive";
 export const login = URL + "users/authenticate";
 export const signUp = URL + "users/register";
 export const validateUser = URL + "users/verifyEmail";
+export const editName = URL + "users/editName";
 
 //Providers
 export const getAllProviders = URL + "providers/";
@@ -74,6 +75,7 @@ const URLPath = {
   listOfOrders,
   orderById,
   confirmCart,
+  editName,
 };
 
 export default URLPath;

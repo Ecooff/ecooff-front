@@ -7,7 +7,7 @@ import {
   Text,
   View,
   ActivityIndicator,
-  Modal
+  Modal,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -28,6 +28,9 @@ const OrdersScreen = () => {
   const [saving, setSaving] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [newOrder, setNewOtrder] = useState({});
+  const [getDefaultAddress, setGetDefaultAddress] = useState({});
+
+  console.log("userInOrder", user);
 
   const { confirmCart } = CartService;
 
@@ -35,7 +38,7 @@ const OrdersScreen = () => {
 
   const callback = (param) => {
     setModalVisible(param);
-  }
+  };
 
   useEffect(() => {
     confirmCart(user)
@@ -43,8 +46,26 @@ const OrdersScreen = () => {
         setCart(response.data.listOfProducts);
         setSaving(response.data.savings);
       })
-      .catch((error) => console.log("CATHORDERS", error));
+      .catch((error) => console.log("CATHORDERS", error.response));
+    const defaultAddress = user.addresses.filter(
+      (address) => address.defaultAddress === true
+    );
+    setGetDefaultAddress(defaultAddress[0]);
   }, []);
+
+  const confirmCartHandle = () => {
+    confirmCart(user, {
+      street: getDefaultAddress.street,
+      streetNumber: getDefaultAddress.streetNumber,
+      floor: getDefaultAddress.floor,
+      door: getDefaultAddress.door,
+      CP: getDefaultAddress.CP,
+    })
+      .then((response) => console.log("default", response.data))
+      .catch((error) => console.log(error));
+  };
+
+  console.log("defaultAdress", getDefaultAddress);
 
   return (
     <View style={[styles.homeContainer, { flex: 1 }]}>
@@ -116,7 +137,7 @@ const OrdersScreen = () => {
             styles.saveingItems,
           ]}
         >
-          <Text style={globalStyles.fontBold}>Juella de cabono</Text>
+          <Text style={globalStyles.fontBold}>Huella de cabono</Text>
 
           {saving.carbonFootprintTotal != null ? (
             <Text> {saving.carbonFootprintTotal} L</Text>
@@ -138,7 +159,10 @@ const OrdersScreen = () => {
       </View>
 
       {/* BUTTON */}
-      <Pressable style={styles.buttonPurchase} onPress={() => confirmCart()}>
+      <Pressable
+        style={styles.buttonPurchase}
+        onPress={() => confirmCartHandle()}
+      >
         <View>
           <Text style={styles.textStyle}>Finalizar</Text>
         </View>
@@ -153,9 +177,12 @@ const OrdersScreen = () => {
           setModalVisible(!modalVisible);
         }}
       >
-        <CheckoutComponent orderId={newOrder.orderId} user={user} parentCallback={callback} />
+        <CheckoutComponent
+          orderId={newOrder.orderId}
+          user={user}
+          parentCallback={callback}
+        />
       </Modal>
-
     </View>
   );
 };

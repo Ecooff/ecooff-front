@@ -1,32 +1,60 @@
 import { useEffect, useState } from "react";
-import { TextInput, StyleSheet, Text, Pressable, View, TouchableOpacity } from "react-native";
+import {
+  TextInput,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  TouchableOpacity,
+  NativeModules,
+  ActivityIndicator,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import globalSyles from "../../styles/styles";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../store/userSlice";
-import { Feather } from '@expo/vector-icons';
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, updateName } from "../../store/userSlice";
+import { Feather } from "@expo/vector-icons";
 import globalStyles from "../../styles/styles";
 import authStyles from "../../styles/authStyles";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+// SERVICES
+import { AuthService } from "../../services";
 
 // COMPONENTS
 import { MenuComponent } from "../../components";
 
 const EditProfileScreen = () => {
-
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const navigator = useNavigation();
-  const [firsname, setFirstname] = useState(user.firstName);
+  const [firstname, setFirstname] = useState(user.firstName);
   const [lastname, setLastname] = useState(user.lastName);
+  const [email, setEmail] = useState(user.email);
+  const [password, setPassword] = useState("");
   const [loader, setLoader] = useState(false);
+  const [newUser, setnewUser] = useState({});
 
   const saveUser = () => {
+    setLoader(true);
+    AuthService.editName(user, {
+      email: email,
+      firstName: firstname,
+      lastName: lastname,
+      password: password,
+    })
+      .then(() => {
+        dispatch(updateName({ firstName: firstname, lastName: lastname }));
+        setLoader(false);
+      })
+      .catch((error) => console.log("CATCHH", error));
 
-  }
+    navigator.navigate("Profile");
+  };
+
+  console.log(" USER", user);
 
   return (
     <View style={{ flex: 1 }}>
-
       <MenuComponent onPress={() => navigator.goBack()} />
 
       {/* TEXT */}
@@ -34,7 +62,6 @@ const EditProfileScreen = () => {
 
       {/* INPUTS */}
       <View style={[styles.containerInputs]}>
-
         <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
           NOMBRE
         </Text>
@@ -42,7 +69,7 @@ const EditProfileScreen = () => {
           <AntDesign name="user" style={globalStyles.icons} />
           <TextInput
             placeholder="Email"
-            value={firsname}
+            value={firstname}
             keyboardType="email-address"
             icon="mail"
             onChangeText={(text) => setFirstname(text)}
@@ -73,8 +100,9 @@ const EditProfileScreen = () => {
           <TextInput
             placeholder="Email"
             desabled={true}
-            value={user.email}
+            value={email}
             style={globalStyles.input}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
 
@@ -86,7 +114,8 @@ const EditProfileScreen = () => {
           <TextInput
             placeholder="Contraseña"
             desabled={true}
-            value={'*************'}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
             style={globalStyles.input}
             secureTextEntry
           />
@@ -105,7 +134,7 @@ const EditProfileScreen = () => {
               globalStyles.widthFluid,
             ]}
           >
-            {loader == false < 2 ? (
+            {loader ? (
               <View>
                 <ActivityIndicator size="small" color="#FFF" />
               </View>
@@ -117,13 +146,11 @@ const EditProfileScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-
   title: {
     fontWeight: "bold",
     fontSize: 38,
@@ -133,15 +160,15 @@ const styles = StyleSheet.create({
   },
 
   containerInputs: {
-    paddingHorizontal: '7.5%'
+    paddingHorizontal: "7.5%",
   },
 
   confirmButton: {
-    position: 'absolute',
-    width: '100%',
-    bottom: 30
-  }
-
+    position: "absolute",
+    width: "100%",
+    bottom: 30,
+  },
+  loginText: {},
 });
 
 export default EditProfileScreen;

@@ -1,37 +1,46 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Pressable, Modal } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Pressable,
+  Modal,
+} from "react-native";
 import globalStyles from "../styles/styles";
 import { commonFunctions } from "../utils";
 
 // COMPONENTS
 import CheckoutComponent from "../components/CheckOutCoponent";
 
-const OrderListComponent = ({
-  order,
-  user
-}) => {
-
+const OrderListComponent = ({ order, user }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState();
 
   const getOrderDetail = (id) => {
     setSelectedOrder(id);
-    setModalVisible(true)
-  }
+    setModalVisible(true);
+  };
 
   const callback = (param) => {
-    setModalVisible(param)
-  }
+    setModalVisible(param);
+  };
 
   return (
-
     <View style={[globalStyles.alignItemsCenter, styles.mainContainer]}>
-
       <View>
         <View style={styles.leftTextContainer}>
-          <Text style={styles.leftText}>{commonFunctions.dateParse(order.date)}</Text>
-          <Text style={[styles.leftText, order.status == 'Completada' ? styles.success : styles.pending]}>
+          <Text style={styles.leftText}>
+            {commonFunctions.dateParse(order.date)}
+          </Text>
+          <Text
+            style={[
+              styles.leftText,
+              order.status == "Completada" ? styles.success : styles.pending,
+            ]}
+          >
             {order.status}
           </Text>
         </View>
@@ -39,9 +48,7 @@ const OrderListComponent = ({
 
       <View style={styles.rightSide}>
         <Text style={styles.priceText}>${order.total}</Text>
-        <Pressable
-          onPress={() => getOrderDetail(order.orderId)}
-        >
+        <Pressable onPress={() => getOrderDetail(order.orderId)}>
           <Text style={styles.editText}>Ver detalle</Text>
         </Pressable>
       </View>
@@ -55,19 +62,19 @@ const OrderListComponent = ({
           setModalVisible(!modalVisible);
         }}
       >
-        <CheckoutComponent orderId={selectedOrder} user={user} parentCallback={callback} />
+        <CheckoutComponent
+          orderId={selectedOrder}
+          user={user}
+          parentCallback={callback}
+        />
       </Modal>
-
     </View>
-
   );
-
 };
 
 export default OrderListComponent;
 
 const styles = StyleSheet.create({
-
   mainContainer: {
     margin: 10,
     paddingVertical: 20,
@@ -89,18 +96,19 @@ const styles = StyleSheet.create({
   },
 
   leftTextContainer: {
-    marginLeft: 8
+    marginLeft: 8,
   },
 
   leftText: {
     fontSize: 17,
-    marginTop: 5
+    marginTop: 5,
   },
 
   icons: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: '#FFFFFF', shadowColor: "#000",
+    backgroundColor: "#FFFFFF",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -110,7 +118,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 15,
     marginRight: 20,
-    padding: 3
+    padding: 3,
   },
 
   rightSide: {
@@ -126,15 +134,14 @@ const styles = StyleSheet.create({
   priceText: {
     fontSize: 21,
     textAlign: "center",
-    marginBottom: 4
+    marginBottom: 4,
   },
 
   success: {
-    color: 'green',
+    color: "green",
   },
 
   pending: {
-    color: 'red',
+    color: "red",
   },
-
 });

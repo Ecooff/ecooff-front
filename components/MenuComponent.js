@@ -37,8 +37,6 @@ export const MenuComponent = ({ onPress }) => {
 
   cartLength(user).then((response) => setLenghtCart(response.data.cartLength));
 
-  console.log("numberOFThings", lenghtCart);
-
   return (
     <SafeAreaView
       style={{
