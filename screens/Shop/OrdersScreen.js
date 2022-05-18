@@ -5,10 +5,9 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
-  SafeAreaView,
   ActivityIndicator,
+  Modal
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -27,10 +26,16 @@ const OrdersScreen = () => {
   const user = useSelector(selectUser);
   const [cart, setCart] = useState([]);
   const [saving, setSaving] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newOrder, setNewOtrder] = useState({});
 
   const { confirmCart } = CartService;
 
   const navigator = useNavigation();
+
+  const callback = (param) => {
+    setModalVisible(param);
+  }
 
   useEffect(() => {
     confirmCart(user)
@@ -138,6 +143,19 @@ const OrdersScreen = () => {
           <Text style={styles.textStyle}>Finalizar</Text>
         </View>
       </Pressable>
+
+      {/* MODAL */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <CheckoutComponent orderId={newOrder.orderId} user={user} parentCallback={callback} />
+      </Modal>
+
     </View>
   );
 };
