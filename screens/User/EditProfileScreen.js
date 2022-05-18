@@ -55,7 +55,7 @@ const EditProfileScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <MenuComponent onPress={() => navigator.goBack()} />
+      <MenuComponent style={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
 
       {/* TEXT */}
       <Text style={styles.title}>Edita tus datos</Text>

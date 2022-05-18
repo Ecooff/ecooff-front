@@ -115,7 +115,7 @@ const ListScreen = ({ route }) => {
 
       <View style={styles.menuContainer}>
         {/* MENU */}
-        <MenuComponent onPress={() => navigator.goBack()} />
+        <MenuComponent style={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
       </View>
 
       <ScrollView style={styles.scrollContainer}>

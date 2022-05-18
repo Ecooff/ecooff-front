@@ -132,12 +132,14 @@ const HomeScreen = () => {
 
   return (
     <View style={[styles.homeContainer]}>
+
+      <MenuComponent style={{position: "absolute", top: 30}} />
+
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       {/* <Image source={SplashLogo} style={{width: 200, height: 200, position: 'absolute', bottom: 10, zIndex: 1}} /> */}
 
       <ScrollView style={styles.scrollContainer}>
         {/* MENU */}
-        <MenuComponent />
 
         {/* ORDER ON REQUEST (IN CASE THERE IS ONE) */}
         {/* {orderOnRequest ? <OrderOnRequestComponent /> : <View />} */}

@@ -57,7 +57,7 @@ const ProductScreen = ({ route }) => {
         <StatusBar backgroundColor="white" barStyle="dark-content" />
 
         {/* MENU */}
-        <MenuComponent onPress={() => navigator.goBack()} />
+        <MenuComponent style={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
 
         <ScrollView
           showsVerticalScrollIndicator={false}

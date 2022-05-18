@@ -63,7 +63,7 @@ const AddressesScreen = () => {
 
   return (
     <View style={styles.homeConteiner}>
-      <MenuComponent onPress={() => navigator.goBack()} />
+      <MenuComponent style={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
       <Text style={styles.title}>Medios de pago</Text>
 
       <MyPaymentMethods />

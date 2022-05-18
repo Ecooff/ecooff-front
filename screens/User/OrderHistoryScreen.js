@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { ScrollView, Pressable, StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { ScrollView, Pressable, StyleSheet, Text, View, ActivityIndicator, SafeAreaView } from "react-native";
 import { fakeData } from "../../utils/fakeData";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
@@ -31,9 +31,9 @@ const OrderHistoyScreen = () => {
   return (
     <View style={styles.homeConteiner}>
 
-      <ScrollView>
+      <MenuComponent style={{ position: "absolute", top: 30 }} onPress={() => navigator.goBack()} />
 
-        <MenuComponent onPress={() => navigator.goBack()} />
+      <ScrollView style={{paddingBottom: 30}}>
 
         <Text style={styles.title}>Mis pedidos</Text>
 
@@ -41,16 +41,19 @@ const OrderHistoyScreen = () => {
           !loadingOrders ?
             orders.length > 0 ?
               orders.map((order, i) => {
-                return(
-                  <OrderListComponent key={i} order={order.order} user={user} />
+                return (
+                  <View>
+                    <OrderListComponent key={i} order={order.order} user={user} />
+                    { i == orders.length - 1 && <SafeAreaView style={{height: 120}}></SafeAreaView> }
+                  </View>
                 )
               })
               :
               <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
-                    <MaterialIcons name="search-off" size={200} color="lightgrey" />
+                <MaterialIcons name="search-off" size={200} color="lightgrey" />
               </View>
-              :
-              <ActivityIndicator style={[globalStyles.icons]} color="#4db591" />
+            :
+            <ActivityIndicator style={[globalStyles.icons]} color="#4db591" />
         }
 
       </ScrollView>

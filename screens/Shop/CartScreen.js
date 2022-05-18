@@ -69,7 +69,6 @@ const CartScreen = () => {
   const user = useSelector(selectUser);
   const navigator = useNavigation();
 
-  console.log("userInCart", user);
 
   const updateQuantity = (id, quantity, i) => {
     addToCart(user, {
@@ -189,7 +188,7 @@ const CartScreen = () => {
   return (
     <View style={styles.homeContainer}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <MenuComponent onPress={() => navigator.goBack()} />
+      <MenuComponent style={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
       <Text style={styles.header}>Tu carrito</Text>
       <ScrollView style={styles.menuContainer}>
         {loadingItems ? (

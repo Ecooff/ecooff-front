@@ -15,12 +15,12 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import { MenuComponent } from "../../components";
 import globalStyles from "../../styles/styles";
-import productStyles from "../../styles/productStyles";
-import { fakeData } from "../../utils/fakeData";
-import Checkout from "./Checkout";
 import CartService from "../../services/CartService";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
+
+// COMPONENTS
+import CheckoutComponent from "../../components/CheckOutCoponent";
 
 const OrdersScreen = () => {
   const user = useSelector(selectUser);
@@ -29,8 +29,6 @@ const OrdersScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [newOrder, setNewOtrder] = useState({});
   const [getDefaultAddress, setGetDefaultAddress] = useState({});
-
-  console.log("userInOrder", user);
 
   const { confirmCart } = CartService;
 
@@ -45,11 +43,11 @@ const OrdersScreen = () => {
       .then((response) => {
         setCart(response.data.listOfProducts);
         setSaving(response.data.savings);
-      })
-      .catch((error) => console.log("CATHORDERS", error.response));
-    const defaultAddress = user.addresses.filter(
-      (address) => address.defaultAddress === true
-    );
+      }).catch((error) => console.log("CATHORDERS", error.response));
+
+      const defaultAddress = user.addresses.filter(
+        (address) => address.defaultAddress === true
+      );
     setGetDefaultAddress(defaultAddress[0]);
   }, []);
 
@@ -60,19 +58,18 @@ const OrdersScreen = () => {
       floor: getDefaultAddress.floor,
       door: getDefaultAddress.door,
       CP: getDefaultAddress.CP,
-    })
-      .then((response) => console.log("default", response.data))
-      .catch((error) => console.log(error));
+    }).then((response) => {
+        setNewOtrder(response.data);
+        setModalVisible(true);
+      }).catch((error) => console.log(error));
   };
-
-  console.log("defaultAdress", getDefaultAddress);
 
   return (
     <View style={[styles.homeContainer, { flex: 1 }]}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
 
       <View style={{ marginTop: 25 }}>
-        <MenuComponent onPress={() => navigator.goBack()} />
+        <MenuComponent tyle={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
       </View>
 
       <Text style={styles.header}>Con tu compra</Text>

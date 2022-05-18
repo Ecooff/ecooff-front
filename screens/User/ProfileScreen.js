@@ -118,7 +118,7 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.homeConteiner}>
-      <MenuComponent onPress={() => navigator.goBack()} />
+      <MenuComponent style={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
       <View style={{ paddingHorizontal: 10 }}>
         <Profile />
         <Options />

@@ -23,11 +23,8 @@ import { selectUser } from "../store/userSlice";
 export const MenuComponent = ({ onPress }) => {
   const [cartItems, setCartItems] = useState(0); // tiene que tener algo cargado para que no tome undefined o length sin nada
   const [lenghtCart, setLenghtCart] = useState(0);
-
   const navigator = useNavigation();
-
   const user = useSelector(selectUser);
-
   const { cartLength, openCart } = cartService;
 
   useEffect(async () => {
@@ -41,7 +38,7 @@ export const MenuComponent = ({ onPress }) => {
     <SafeAreaView
       style={{
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-between"
       }}
     >
       <Pressable onPress={() => navigator.navigate("Home")} />

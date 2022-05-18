@@ -81,7 +81,7 @@ const AddressesScreen = () => {
 
   return (
     <View style={styles.homeConteiner}>
-      <MenuComponent onPress={() => navigator.goBack()} />
+      <MenuComponent style={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
       <Text style={styles.title}>Tus Direcciones</Text>
       <ScrollView  style={styles.globalMaxHeight}>
       <MyAddresses />
