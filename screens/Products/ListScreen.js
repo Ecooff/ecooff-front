@@ -7,7 +7,6 @@ import {
   Text,
   View,
   TextInput,
-  TouchableOpacity,
   ActivityIndicator
 } from "react-native";
 import globalStyles from "../../styles/styles";
@@ -32,6 +31,7 @@ const ListScreen = ({ route }) => {
   const [subcategory, setSubcategory] = useState(null);
   const user = useSelector(selectUser);
   const title = route.params.item.title;
+  const [loadingItem, setLoadingItem] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
 
   useEffect(() => {
@@ -61,7 +61,11 @@ const ListScreen = ({ route }) => {
   const navigator = useNavigation();
 
   const callByCategory = () => {
-    productService.getByCategory(user, title).then((response) => setProducts(response.data));
+    setLoadingItem(true);
+    productService.getByCategory(user, title).then((response) => {
+      setProducts(response.data);
+      setLoadingItem(false);
+    });
   }
 
   const callSubcategory = () => {
@@ -176,14 +180,20 @@ const ListScreen = ({ route }) => {
           >
             
             {
-              products.length > 0 ?
-                products.map((product, index) => {
-                  return (
-                    <ProductList key={product._id} product={product} index={index} />
-                  );
-                }) : <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
-                  <MaterialIcons name="search-off" size={200} color="lightgrey" />
-                </View>
+              !loadingItem ?
+                products.length > 0 ?
+                  products.map((product, index) => {
+                    return (
+                      <ProductList key={product._id} product={product} index={index} />
+                    );
+                  })
+                  :
+                  <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
+                    <MaterialIcons name="search-off" size={200} color="lightgrey" />
+                  </View>
+                :
+                <ActivityIndicator style={[globalStyles.icons]} size={200} color="#4db591" />
+
             }
           </ScrollView>
         </View>

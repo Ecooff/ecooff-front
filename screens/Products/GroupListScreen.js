@@ -7,7 +7,6 @@ import {
   Text,
   View,
   TextInput,
-  TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import globalStyles from "../../styles/styles";
@@ -35,6 +34,7 @@ const GroupListScreen = ({ route }) => {
   const titleProvider = route.params.product.providerName;
   const idProvider = route.params.product._id;
   const [searchLoading, setSearchLoading] = useState(false);
+  const [loadingItem, setLoadingItem] = useState(false);
 
   const user = useSelector(selectUser);
 
@@ -48,9 +48,12 @@ const GroupListScreen = ({ route }) => {
   }, []);
 
   const callProducts = () => {
+    setLoadingItem(true);
     productService.getByProvider(user, idProvider).then((response) => {
       setProductsProvider(response.data);
+      setLoadingItem(false);
     });
+
   };
 
   const callback = (param) => {
@@ -191,27 +194,32 @@ const GroupListScreen = ({ route }) => {
             showsVerticalScrollIndicator={false}
             style={styles.productScroll}
           >
-            {productsProvider.length > 0 ? (
-              productsProvider.map((product, index) => {
-                return (
-                  <ProductList
-                    key={product._id}
-                    product={product}
-                    index={index}
-                  />
-                );
-              })
-            ) : (
-              <View
-                style={[
-                  styles.scrollTitle,
-                  globalStyles.row,
-                  globalStyles.justifyContentCenter,
-                ]}
-              >
-                <MaterialIcons name="search-off" size={200} color="lightgrey" />
-              </View>
-            )}
+            {
+            !loadingItem ?
+              productsProvider.length > 0 ? (
+                productsProvider.map((product, index) => {
+                  return (
+                    <ProductList
+                      key={product._id}
+                      product={product}
+                      index={index}
+                    />
+                  );
+                })
+              ) : (
+                <View
+                  style={[
+                    styles.scrollTitle,
+                    globalStyles.row,
+                    globalStyles.justifyContentCenter,
+                  ]}
+                >
+                  <MaterialIcons name="search-off" size={200} color="lightgrey" />
+                </View>
+              )
+              :
+              <ActivityIndicator style={[globalStyles.icons]} size={200} color="#4db591" />
+            }
           </ScrollView>
         </View>
       </ScrollView>

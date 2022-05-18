@@ -47,6 +47,14 @@ const CartService = {
     });
     return data;
   },
+
+  createOrder: async (user, address) => {
+    const data = await axios.post(URLPath.createOrder, address, {
+      headers: setHeader(user.token),
+    });
+    return data;
+  },
+
 };
 
 export default CartService;

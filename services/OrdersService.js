@@ -15,7 +15,7 @@ const OrdersService = {
       headers: setHeader(user.token),
     });
     return data;
-  },
+  }
 
 };
 

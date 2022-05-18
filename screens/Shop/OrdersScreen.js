@@ -11,13 +11,14 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import { MenuComponent } from "../../components";
 import globalStyles from "../../styles/styles";
-import CartService from "../../services/CartService";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
+
+// SERVICE
+import cartService from "../../services/CartService";
 
 // COMPONENTS
 import CheckoutComponent from "../../components/CheckOutCoponent";
@@ -30,16 +31,15 @@ const OrdersScreen = () => {
   const [newOrder, setNewOtrder] = useState({});
   const [getDefaultAddress, setGetDefaultAddress] = useState({});
 
-  const { confirmCart } = CartService;
-
   const navigator = useNavigation();
 
   const callback = (param) => {
     setModalVisible(param);
+    navigator.navigate('Home');
   };
 
   useEffect(() => {
-    confirmCart(user)
+    cartService.confirmCart(user)
       .then((response) => {
         setCart(response.data.listOfProducts);
         setSaving(response.data.savings);
@@ -52,16 +52,20 @@ const OrdersScreen = () => {
   }, []);
 
   const confirmCartHandle = () => {
-    confirmCart(user, {
+
+    let address = {
       street: getDefaultAddress.street,
       streetNumber: getDefaultAddress.streetNumber,
       floor: getDefaultAddress.floor,
       door: getDefaultAddress.door,
       CP: getDefaultAddress.CP,
-    }).then((response) => {
+    };
+
+    cartService.createOrder(user, address).then((response) => {
         setNewOtrder(response.data);
         setModalVisible(true);
-      }).catch((error) => console.log(error));
+      }).catch((error) => console.log('ERROR', error.response.data.message));
+
   };
 
   return (
@@ -80,6 +84,7 @@ const OrdersScreen = () => {
           cart.map((item, i) => {
             return (
               <View
+                key={i}
                 style={[
                   globalStyles.row,
                   globalStyles.alignItemsCenter,
@@ -175,7 +180,7 @@ const OrdersScreen = () => {
         }}
       >
         <CheckoutComponent
-          orderId={newOrder.orderId}
+          orderId={newOrder._id}
           user={user}
           parentCallback={callback}
         />

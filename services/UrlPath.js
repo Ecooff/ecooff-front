@@ -38,6 +38,7 @@ export const deleteItem = URL + "cart/deleteItem/";
 export const confirmCart = URL + "cart/confirmCart";
 
 // Orders
+export const createOrder = URL + "orders/create";
 export const listOfOrders = URL + "orders/listOfOrders";
 export const orderById = URL + "orders/openOrder/";
 
@@ -76,6 +77,7 @@ const URLPath = {
   orderById,
   confirmCart,
   editName,
+  createOrder
 };
 
 export default URLPath;

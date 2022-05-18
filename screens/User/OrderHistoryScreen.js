@@ -49,7 +49,7 @@ const OrderHistoyScreen = () => {
                 )
               })
               :
-              <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
+              <View key={i} style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
                 <MaterialIcons name="search-off" size={200} color="lightgrey" />
               </View>
             :
