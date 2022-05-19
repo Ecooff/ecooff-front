@@ -15,7 +15,8 @@
     "@reduxjs/toolkit": "^1.8.0",
     "axios": "^0.26.1",
     "colors": "^1.4.0",
-    "expo": "~44.0.0",
+    "expo": "^45.0.4",
+    "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "expo-tracking-transparency": "~2.1.0",
     "react": "17.0.1",
@@ -30,8 +31,7 @@
     "react-native-web": "0.17.1",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
-    "redux-logger": "^3.0.6",
-    "expo-splash-screen": "~0.14.1"
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
