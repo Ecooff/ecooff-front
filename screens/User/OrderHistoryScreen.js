@@ -42,7 +42,7 @@ const OrderHistoyScreen = () => {
             orders.length > 0 ?
               orders.map((order, i) => {
                 return (
-                  <View key={i} >
+                  <View key={i}>
                     <OrderListComponent order={order.order} user={user} />
                     { i == orders.length - 1 && <SafeAreaView style={{height: 120}}></SafeAreaView> }
                   </View>

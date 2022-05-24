@@ -21,19 +21,15 @@ import SplashLogo from "../assets/splash.png";
 import { BackHandler } from "react-native";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from '@expo/vector-icons';
 import { commonFunctions } from "../utils";
 
-{
-  /* COMPONENTS */
-}
+{ /* COMPONENTS */ }
 import { MenuComponent, FooterComponent } from "../components";
 import ProductList from "../components/ProductList";
-import CheckoutComponent from "../components/CheckOutCoponent";
+import CheckoutComponent from "../components/CheckOutCoponent"
 
-{
-  /* SERVICES */
-}
+{ /* SERVICES */ }
 import productService from "../services/ProductService";
 import ordersService from "../services/OrdersService";
 
@@ -53,24 +49,24 @@ const HomeScreen = () => {
   const user = useSelector(selectUser);
 
   useEffect(() => {
-    getAllProviders(user)
-      .then((response) => setProviders(response.data))
-      .catch((err) => console.log(err.response.data.message)),
+    getAllProviders(user).then((response) => setProviders(response.data)).catch((err) => console.log(err.response.data.message)),
+
       closeToExp(user).then((response) => setCloseToExpire(response.data)),
+
       forYou(user).then((response) => setFeatured(response.data));
 
     ordersService.getListOfOrders(user).then((response) => {
       setOrder(response.data[0].order);
-      console.log("Data ", response.data[0].order);
-    });
+    })
 
     BackHandler.removeEventListener(true);
+
   }, []);
 
-  // FOR CLOSEING THE MODAL
+  // FOR CLOSEING THE MODAL 
   const callback = (param) => {
-    setModalVisible(param);
-  };
+    setModalVisible(param)
+  }
 
   const everything = [closeToExpire, featured, providers];
 
@@ -109,14 +105,15 @@ const HomeScreen = () => {
 
   // Do Search
   const doSearch = (query) => {
+
     // Set Query for input
     setSearchLoading(true);
     setQuery(query);
 
     // Call API
-    if (query != null && query != "") {
-      productService
-        .queryPartialMatch(user, query)
+    if (query != null && query != '') {
+
+      productService.queryPartialMatch(user, query)
         .then((response) => {
           setQueryProducts(response.data);
           setSearchLoading(false);
@@ -124,11 +121,13 @@ const HomeScreen = () => {
         .catch((err) => {
           setSearchLoading(false);
         });
+
     } else {
       setQueryProducts([]);
       setSearchLoading(false);
     }
-  };
+
+  }
 
   return (
     <View style={[styles.homeContainer]}>
@@ -157,14 +156,11 @@ const HomeScreen = () => {
               <TouchableOpacity
                 key={index}
                 onPress={() => navigator.navigate("List", { item })}
-                // onPress={() => navigator}
-                // onPress={() => console.log("demo")}
                 style={styles.iconsContainer}
               >
                 <Image
                   style={styles.icons}
                   source={item.icon}
-                  onPress={() => console.log("demo")}
                 />
 
                 <Text style={globalStyles.fontXSmall}>{item.title}</Text>
@@ -173,38 +169,37 @@ const HomeScreen = () => {
           })}
         </View>
 
-        {order != null && order.status != "Completada" ? (
-          <View style={styles.pendingOrder}>
-            <View
-              style={[
-                globalStyles.row,
-                globalStyles.justifyContentBetween,
-                globalStyles.alignItemsCenter,
-                styles.infoText,
-              ]}
-            >
-              <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
-                <View
-                  style={[
-                    styles.orderIcons,
-                    { paddingVertical: 8 },
-                    { paddingHorizontal: 5 },
-                  ]}
-                >
-                  <EvilIcons name="location" size={24} color="green" />
+        {
+          order != null && order.status != 'Completada' ?
+            <View style={styles.pendingOrder}>
+
+              <View style={[globalStyles.row, globalStyles.justifyContentBetween, globalStyles.alignItemsCenter, styles.infoText]}>
+
+                <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
+
+                  <View style={[styles.orderIcons, { paddingVertical: 8 }, { paddingHorizontal: 5 }]}>
+                    <EvilIcons name="location" size={24} color="green" />
+                  </View>
+
+                  <Text>Tenés un pedido en curso</Text>
+
                 </View>
 
-                <Text>Tenés un pedido en curso</Text>
+                <TouchableOpacity
+                onPress={() => setModalVisible(true)}
+                >
+                  <Text style={{ textDecorationLine: "underline" }}>Ver</Text>
+                </TouchableOpacity>
+
               </View>
 
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Text style={{ textDecorationLine: "underline" }}>Ver</Text>
-              </TouchableOpacity>
             </View>
-          </View>
-        ) : null}
+            :
+            null
+        }
 
         <View style={styles.products}>
+
           {/* SEARCHER */}
           <View
             style={[
@@ -216,10 +211,7 @@ const HomeScreen = () => {
           >
             <View style={styles.inputSearch}>
               {searchLoading ? (
-                <ActivityIndicator
-                  style={[globalStyles.icons, { left: 2 }, { marginEnd: 4 }]}
-                  color="#4db591"
-                />
+                <ActivityIndicator style={[globalStyles.icons, { left: 2 }, { marginEnd: 4 }]} color="#4db591" />
               ) : (
                 <EvilIcons name="search" style={globalStyles.icons} />
               )}
@@ -237,8 +229,10 @@ const HomeScreen = () => {
 
           {/* ROW PRODUCTS */}
           {
+
             // IF I'M SEARCHING
-            search == null || search == "" ? (
+            (search == null || search == '') ?
+
               listOfProducts.map((list, index) => {
                 return (
                   <View key={index} style={styles.productsListContainer}>
@@ -254,7 +248,6 @@ const HomeScreen = () => {
 
                       <TouchableOpacity
                         onPress={() => navigator.navigate("GroupList")}
-                        // onPress={() => console.log("demo")}
                         style={globalStyles.fontSmall}
                       >
                         {/* <Text>Ver todos</Text> */}
@@ -275,7 +268,6 @@ const HomeScreen = () => {
                                 ? navigator.navigate("Product", { product })
                                 : navigator.navigate("GroupList", { product })
                             }
-                            // onPress={() => console.log("demo")}
                             style={styles.productsContainer}
                           >
                             <View style={shadowStyle}>
@@ -298,8 +290,7 @@ const HomeScreen = () => {
                                 index >= 2 ? globalStyles.textCenter : null,
                               ]}
                             >
-                              {product.provider ||
-                                commonFunctions.capitalize(product.name)}
+                              {product.provider || commonFunctions.capitalize(product.name)}
                             </Text>
                             {index < 2 ? (
                               <Text
@@ -319,30 +310,28 @@ const HomeScreen = () => {
                   </View>
                 );
               })
-            ) : // IF I'M SEARCHING HANDLER RESULTS/ NO RESULTS
-            queryProducts.length > 0 ? (
-              queryProducts.map((product, index) => {
-                return (
-                  <ProductList
-                    key={product._id}
-                    product={product}
-                    index={index}
-                  />
-                );
-              })
-            ) : (
-              <View
-                style={[
-                  styles.scrollTitle,
-                  globalStyles.row,
-                  globalStyles.justifyContentCenter,
-                ]}
-              >
-                <MaterialIcons name="search-off" size={200} color="lightgrey" />
-              </View>
-            )
+
+              :
+
+              // IF I'M SEARCHING HANDLER RESULTS/ NO RESULTS
+              queryProducts.length > 0 ?
+
+                queryProducts.map((product, index) => {
+                  return (
+                    <ProductList key={product._id} product={product} index={index} />
+                  );
+                })
+
+                :
+
+                <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
+                  <MaterialIcons name="search-off" size={200} color="lightgrey" />
+                </View>
+
           }
+
         </View>
+
       </ScrollView>
 
       {/* FOOTER */}
@@ -357,12 +346,9 @@ const HomeScreen = () => {
           setModalVisible(!modalVisible);
         }}
       >
-        <CheckoutComponent
-          orderId={order.orderId}
-          user={user}
-          parentCallback={callback}
-        />
+        <CheckoutComponent orderId={order.orderId} user={user} parentCallback={callback} />
       </Modal>
+
     </View>
   );
 };
@@ -455,32 +441,33 @@ const styles = StyleSheet.create({
 
   pendingOrder: {
     marginTop: 35,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     padding: 20,
     borderRadius: 15,
 
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 5
   },
 
   orderIcons: {
     marginRight: 12,
-    backgroundColor: "#F4F4F4",
+    backgroundColor: '#F4F4F4',
     borderRadius: 50,
     padding: 5,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 5
   },
+
 });

@@ -17,29 +17,28 @@ import cartService from "../services/CartService";
 import { useState, useEffect } from "react";
 import { ActivityIndicator } from "react-native-web";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
-import { selectBasket, updateBasket } from "../store/basketSlice";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const MenuComponent = ({ onPress }) => {
   const [cartItems, setCartItems] = useState(0); // tiene que tener algo cargado para que no tome undefined o length sin nada
   const [lenghtCart, setLenghtCart] = useState(0);
   const navigator = useNavigation();
-
-  const dispatch = useDispatch();
-
   const user = useSelector(selectUser);
-
-  const canasta = useSelector(selectBasket);
-
   const { cartLength, openCart } = cartService;
 
-  useEffect(async () => {
-    const response = await cartLength(user);
-    dispatch(updateBasket(response.data.cartLength));
-    // setLenghtCart();
-  }, []);
+  useEffect(() => {
+
+    const response = {};
+
+    (async () => {
+      response = await cartLength(user);
+      setLenghtCart(response.data.cartLength);
+    })();
+
+  });
+
+  cartLength(user).then((response) => setLenghtCart(response.data.cartLength));
 
   return (
     <SafeAreaView
@@ -69,7 +68,7 @@ export const MenuComponent = ({ onPress }) => {
       <Image style={styles.menuLogo} source={theIcon} />
       <View style={[globalStyles.row, globalStyles]}>
         <Pressable onPress={() => navigator.navigate("Cart")}>
-          {canasta > 0 && (
+          {lenghtCart > 0 && (
             <View
               style={{
                 borderRadius: 10,
@@ -88,7 +87,7 @@ export const MenuComponent = ({ onPress }) => {
                   fontWeight: "bold",
                 }}
               >
-                {canasta}
+                {lenghtCart}
               </Text>
             </View>
           )}

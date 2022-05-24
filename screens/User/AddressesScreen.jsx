@@ -23,7 +23,6 @@ const AddressesScreen = () => {
 
   const callback = (newAddress) => {
     // do something with value in parent component, like save to state
-    console.log('nueva direccion', newAddress)
     setUserAdresses(userAdresses => [...userAdresses, newAddress])
   }
 

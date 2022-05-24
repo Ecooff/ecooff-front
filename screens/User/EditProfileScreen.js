@@ -51,8 +51,6 @@ const EditProfileScreen = () => {
     navigator.navigate("Profile");
   };
 
-  console.log(" USER", user);
-
   return (
     <View style={{ flex: 1 }}>
       <MenuComponent style={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />

@@ -4,13 +4,8 @@
   },
   "build": {
     "development": {
-      "distribution": "internal",
-      "android": {
-        "gradleCommand": ":app:assembleDebug"
-      },
-      "ios": {
-        "buildConfiguration": "Debug"
-      }
+      "developmentClient": true,
+      "distribution": "internal"
     },
     "preview": {
       "distribution": "internal"
@@ -21,7 +16,7 @@
     "production": {
       "ios": {
         "appleId": "julii-c@hotmail.com",
-        "ascAppId": "1621580579",
+        "ascAppId": "1625731908",
         "appleTeamId": "YS266HGHT5"
       }
     }

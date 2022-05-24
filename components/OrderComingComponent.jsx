@@ -13,7 +13,6 @@ import { selectOrder } from "../store/orderSlice";
 const OrderComingComponent = () => {
   const [detailView, setDetailView] = useState(false);
   // const order = useSelector(selectOrder);
-  console.log("ORDER STATE ORDERCOMINGCOMP", order)
   const [order, setOrder] = useState(fakeData.orderHistory[0])
 
   const SmallOrderView = () => {

@@ -13,6 +13,7 @@ export const login = URL + "users/authenticate";
 export const signUp = URL + "users/register";
 export const validateUser = URL + "users/verifyEmail";
 export const editName = URL + "users/editName";
+export const retrieveUser = URL + "users/retrieveUser";
 
 //Providers
 export const getAllProviders = URL + "providers/";
@@ -56,6 +57,7 @@ const URLPath = {
   login,
   signUp,
   getAllProviders,
+  retrieveUser,
   closeToExp,
   forYou,
   getByUserId,

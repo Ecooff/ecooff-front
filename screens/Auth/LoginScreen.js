@@ -59,12 +59,10 @@ const LoginScreen = () => {
           dispatch(login(response));
           navigator.navigate("Home");
         } else {
-          console.log("else");
           navigator.navigate("ValidateUser");
         }
       })
       .catch((err) => {
-        console.log("something was wrong", err);
         createAlert(err);
       })
       .finally(() => setLoader(false));
