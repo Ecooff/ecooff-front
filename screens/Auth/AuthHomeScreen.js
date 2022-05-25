@@ -30,57 +30,58 @@ const AuthHomeScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigator = useNavigation();
   const dispatch = useDispatch();
-
-  const me = (user, token) => {
-    user.token = token;
-    dispatch(login(user));
-    navigator.navigate("Home");
-  };
-
-  const verifyData = (data) => {
-    if (data) {
-      //setIsLoading(true);
-    } else {
-      //setIsLoading(false);
-      setIsLoading(false);
-    }
-  };
+  const [user, setUser] = useState({});
+  let token = '';
 
   useEffect(() => {
 
     setTimeout(() => {
-      // la logica de esto es esperar a que traiga los datos en el GET, y si
-      setIsLoading(false); // no trae los datos muestra los botones
-      
+
+      (async () => {
+
+        try {
+
+          token = await AsyncStorage.getItem("@me");
+
+          // IF TOKEN VALID
+          AuthService.retrieveUser(token).then((response) => {
+
+            // FILL USER WITH DATA
+            setUser(response.data);
+
+            // DISMISS LOADER
+            setIsLoading(false);
+
+            // UPDATE TOKEN STORED IN LOCALSTORAGE
+            updateTokenn(user.newToken);
+
+            // SET USER GLOBAL
+            dispatch(login(user));
+            navigator.navigate("Home");
+
+          }).catch((err) => {
+            setIsLoading(false);
+          })
+
+        } catch (error) {
+          console.log(error);
+        }
+
+      })();
+
     }, 2000);
 
-    (async () => {
 
-      try {
-        const token = await AsyncStorage.getItem("@me");
-  
-        const user = {};
-  
-        AuthService.retrieveUser(token).then((response) => user = response.data)
-        .catch((err) => {
-          console.log('Error', err);
-        });
-        //hacer un if user.data es undefined que muestre el loading . la idea es que espere 10segs y cambie el estado
-        user ? me(user.data, token) : setIsLoading(false);
-        //!user ? setIsLoading(false) : setIsLoading(true);
-        //user ? setIsLoading(false) : setIsLoading(true);
-  
-        //verifyData(user.data)
-        //user ? setIsLoading(true) : setIsLoading(false);
-        // SI isLoading es TRUE se muestra el loading
-        // funcion que haga un await en data y despues verifique si es true y si es false, y a partir de eso haga cambios
-      } catch (error) {
-        console.log(error);
-      }
-  
-    })();
+  }, []);
 
-  }, []); 
+  const updateTokenn = async (token) => {
+
+    try {
+      await AsyncStorage.setItem("@me", token);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <View style={[styles.mainContaner, globalStyles.alignItemsCenter]}>
