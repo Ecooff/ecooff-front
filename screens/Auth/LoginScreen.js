@@ -36,13 +36,7 @@ const LoginScreen = () => {
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-    const storeData = async (value) => {
-      try {
-        await AsyncStorage.setItem("@me", value);
-      } catch (e) {
-        console.log(e);
-      }
-    };
+
     setLoader(true);
 
     let user = {
@@ -63,9 +57,17 @@ const LoginScreen = () => {
         }
       })
       .catch((err) => {
-        createAlert(err);
+        createAlert('Datos incorrectos');
       })
       .finally(() => setLoader(false));
+  };
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("@me", value);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const createAlert = (message) =>
