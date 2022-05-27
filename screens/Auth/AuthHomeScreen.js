@@ -39,15 +39,6 @@ const AuthHomeScreen = () => {
 
       (async () => {
 
-        const updateTokenn = async (token) => {
-
-          try {
-            await AsyncStorage.setItem("@me", token);
-          } catch (e) {
-            console.log(e);
-          }
-        };
-
         try {
 
           token = await AsyncStorage.getItem("@me");
@@ -62,10 +53,10 @@ const AuthHomeScreen = () => {
             setIsLoading(false);
 
             // UPDATE TOKEN STORED IN LOCALSTORAGE
-            updateTokenn(user.newToken);
+            updateTokenn(response.data.newToken);
 
             // SET USER GLOBAL
-            dispatch(login(user));
+            dispatch(login(response.data));
             navigator.navigate("Home");
 
           }).catch((err) => {
@@ -82,6 +73,15 @@ const AuthHomeScreen = () => {
 
 
   }, []);
+
+  const updateTokenn = async (token) => {
+
+    try {
+      await AsyncStorage.setItem("@me", token);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <View style={[styles.mainContaner, globalStyles.alignItemsCenter]}>
