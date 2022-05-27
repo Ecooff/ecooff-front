@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URLPath } from "../services";
+import URLPath from "../services/UrlPath";
 
 const CartService = {
   addToCart: (user, props) => {
