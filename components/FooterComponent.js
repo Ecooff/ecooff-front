@@ -6,15 +6,24 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export const FooterComponent = () => {
+export const FooterComponent = ({
+    parentCallback
+  }) => {
+
   const navigator = useNavigation();
+
+  const setView = (option) => {
+    parentCallback(option);
+  }
+
+
   return (
     <View style={styles.footerContainer}>
       <View
         style={[styles.footer, globalStyles.row, globalStyles.alignItemsCenter]}
       >
         <TouchableOpacity
-          onPress={() => navigator.navigate("Home")}
+          onPress={() => setView(0)}
           style={styles.footerIcon}
         >
           <Ionicons name="home-outline" style={styles.icon} size={24} />
@@ -24,7 +33,7 @@ export const FooterComponent = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => navigator.navigate("OrderHistory")}
+          onPress={() => setView(1)}
           style={styles.footerIcon}
         >
           <MaterialCommunityIcons

@@ -10,6 +10,7 @@ import RestorePassword from "../screens/Auth/RestorePassword";
 import ValidateUserScreen from "../screens/Auth/ValidateUserScreen";
 
 // SCREENS
+import IndexScreen from "../screens/IndexScreen";
 import HomeScreen from "../screens/HomeScreen";
 
 // PRODUCTS
@@ -88,6 +89,13 @@ const Stack = () => {
         <StackNav.Screen
           options={{ headerShown: false, gestureEnabled: false }}
           name="Home"
+          component={IndexScreen}
+        />
+      }
+      {
+        <StackNav.Screen
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="HomeScreen"
           component={HomeScreen}
         />
       }

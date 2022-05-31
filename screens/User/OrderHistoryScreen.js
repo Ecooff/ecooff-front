@@ -31,9 +31,7 @@ const OrderHistoyScreen = () => {
   return (
     <View style={styles.homeConteiner}>
 
-      <MenuComponent style={{ position: "absolute", top: 30 }} onPress={() => navigator.goBack()} />
-
-      <ScrollView style={{paddingBottom: 30}}>
+      <ScrollView style={{ paddingBottom: 30 }}>
 
         <Text style={styles.title}>Mis pedidos</Text>
 
@@ -42,9 +40,9 @@ const OrderHistoyScreen = () => {
             orders.length > 0 ?
               orders.map((order, i) => {
                 return (
-                  <View key={i}>
+                  <View style={ { paddingHorizontal: 20 } } key={i}>
                     <OrderListComponent order={order.order} user={user} />
-                    { i == orders.length - 1 && <SafeAreaView style={{height: 120}}></SafeAreaView> }
+                    {i == orders.length - 1 && <SafeAreaView style={{ height: 120 }}></SafeAreaView>}
                   </View>
                 )
               })
@@ -58,12 +56,6 @@ const OrderHistoyScreen = () => {
 
       </ScrollView>
 
-      <View>
-
-        <FooterComponent />
-
-      </View>
-
     </View>
   );
 };
@@ -73,8 +65,7 @@ export default OrderHistoyScreen;
 const styles = StyleSheet.create({
 
   homeConteiner: {
-    flex: 1,
-    paddingHorizontal: 20,
+    flex: 1
   },
 
   title: {

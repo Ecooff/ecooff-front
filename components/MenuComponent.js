@@ -29,7 +29,7 @@ export const MenuComponent = ({ onPress }) => {
 
   useEffect(() => {
 
-    const response = {};
+    let response = {};
 
     (async () => {
       response = await cartLength(user);
