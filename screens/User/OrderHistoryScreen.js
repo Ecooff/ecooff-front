@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { ScrollView, Pressable, StyleSheet, Text, View, ActivityIndicator, SafeAreaView } from "react-native";
+import { ScrollView, StyleSheet, Text, View, ActivityIndicator, SafeAreaView, TouchableOpacity } from "react-native";
 import { fakeData } from "../../utils/fakeData";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
@@ -18,15 +18,27 @@ import OrderListComponent from "../../components/OrderListComponent";
 const OrderHistoyScreen = () => {
   const user = useSelector(selectUser);
   const [orders, setOrders] = useState([]);
+  const [filter, setFilter] = useState(0);
   const [loadingOrders, setLoadingOrders] = useState(true);
   const navigator = useNavigation();
 
   useEffect(() => {
-    ordersService.getListOfOrders(user).then((response) => {
+    getOrders(filter);
+  }, []);
+
+  const getFilteredData = (option) => {
+    setFilter(option);
+    option != filter && getOrders(option);
+  }
+
+  const getOrders = (option) => {
+    setLoadingOrders(true);
+    ordersService.getListOfOrders(user, option).then((response) => {
       setOrders(response.data);
       setLoadingOrders(false);
     })
-  }, []);
+
+  }
 
   return (
     <View style={styles.homeConteiner}>
@@ -34,6 +46,45 @@ const OrderHistoyScreen = () => {
       <ScrollView style={{ paddingBottom: 30 }}>
 
         <Text style={styles.title}>Mis pedidos</Text>
+
+        {/* FILTERS */}
+        <View style={[globalStyles.row, globalStyles.justifyContentAround, globalStyles.alignItemsCenter, styles.buttonsRow]}>
+
+          <TouchableOpacity
+            style={[styles.buttonFilter, filter == 0 && globalStyles.secondary]}
+            onPress={() => getFilteredData(0)}
+          >
+
+              <Text style={ filter == 0 && globalStyles.textWhite}>
+                En curso
+              </Text>
+
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.buttonFilter, filter == 1 && globalStyles.secondary]}
+            onPress={() => getFilteredData(1)}
+          >
+
+              <Text style={filter == 1 && globalStyles.textWhite}>
+                Completedas
+              </Text>
+
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.buttonFilter, filter == 2 && globalStyles.secondary]}
+          onPress={() => getFilteredData(2)}     
+          >
+
+              <Text style={filter == 2 && globalStyles.textWhite}>
+                Todas
+              </Text>
+
+          </TouchableOpacity>
+
+
+        </View>
 
         {
           !loadingOrders ?
@@ -51,7 +102,7 @@ const OrderHistoyScreen = () => {
                 <MaterialIcons name="search-off" size={200} color="lightgrey" />
               </View>
             :
-            <ActivityIndicator style={[globalStyles.icons]} color="#4db591" />
+            <ActivityIndicator style={{marginTop: '30%'}} color="#4db591" />
         }
 
       </ScrollView>
@@ -79,5 +130,24 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 30,
   },
+
+  buttonsRow: {
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+
+  buttonFilter: {
+    backgroundColor: '#FFF',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+  }
 
 });

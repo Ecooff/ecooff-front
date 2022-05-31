@@ -262,16 +262,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 4,
   },
-  /* confirm btn's second style */
-  // button: {
-  //   borderRadius: 10,
-  //   padding: 10,
-  //   elevation: 2,
-  //   width: "95%",
-  //   backgroundColor: "#3D9D5D",
-  //   alignSelf: "center",
-  //   marginTop: 10,
-  // },
   buttonText: {
     color: "white",
     fontWeight: "bold",

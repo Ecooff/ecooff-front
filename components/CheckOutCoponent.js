@@ -3,10 +3,10 @@ import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, Image } from "react-native";
 import globalStyles from "../styles/styles";
 import { commonFunctions } from "../utils";
-import { SimpleLineIcons } from '@expo/vector-icons'; 
+import { SimpleLineIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons'; 
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // SERVICES
 import ordersService from "../services/OrdersService";
@@ -31,7 +31,7 @@ const CheckoutComponent = ({
   }
 
   const getAdress = (adress) => {
-    return commonFunctions.capitalize(adress.street) + ' ' + adress.streetNumber + ', ' + adress.floor + ' ' + adress.door;
+    return commonFunctions.capitalize(adress.street) + ' ' + adress.streetNumber;
   }
 
   const closeModal = () => {
@@ -49,7 +49,6 @@ const CheckoutComponent = ({
 
       </TouchableOpacity>
 
-
       <View style={styles.centeredView}>
 
         {
@@ -63,33 +62,33 @@ const CheckoutComponent = ({
               {/* ORDER DATA */}
               <View style={[globalStyles.row, globalStyles.alignItemsCenter, styles.infoText]}>
 
-                <View style={[styles.icons, {padding: 8}]}>
+                <View style={[styles.icons, { padding: 8 }]}>
                   <SimpleLineIcons name="handbag" size={18} color="green" />
                 </View>
 
                 <Text style={globalStyles.fontBold}>Entrega estimada: </Text>
-                  <Text>{commonFunctions.dateParse(calculateDate(order.date))}</Text>
-                </View>
+                <Text>{commonFunctions.dateParse(calculateDate(order.date))}</Text>
+              </View>
 
               <View style={[globalStyles.row, globalStyles.alignItemsCenter, styles.infoText]}>
 
-                <View style={[styles.icons, {paddingVertical: 8}, {paddingHorizontal: 5}]}>
+                <View style={[styles.icons, { paddingVertical: 8 }, { paddingHorizontal: 5 }]}>
                   <MaterialCommunityIcons name="truck-delivery-outline" size={24} color="green" />
                 </View>
 
-                <Text style={globalStyles.fontBold}>Dirección de entrega: </Text>
-                  <Text>{getAdress(order.userAddress[0])}</Text>
-                </View>
+                <Text style={globalStyles.fontBold}>Entrega: </Text>
+                <Text>{getAdress(order.userAddress[0])}</Text>
+              </View>
 
               <View style={[globalStyles.row, globalStyles.alignItemsCenter, styles.infoText]}>
 
-                <View style={[styles.icons, {padding: 8}]}>
+                <View style={[styles.icons, { padding: 8 }]}>
                   <MaterialIcons name="timeline" size={20} color="green" />
                 </View>
 
                 <Text style={globalStyles.fontBold}>Estado: </Text>
-                  <Text style={order.status == 'Completed' ? { color: 'green' } : { color: 'red' }}>{order.status}</Text>
-                </View>
+                <Text style={order.status == 'Completed' ? { color: 'green' } : { color: 'red' }}>{order.status}</Text>
+              </View>
 
               {/* ITEMS SCROLL */}
               <ScrollView style={styles.scrollItemsContainer}>
@@ -173,6 +172,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     backgroundColor: "white",
+    overflow: 'hidden',
     borderRadius: 20,
     padding: 35,
     shadowColor: "#000",
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   },
 
   infoText: {
-    marginBottom: 20
+    marginBottom: 20,
   },
 
   totalTitle: {

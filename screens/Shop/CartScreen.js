@@ -29,6 +29,7 @@ const CartScreen = () => {
   useEffect(() => {
     setLoadingItems(true);
     openCart(user).then((response) => {
+      console.log('CART DATA', response.data);
       setCartItems(response.data.listOfProducts);
       setLoadingItems(false);
     });
@@ -357,40 +358,47 @@ const styles = StyleSheet.create({
   buttonPurchase: {
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
-    padding: 20,
+    padding: 30,
     elevation: 2,
     width: "100%",
     backgroundColor: "#3D9D5D",
-    // bottom: -20,
     marginTop: 20,
   },
+
   textStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
   },
+
   buttonContainer: {
     justifyContent: "space-between",
     flexDirection: "row",
   },
+
   deliveryMainContainer: {
     margin: 10,
   },
+
   deliveryContainer: {
     flexDirection: "row",
     margin: 4,
     marginHorizontal: 10,
   },
+
   deliveryMainText: {
     fontWeight: "bold",
     marginLeft: 10,
   },
+
   deliverySmallText: {
     fontSize: 12,
     marginLeft: 10,
   },
+
   editText: {
     textDecorationLine: "underline",
     marginLeft: 15,
-  },
+  }
+
 });

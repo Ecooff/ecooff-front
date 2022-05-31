@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   purchaseButton: {
     position: "absolute",
     bottom: 0,
-    padding: 15,
+    padding: 30,
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
     justifyContent: "center",

@@ -3,8 +3,8 @@ import URLPath from "../services/UrlPath";
 
 const OrdersService = {
 
-  getListOfOrders: async (user) => {
-    const data = await axios.get(URLPath.listOfOrders, {
+  getListOfOrders: async (user, option) => {
+    const data = await axios.get(URLPath.listOfOrders + option, {
       headers: setHeader(user.token),
     });
     return data;

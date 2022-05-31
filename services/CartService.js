@@ -17,9 +17,14 @@ const CartService = {
   },
 
   openCart: (user) => {
+    console.log(URLPath.openCart);
+    console.log('User', user);
     const data = axios.get(URLPath.openCart, {
       headers: setHeader(user.token),
     });
+
+    console.log('data', data);
+    console.log('----------------');
     return data;
   },
 

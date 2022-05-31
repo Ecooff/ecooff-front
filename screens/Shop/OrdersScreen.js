@@ -1,18 +1,8 @@
-import {
-  Pressable,
-  Image,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Modal,
+import { Pressable, Image, ScrollView, StatusBar, StyleSheet, Text, View, ActivityIndicator, Modal
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-
-import { MenuComponent } from "../../components";
+import { useDispatch } from "react-redux";
 import globalStyles from "../../styles/styles";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
@@ -21,6 +11,7 @@ import { selectUser } from "../../store/userSlice";
 import cartService from "../../services/CartService";
 
 // COMPONENTS
+import { MenuComponent } from "../../components";
 import CheckoutComponent from "../../components/CheckOutCoponent";
 
 const OrdersScreen = () => {
@@ -30,6 +21,8 @@ const OrdersScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [newOrder, setNewOtrder] = useState({});
   const [getDefaultAddress, setGetDefaultAddress] = useState({});
+  const [loading, setLoader] = useState(false);
+  const dispatch = useDispatch();
 
   const navigator = useNavigation();
 
@@ -53,6 +46,8 @@ const OrdersScreen = () => {
 
   const confirmCartHandle = () => {
 
+    setLoader(true);
+
     let address = {
       street: getDefaultAddress.street,
       streetNumber: getDefaultAddress.streetNumber,
@@ -62,9 +57,12 @@ const OrdersScreen = () => {
     };
 
     cartService.createOrder(user, address).then((response) => {
-        setNewOtrder(response.data);
-        setModalVisible(true);
-      }).catch((error) => console.log('ERROR', error.response.data.message));
+      setNewOtrder(response.data);
+      setModalVisible(true);
+      setLoader(false);
+      // Poner dispatch
+
+    }).catch((error) => console.log('ERROR', error.response.data.message));
 
   };
 
@@ -128,7 +126,7 @@ const OrdersScreen = () => {
           {saving.waterSaveTotal != null ? (
             <Text> {saving.waterSaveTotal} L</Text>
           ) : (
-            <Text>0 ppm</Text>
+            <Text>0 L</Text>
           )}
         </View>
 
@@ -142,9 +140,9 @@ const OrdersScreen = () => {
           <Text style={globalStyles.fontBold}>Huella de cabono</Text>
 
           {saving.carbonFootprintTotal != null ? (
-            <Text> {saving.carbonFootprintTotal} L</Text>
+            <Text> {saving.carbonFootprintTotal} ppm</Text>
           ) : (
-            <Text>0 L</Text>
+            <Text>0 ppm</Text>
           )}
         </View>
 
@@ -163,10 +161,18 @@ const OrdersScreen = () => {
       {/* BUTTON */}
       <Pressable
         style={styles.buttonPurchase}
+        disabled={loading}
         onPress={() => confirmCartHandle()}
       >
         <View>
-          <Text style={styles.textStyle}>Finalizar</Text>
+
+          {
+            !loading ?
+              <Text style={styles.textStyle}>Finalizar</Text>
+              :
+              <ActivityIndicator color="#4db591" />
+          }
+
         </View>
       </Pressable>
 
@@ -234,7 +240,7 @@ const styles = StyleSheet.create({
   buttonPurchase: {
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
-    padding: 20,
+    padding: 30,
     elevation: 2,
     width: "100%",
     backgroundColor: "#3D9D5D",

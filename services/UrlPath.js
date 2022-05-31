@@ -1,9 +1,5 @@
 export const LOCALHOST = "http://localhost:3000/api/";
 export const PROD = "https://ecooff.herokuapp.com/api/";
-// export const PROD = "http://192.168.100.1:3000/api/";
-export const ANDROID_EMULATOR = "http://10.0.2.2:3000/api/";
-export const IP_LOCALHOST_VALEN = "http://192.168.100.225:80/api/"; // ip cafeteria
-export const IP_LOCALHOST_TOBI = "http://192.168.1.4:3000/api/"; // ip cafeteria
 
 export const URL = PROD;
 
@@ -22,7 +18,7 @@ export const getAllProviders = URL + "providers/";
 export const closeToExp = URL + "stock/closeToExp";
 export const forYou = URL + "stock/forYou";
 export const getByCategory = URL + "stock/getByCategory/";
-export const getBySubcategory = URL + "stock//getBySubcategory/";
+export const getBySubcategory = URL + "stock/getBySubcategory/";
 export const getByProvSubcat = URL + "stock/getByProvSubcat/";
 export const getByProv = URL + "stock/getByProvider/";
 export const partialMatch = URL + "stock/partialMatch";
@@ -40,7 +36,7 @@ export const confirmCart = URL + "cart/confirmCart";
 
 // Orders
 export const createOrder = URL + "orders/create";
-export const listOfOrders = URL + "orders/listOfOrders";
+export const listOfOrders = URL + "orders/listOfOrders/";
 export const orderById = URL + "orders/openOrder/";
 
 //Get User Adresses
