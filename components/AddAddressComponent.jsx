@@ -1,103 +1,52 @@
 import { useState, useEffect } from "react";
-import { TextInput, Alert, Modal, StyleSheet, Text, Pressable, View  } from "react-native";
+import { TextInput, Alert, Modal, StyleSheet, Text, Pressable, View, KeyboardAvoidingView  } from "react-native";
 import {
   Ionicons,
 } from "@expo/vector-icons";
 import AdressService from "../services/AdressService";
 import { useInput } from "../hooks/hookForm";
-import { useSelector } from "react-redux";
-import { selectUser } from '../store/userSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, updateAddress } from '../store/userSlice';
+import globalStyles from '../styles/styles';
+
+
+import { useNavigation } from "@react-navigation/native";
 
 const AddAddressComponent = ({ parentCallback }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
-  const [textStreet, onChangeTextStreet] = useState("");
-  const [textNumber, onChangeTextNumber] = useState("");
-  const [textFloor, onChangeTextFloor] = useState("");
-  // const [ validateStreetNumber, setValidateStreetNumber] = useState('')
-  // const [streetText, setStreetText] = useState("");
-  const [streetTextNumber, setStreetTextNumber] = useState("");
-  const [floorText, setFloorText] = useState("")
-  const [doorText, setDoorText] = useState("");
-  const [CPtext, setCPtext] = useState("");
-
-  const street = useInput('street', '')
-  const streetNumber = useInput('streetNumber', '')
-  const floor = useInput('floor', '')
-  const door = useInput('door', '')
-  const CP = useInput('CP', '')
+ const [street, setStreet] = useState('');
+ const [streetNumber, setStreetNumber] = useState(null);
+ const [floor, setFloor] = useState(null);
+ const [door, setDoor] = useState(null);
+ const [CP, setCP] = useState(null);
 
   const { addUserAdress } = AdressService;
+  const navigator = useNavigation();
+
 
   const handleSubmit = () => {
     addUserAdress({
-      street: street.value,
-      streetNumber: streetNumber.value,
-      floor: floor.value,
-      door: door.value,
-      CP: CP.value
+      street: street,
+      streetNumber: streetNumber,
+      floor: floor,
+      door: door,
+      CP: CP,
     }, user).then(response => {
+      console.log('ENTRA Al DISPATCH', response.data)
+      console.log('kath', user)
+      dispatch(updateAddress({addresses : [...user.addresses, response.data] }))
       parentCallback(response.data);
-    }).catch(err => console.log(err.response.data.message))
+      // navigator.navigate('Cart')
+    }).catch(err => console.log(err.response))
     setModalVisible(!modalVisible);
   }
 
-  const ModalContent = () => {
-    return (
-      <View>
-        <View style={styles.listItem}>
-          <Text style={styles.modalText}>Calle</Text>
-          <TextInput
-          style={styles.input}
-          // onTextInput={() => setStreetText(streetText(street.value))}
-          onChangeText={street.onChangeText}
-          {...street}
-          // value={street}
-          placeholder="Av. Santa Fe"
-          />
-        </View>
-        <View style={styles.listItem}>
-          <Text style={styles.modalText}>Número</Text>
-          <TextInput
-          style={styles.input}
-          onChangeText={streetNumber.onChangeText}
-          {...streetNumber}
-          placeholder="4910"
-          />
-        </View>
-        <View style={[styles.listItem, styles.lastListItem]}>
-          <Text style={styles.modalText}>Piso</Text>
-          <TextInput
-          style={styles.input}
-          onChangeText={floor.value}
-          {...floor}
-          placeholder="12 A"
-          />
-        </View>
-        <View style={[styles.listItem, styles.lastListItem]}>
-          <Text style={styles.modalText}>Puerta</Text>
-          <TextInput
-          style={styles.input}
-          onChangeText={door.value}
-          {...door}
-          placeholder="32"
-          />
-        </View>
-        <View style={[styles.listItem, styles.lastListItem]}>
-          <Text style={styles.modalText}>Codigo postal</Text>
-          <TextInput
-          style={styles.input}
-          onChangeText={CP.value}
-          {...CP}
-          placeholder="7220"
-          />
-        </View>
-      </View>
-    );
-  };
-  
+  console.log('UserInAddress', user)
+
   const ModalFooter = () => {
     return (
       <View style={styles.footerModal}>
@@ -119,6 +68,7 @@ const AddAddressComponent = ({ parentCallback }) => {
 
 
   return (
+    <View>
     <View style={styles.centeredView}>
       <Modal
         animationType="slide"
@@ -131,33 +81,84 @@ const AddAddressComponent = ({ parentCallback }) => {
         }}
       >
         <View style={styles.centeredView}>
+        <KeyboardAvoidingView
+            style={[globalStyles.scrollContainer]}
+            behavior="padding"
+        >
           <View style={styles.modalView}>
             <Text style={styles.modalHeading}>Añadir Dirección</Text>
 
-            <ModalContent />
+            <View>
+        <View style={styles.listItem}>
+          <Text style={styles.modalText}>Calle</Text>
+          <TextInput
+          style={styles.input}
+          // onTextInput={(text) => setStreet(text)}
+          onChangeText={(text) => setStreet(text)}
+          value={street}
+          placeholder="Av. Santa Fe"
+          />
+        </View>
+        <View style={styles.listItem}>
+          <Text style={styles.modalText}>Número</Text>
+          <TextInput
+          style={styles.input}
+          onChangeText={(text) => setStreetNumber(text)}
+          value={streetNumber}
+          placeholder="4910"
+          />
+        </View>
+        <View style={[styles.listItem, styles.lastListItem]}>
+          <Text style={styles.modalText}>Piso</Text>
+          <TextInput
+          style={styles.input}
+          onChangeText={(text) => setFloor(text)}
+          value={floor}
+          placeholder="12 A"
+          />
+        </View>
+        <View style={[styles.listItem, styles.lastListItem]}>
+          <Text style={styles.modalText}>Puerta</Text>
+          <TextInput
+          style={styles.input}
+          onChangeText={(text) => setDoor(text)}
+          value={door}
+          placeholder="32"
+          />
+        </View>
+        <View style={[styles.listItem, styles.lastListItem]}>
+          <Text style={styles.modalText}>Codigo postal</Text>
+          <TextInput
+          style={styles.input}
+          onChangeText={(text) => setCP(text)}
+          value={CP}
+          placeholder="7220"
+          />
+        </View>
+      </View>
 
             <ModalFooter />
 
           </View>
+        </KeyboardAvoidingView>
         </View>
       </Modal>
-
-      <Pressable onPress={() => setModalVisible(true)}>
-        {/* <Text style={styles.textStyle}>Show Modal</Text> */}
-        <Ionicons
-          name="add-circle-outline"
-          size={24}
-          color="#3D9D5D"
-          style={styles.addBtn}
-        />
-      </Pressable>
     </View>
+    <Pressable onPress={() => setModalVisible(true)}>
+    {/* <Text style={styles.textStyle}>Show Modal</Text> */}
+    <Ionicons
+      name="add-circle-outline"
+      size={24}
+      color="#3D9D5D"
+      style={styles.addBtn}
+    />
+  </Pressable>
+  </View>
   );
 };
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: '#171717',
@@ -165,6 +166,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,    
     elevation: 10,
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)'
   },
   modalView: {
     backgroundColor: "white",
@@ -180,6 +183,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 5,
     shadowRadius: 4,
     elevation: 5,
+    marginTop: 170
   },
   textStyle: {
     color: "white",

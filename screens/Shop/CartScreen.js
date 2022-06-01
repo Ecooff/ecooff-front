@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  Button
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -26,6 +27,9 @@ const CartScreen = () => {
   const { addToCart, openCart, deleteItem } = CartService;
   const [getDefaultAddress, setGetDefaultAddress] = useState({});
 
+  const user = useSelector(selectUser);
+  const navigator = useNavigation();
+
   useEffect(() => {
     setLoadingItems(true);
     openCart(user).then((response) => {
@@ -36,14 +40,17 @@ const CartScreen = () => {
   }, []);
 
   useEffect(() => {
+    console.log('USERINCART', user)
     openCart(user).then((response) => {
       setCartItems(response.data.listOfProducts);
     });
-    const defaultAddress = user.addresses.filter(
-      (address) => address.defaultAddress === true
-    );
-    setGetDefaultAddress(defaultAddress[0]);
-  }, [newCart]);
+    if(user.addresses.length > 0) {
+      const defaultAddress = user.addresses.filter(
+        (address) => address.defaultAddress === true
+      );
+      setGetDefaultAddress(defaultAddress[0]);
+    }
+  }, [newCart, user]);
 
   const totalPrice = cartItems.map((item) => item.price);
 
@@ -54,6 +61,8 @@ const CartScreen = () => {
     }
     return total;
   };
+
+  
 
   const removeProduct = (i) => {
     cartItems[i].loader = true;
@@ -67,8 +76,7 @@ const CartScreen = () => {
 
   const verTotal = getTotal(totalPrice);
 
-  const user = useSelector(selectUser);
-  const navigator = useNavigation();
+  
 
 
   const updateQuantity = (id, quantity, i) => {
@@ -92,7 +100,7 @@ const CartScreen = () => {
             fontWeight: "700",
           }}
         >
-          No hay nada en el carrito
+          <MaterialIcons name="add-shopping-cart" size={200} color="lightgrey" />
         </Text>
       ) : (
         cartItems.map((product, i) => {
@@ -210,7 +218,12 @@ const CartScreen = () => {
           />
           <View style={styles}>
             <Text style={styles.deliveryMainText}>Delivery a dirección</Text>
-            <View
+            {user.addresses.length === 0 ?
+              <TouchableOpacity onPress={() => navigator.navigate('Addresses')}>
+               <Text>Crear direccion</Text> 
+              </TouchableOpacity>  
+              :
+              <View
               style={{
                 flexDirection: "row",
                 marginLeft: 10,
@@ -230,6 +243,8 @@ const CartScreen = () => {
                 {getDefaultAddress.streetNumber}
               </Text>
             </View>
+              }
+            
             <Text style={styles.deliverySmallText}>
               Order de más de $7000 tiene envío gratis
             </Text>
@@ -246,6 +261,16 @@ const CartScreen = () => {
       <Total />
 
       {/* <Checkout /> */}
+      {user.addresses.length === 0 ?
+        <Pressable
+        style={styles.buttonPurchase}
+        onPress={() => navigator.navigate("Addresses")}
+      >
+        <View style={styles.buttonContainer}>
+          <Text style={styles.textStyle}>Crear Direccion</Text>
+        </View>
+      </Pressable>
+      :
       <Pressable
         style={styles.buttonPurchase}
         onPress={() => navigator.navigate("Orders")}
@@ -255,6 +280,7 @@ const CartScreen = () => {
           <Text style={styles.textStyle}>$ {verTotal}</Text>
         </View>
       </Pressable>
+    }
     </View>
   );
 };
