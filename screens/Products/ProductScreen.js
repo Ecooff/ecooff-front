@@ -10,9 +10,10 @@ import {
 import React, { useEffect, useState } from "react";
 import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import { commonFunctions } from "../../utils";
+import {selectBasket, updateBasket} from '../../store/basketSlice';
 
 
 {
@@ -22,8 +23,10 @@ import { MenuComponent } from "../../components";
 import CartService from "../../services/CartService";
 
 const ProductScreen = ({ route }) => {
-  const { name, expPrice, expDate, img, providerName, description, _id, providerImg } =
+  const { name, expPrice, expDate, img, providerName, description, _id, providerImg, stock } =
     route.params.product;
+
+  const dispatch = useDispatch();
 
   const { addToCart, productLength } = CartService;
 
@@ -44,10 +47,11 @@ const ProductScreen = ({ route }) => {
   }, [productLenght]);
 
   const user = useSelector(selectUser);
+  const basket = useSelector(selectBasket);
 
   const AddProductToCart = () => {
     addToCart(user, { productId: _id, quantity: 1 })
-      .then((response) => response)
+      .then(() => dispatch(updateBasket(basket + 1)))
       .catch((error) => console.log("CATCH", error.response));
     setAlreadyInCart(true);
   };
@@ -155,20 +159,18 @@ const ProductScreen = ({ route }) => {
                   globalStyles.fontBold,
                 ]}
               >
-                Cantidad
+                Stock
               </Text>
 
-              <View
+              <Text
                 style={[
                   styles.bannerLargeMargin,
                   globalStyles.row,
                   globalStyles.alignItemsCenter,
                 ]}
               >
-                <Text style={globalStyles.sellIcons}>-</Text>
-                <Text style={{ marginHorizontal: 15 }}>1</Text>
-                <Text style={globalStyles.sellIcons}>+</Text>
-              </View>
+               {stock}
+              </Text>
             </View>
           </View>
 
