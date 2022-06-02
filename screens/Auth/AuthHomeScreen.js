@@ -16,8 +16,6 @@ import globalStyles from "../../styles/styles";
 import authStyles from "../../styles/authStyles";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import { localhost } from "../../localhost.json";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/userSlice";
 
