@@ -39,12 +39,7 @@ const AuthService = {
       method: "POST",
       headers: setHeader(),
       body: JSON.stringify(token),
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        return json;
-      })
-      .catch((error) => {
+    }).then((response) => response.json()).catch((error) => {
         return error;
       });
   },

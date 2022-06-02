@@ -16,14 +16,12 @@ import authStyles from "../../styles/authStyles";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
-import { login } from "../../store";
+import { login } from "../../store/userSlice";
 
 // SERVICES
 import { AuthService } from "../../services";
 
-{
-  /* COMPONENTS */
-}
+{ /* COMPONENTS */ }
 import AuthMenuComponent from "../../components/AuthMenuComponent";
 import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
@@ -34,6 +32,7 @@ const ValidateUserScreen = () => {
   const [code4, setCode4] = useState("");
   const [loader, setLoader] = useState(false);
   const navigator = useNavigation();
+  const dispatch = useDispatch();
 
   const inputUno = useRef(null);
   const inputDos = useRef(null);
@@ -49,23 +48,26 @@ const ValidateUserScreen = () => {
   };
 
   const validateUser = () => {
+
     setLoader(true);
 
     let token = code1 + code2 + code3 + code4;
 
-    AuthService.validateUser({ token: token })
-      .then((response) => {
-        if (response.message) {
-          createAlert(response.message);
-        } else {
-          storeData(response.newToken);
-          navigator.navigate("Home");
-        }
-      })
-      .catch((err) => {
-        createAlert(err);
-      })
-      .finally(() => setLoader(false));
+    AuthService.validateUser({ token: token }).then((response) => {
+      console.log(response);
+      if (response.message) {
+        createAlert(response.message);
+      } else {
+
+        // IN CASE IT's NEEDED
+        response.token = response.newToken;
+        storeData(response.newToken);
+        dispatch(login(response));
+        navigator.navigate("Home");
+
+      }
+
+    }).catch((err) => createAlert(err)).finally(() => setLoader(false));
   };
 
   const createAlert = (message) =>
@@ -100,7 +102,7 @@ const ValidateUserScreen = () => {
             maxLength={1}
             ref={inputUno}
             keyboardType="email-address"
-            icon="mail"
+            autoCapitalize='none'
             onChangeText={(text) => {
               setCode1(text);
             }}
@@ -114,7 +116,7 @@ const ValidateUserScreen = () => {
             ref={inputDos}
             maxLength={1}
             keyboardType="email-address"
-            icon="mail"
+            autoCapitalize='none'
             onChangeText={(text) => {
               setCode2(text);
             }}
@@ -128,7 +130,7 @@ const ValidateUserScreen = () => {
             ref={inputTres}
             maxLength={1}
             keyboardType="email-address"
-            icon="mail"
+            autoCapitalize='none'
             onChangeText={(text) => {
               setCode3(text);
             }}
@@ -142,7 +144,7 @@ const ValidateUserScreen = () => {
             maxLength={1}
             ref={inputCuatro}
             keyboardType="email-address"
-            icon="mail"
+            autoCapitalize='none'
             onChangeText={(text) => {
               setCode4(text);
             }}

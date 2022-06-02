@@ -148,49 +148,6 @@ const LoginScreen = () => {
         </Text>
       </TouchableOpacity>
 
-      {/* SOCIAL BUTTONS */}
-      {/* <View
-        style={[
-          styles.socialRow,
-          globalStyles.row,
-          globalStyles.alignItemsCenter,
-        ]}
-      > */}
-      {/* APPLE */}
-      {/* <TouchableOpacity
-          onPress={() => navigator.navigate("Home")}
-          style={styles.socialIcon}
-        >
-          <AntDesign name="apple1" size={22} style={styles.socialColor} />
-        </TouchableOpacity> */}
-
-      {/* FACEBOOK */}
-      {/* <TouchableOpacity
-          onPress={() => navigator.navigate("Home")}
-          style={[styles.socialIcon, styles.facebook]}
-        > */}
-      {/* <FontAwesome
-            name="facebook-f"
-            size={22}
-            style={styles.socialColor}
-            color="#1777F2"
-          />
-        </TouchableOpacity> */}
-
-      {/* GOOGLE */}
-      {/* <TouchableOpacity
-          onPress={() => navigator.navigate("Home")}
-          style={[styles.socialIcon, styles.google]}
-        >
-          <AntDesign
-            name="google"
-            size={22}
-            style={styles.socialColor}
-            color="#ef4432"
-          />
-        </TouchableOpacity>
-      </View> */}
-
       {/* BUTTON */}
       <View style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}>
         <TouchableOpacity

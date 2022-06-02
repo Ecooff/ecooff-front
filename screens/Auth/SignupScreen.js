@@ -16,15 +16,15 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import globalStyles from "../../styles/styles";
 import authStyles from "../../styles/authStyles";
 import { useNavigation } from "@react-navigation/native";
+import { commonFunctions } from "../../utils";
 
-{
-  /* COMPONENTS */
-}
-import { AuthMenuComponent } from "../../components";
+{ /* COMPONENTS */ }
+import AuthMenuComponent from "../../components/AuthMenuComponent";
 
 // SERVICES
 import { AuthService } from "../../services";
 import axios from "axios";
+import { capitalize } from "../../utils/CommonFunctions";
 
 const SignupScreen = () => {
   //   const initialRouteName = "Home";
@@ -39,6 +39,7 @@ const SignupScreen = () => {
   const navigator = useNavigation();
 
   const signUp = () => {
+
     setLoader(true);
 
     let newUser = {
@@ -73,31 +74,12 @@ const SignupScreen = () => {
   return (
     <ScrollView>
       <KeyboardAvoidingView
-        style={[globalStyles.scrollContainer, styles.scrollContainer]}
-        behavior={Platform.OS == "ios" ? "position" : ""}
+        style={[globalStyles.scrollContainer]}
+        behavior={["padding", Platform.OS == "ios" ? "position" : ""]}
         keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 1000} // nota: esta linea estaba comentada
       >
-        {/* BACK ARROW */}
-        <View
-          style={[
-            styles.arrowSpace,
-            globalStyles.arrowContainer,
-            globalStyles.row,
-            globalStyles.alignItemsCenter,
-          ]}
-        >
-          <TouchableOpacity
-            onPress={navigator.goBack}
-            style={globalStyles.backArrow}
-          >
-            <MaterialIcons name="arrow-back-ios" style={globalStyles.arrow} />
-          </TouchableOpacity>
-
-          <Image
-            style={[authStyles.logoInline, globalStyles.menuLogo]}
-            source={require("../../assets/icon-long.png")}
-          />
-        </View>
+        {/* MENU */}
+        <AuthMenuComponent />
 
         {/* WELCOME MESSAGE */}
         <View style={authStyles.titleContainer}>
@@ -123,7 +105,7 @@ const SignupScreen = () => {
                 value={firstName}
                 keyboardType="email-address"
                 icon="mail"
-                onChangeText={(text) => setFirstName(text)}
+                onChangeText={(text) => setFirstName(commonFunctions.capitalize(text))}
                 style={globalStyles.input}
               />
             </View>
@@ -134,7 +116,7 @@ const SignupScreen = () => {
                 value={lastName}
                 keyboardType="email-address"
                 icon="mail"
-                onChangeText={(text) => setLastName(text)}
+                onChangeText={(text) => setLastName(commonFunctions.capitalize(text))}
                 style={globalStyles.input}
               />
             </View>
@@ -149,8 +131,9 @@ const SignupScreen = () => {
               placeholder="Email"
               value={email}
               keyboardType="email-address"
+              autoCapitalize='none'
               icon="mail"
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={(text) => setEmail(text.toLowerCase())}
               style={globalStyles.input}
             />
           </View>
@@ -227,7 +210,6 @@ const SignupScreen = () => {
 export default SignupScreen;
 
 const styles = StyleSheet.create({
-  scrollContainer: {},
 
   arrowSpace: {
     marginBottom: 10,
