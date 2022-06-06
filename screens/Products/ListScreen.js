@@ -198,9 +198,7 @@ const ListScreen = ({ route }) => {
           </ScrollView>
         </View>
       </ScrollView>
-
-      {/* FOOTER */}
-      <FooterComponent />
+      
     </View>
   );
 };

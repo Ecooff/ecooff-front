@@ -22,7 +22,7 @@ const AuthMenuComponent = () => {
         </TouchableOpacity>
 
         <Image
-          style={[authStyles.logoInline, globalStyles.menuLogo]}
+          style={[authStyles.logoInline, { width: 70}, {height: 30}]}
           source={require("../assets/icon-long.png")}
         />
       </View>

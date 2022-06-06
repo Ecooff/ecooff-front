@@ -30,6 +30,7 @@ const ProductScreen = ({ route }) => {
 
   const { addToCart, productLength } = CartService;
 
+  const [loading, setLoader] = useState(true);
   const [alreadyInCart, setAlreadyInCart] = useState(false);
   const [productLenght, setProductLenght] = useState(0);
 
@@ -38,6 +39,7 @@ const ProductScreen = ({ route }) => {
     (async () => {
       productLength(user, _id).then((response) => {
         setProductLenght(response.data.productLength);
+        setLoader(false);
       });
     })();
   }, []);
@@ -192,7 +194,7 @@ const ProductScreen = ({ route }) => {
       {/* BUTTON */}
       <TouchableOpacity
         onPress={() => AddProductToCart()}
-        disabled={alreadyInCart}
+        disabled={alreadyInCart || loading}
         style={[
           styles.purchaseButton,
           globalStyles.widthFluid,

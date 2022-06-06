@@ -49,13 +49,14 @@ const HomeScreen = () => {
   const user = useSelector(selectUser);
 
   useEffect(() => {
-    getAllProviders(user).then((response) => setProviders(response.data)).catch((err) => console.log(err.response.data.message)),
+    
+    getAllProviders(user).then((response) => setProviders(response.data)).catch((err) => console.log(err.response.data.message));
 
-      closeToExp(user).then((response) => setCloseToExpire(response.data)),
+    closeToExp(user).then((response) => setCloseToExpire(response.data));
 
-      forYou(user).then((response) => setFeatured(response.data));
+    forYou(user).then((response) => setFeatured(response.data));
 
-    ordersService.getListOfOrders(user).then((response) => {
+    ordersService.getListOfOrders(user, 0).then((response) => {
       setOrder(response.data[0].order);
     })
 
