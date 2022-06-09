@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
-  Button
+  Button,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -33,18 +34,18 @@ const CartScreen = () => {
   useEffect(() => {
     setLoadingItems(true);
     openCart(user).then((response) => {
-      console.log('CART DATA', response.data);
+      console.log("CART DATA", response.data);
       setCartItems(response.data.listOfProducts);
       setLoadingItems(false);
     });
   }, []);
 
   useEffect(() => {
-    console.log('USERINCART', user)
+    console.log("USERINCART", user);
     openCart(user).then((response) => {
       setCartItems(response.data.listOfProducts);
     });
-    if(user.addresses.length > 0) {
+    if (user.addresses.length > 0) {
       const defaultAddress = user.addresses.filter(
         (address) => address.defaultAddress === true
       );
@@ -52,7 +53,9 @@ const CartScreen = () => {
     }
   }, [newCart, user]);
 
-  const totalPrice = cartItems.map((item) => item.price);
+  const totalPrice = cartItems.map(
+    (item) => item.price && item.price * item.quantity
+  );
 
   const getTotal = (a) => {
     let total = 0;
@@ -61,8 +64,6 @@ const CartScreen = () => {
     }
     return total;
   };
-
-  
 
   const removeProduct = (i) => {
     cartItems[i].loader = true;
@@ -76,9 +77,6 @@ const CartScreen = () => {
 
   const verTotal = getTotal(totalPrice);
 
-  
-
-
   const updateQuantity = (id, quantity, i) => {
     addToCart(user, {
       productId: id,
@@ -88,6 +86,8 @@ const CartScreen = () => {
       setNewCart((product) => [...cartItems, product]);
     });
   };
+
+  console.log("cart", cartItems);
 
   const MyBasket = () => {
     {
@@ -100,7 +100,11 @@ const CartScreen = () => {
             fontWeight: "700",
           }}
         >
-          <MaterialIcons name="add-shopping-cart" size={200} color="lightgrey" />
+          <MaterialIcons
+            name="add-shopping-cart"
+            size={200}
+            color="lightgrey"
+          />
         </Text>
       ) : (
         cartItems.map((product, i) => {
@@ -126,31 +130,55 @@ const CartScreen = () => {
                 {/* CAMBIE STOCK POR QUANTITY */}
                 {/* BOTONERA */}
                 <View style={styles.botonera}>
-                  <TouchableOpacity
-                    onPress={() =>
-                      updateQuantity(product.id, product.quantity - 1, i)
-                    }
-                  >
-                    <FontAwesome5
-                      name="minus-square"
-                      size={20}
-                      color="#3D9D5D"
-                    />
-                  </TouchableOpacity>
+                  {product.quantity === 1 ? (
+                    <TouchableOpacity>
+                      <FontAwesome5
+                        name="minus-square"
+                        size={20}
+                        color="#3D9D5D"
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() =>
+                        updateQuantity(product.id, product.quantity - 1, i)
+                      }
+                    >
+                      <FontAwesome5
+                        name="minus-square"
+                        size={20}
+                        color="#3D9D5D"
+                      />
+                    </TouchableOpacity>
+                  )}
                   <Text style={{ marginHorizontal: 10 }}>
                     {product.quantity}
                   </Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      updateQuantity(product.id, product.quantity + 1, i)
-                    }
-                  >
-                    <FontAwesome5
-                      name="plus-square"
-                      size={20}
-                      color="#3D9D5D"
-                    />
-                  </TouchableOpacity>
+                  {product.stock === product.quantity ? (
+                    <View>
+                      <TouchableOpacity
+                        onPress={() => Alert.alert("No hay mas stock")}
+                      >
+                        <FontAwesome5
+                          name="plus-square"
+                          size={20}
+                          color="#3D9D5D"
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() =>
+                        updateQuantity(product.id, product.quantity + 1, i)
+                      }
+                    >
+                      <FontAwesome5
+                        name="plus-square"
+                        size={20}
+                        color="#3D9D5D"
+                      />
+                    </TouchableOpacity>
+                  )}
 
                   {product.loader !== true ? (
                     <TouchableOpacity onPress={() => removeProduct(i)}>
@@ -197,7 +225,10 @@ const CartScreen = () => {
   return (
     <View style={styles.homeContainer}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <MenuComponent style={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
+      <MenuComponent
+        style={{ position: "absolute", top: 30 }}
+        onPress={() => navigator.goBack()}
+      />
       <Text style={styles.header}>Tu carrito</Text>
       <ScrollView style={styles.menuContainer}>
         {loadingItems ? (
@@ -218,33 +249,33 @@ const CartScreen = () => {
           />
           <View style={styles}>
             <Text style={styles.deliveryMainText}>Delivery a dirección</Text>
-            {user.addresses.length === 0 ?
-              <TouchableOpacity onPress={() => navigator.navigate('Addresses')}>
-               <Text>Crear direccion</Text> 
-              </TouchableOpacity>  
-              :
+            {user.addresses.length === 0 ? (
+              <TouchableOpacity onPress={() => navigator.navigate("Addresses")}>
+                <Text>Crear direccion</Text>
+              </TouchableOpacity>
+            ) : (
               <View
-              style={{
-                flexDirection: "row",
-                marginLeft: 10,
-                marginVertical: 4,
-              }}
-            >
-              <Text>
-                <Text style={{ fontWeight: "bold" }}>Calle:</Text>{" "}
-                {getDefaultAddress.street}
-              </Text>
-              <Text style={{ paddingHorizontal: 3 }}>
-                <Text style={{ fontWeight: "bold" }}>Piso:</Text>{" "}
-                {getDefaultAddress.floor}
-              </Text>
-              <Text>
-                <Text style={{ fontWeight: "bold" }}>Numero de calle:</Text>{" "}
-                {getDefaultAddress.streetNumber}
-              </Text>
-            </View>
-              }
-            
+                style={{
+                  flexDirection: "row",
+                  marginLeft: 10,
+                  marginVertical: 4,
+                }}
+              >
+                <Text>
+                  <Text style={{ fontWeight: "bold" }}>Calle:</Text>{" "}
+                  {getDefaultAddress.street}
+                </Text>
+                <Text style={{ paddingHorizontal: 3 }}>
+                  <Text style={{ fontWeight: "bold" }}>Piso:</Text>{" "}
+                  {getDefaultAddress.floor}
+                </Text>
+                <Text>
+                  <Text style={{ fontWeight: "bold" }}>Numero de calle:</Text>{" "}
+                  {getDefaultAddress.streetNumber}
+                </Text>
+              </View>
+            )}
+
             <Text style={styles.deliverySmallText}>
               Order de más de $7000 tiene envío gratis
             </Text>
@@ -261,26 +292,26 @@ const CartScreen = () => {
       <Total />
 
       {/* <Checkout /> */}
-      {user.addresses.length === 0 ?
+      {user.addresses.length === 0 ? (
         <Pressable
-        style={styles.buttonPurchase}
-        onPress={() => navigator.navigate("Addresses")}
-      >
-        <View style={styles.buttonContainer}>
-          <Text style={styles.textStyle}>Crear Direccion</Text>
-        </View>
-      </Pressable>
-      :
-      <Pressable
-        style={styles.buttonPurchase}
-        onPress={() => navigator.navigate("Orders")}
-      >
-        <View style={styles.buttonContainer}>
-          <Text style={styles.textStyle}>Confirmar pago</Text>
-          <Text style={styles.textStyle}>$ {verTotal}</Text>
-        </View>
-      </Pressable>
-    }
+          style={styles.buttonPurchase}
+          onPress={() => navigator.navigate("Addresses")}
+        >
+          <View style={styles.buttonContainer}>
+            <Text style={styles.textStyle}>Crear Direccion</Text>
+          </View>
+        </Pressable>
+      ) : (
+        <Pressable
+          style={styles.buttonPurchase}
+          onPress={() => navigator.navigate("Orders")}
+        >
+          <View style={styles.buttonContainer}>
+            <Text style={styles.textStyle}>Confirmar pago</Text>
+            <Text style={styles.textStyle}>$ {verTotal}</Text>
+          </View>
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -425,6 +456,5 @@ const styles = StyleSheet.create({
   editText: {
     textDecorationLine: "underline",
     marginLeft: 15,
-  }
-
+  },
 });

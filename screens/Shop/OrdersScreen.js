@@ -1,4 +1,13 @@
-import { Pressable, Image, ScrollView, StatusBar, StyleSheet, Text, View, ActivityIndicator, Modal
+import {
+  Pressable,
+  Image,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  Modal,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -6,6 +15,7 @@ import { useDispatch } from "react-redux";
 import globalStyles from "../../styles/styles";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
+import { updateBasket, selectBasket } from "../../store/basketSlice";
 
 // SERVICE
 import cartService from "../../services/CartService";
@@ -22,30 +32,37 @@ const OrdersScreen = () => {
   const [newOrder, setNewOtrder] = useState({});
   const [getDefaultAddress, setGetDefaultAddress] = useState({});
   const [loading, setLoader] = useState(false);
+  const [emptyBasket, setEmptyBasket] = useState([]);
   const dispatch = useDispatch();
+
+  const basket = useSelector(selectBasket);
+
+  console.log("basketORder", basket);
+  console.log("user", user.id);
 
   const navigator = useNavigation();
 
   const callback = (param) => {
     setModalVisible(param);
-    navigator.navigate('Home');
+    navigator.navigate("Home");
   };
 
   useEffect(() => {
-    cartService.confirmCart(user)
+    cartService
+      .confirmCart(user)
       .then((response) => {
         setCart(response.data.listOfProducts);
         setSaving(response.data.savings);
-      }).catch((error) => console.log("CATHORDERS", error.response));
+      })
+      .catch((error) => console.log("CATHORDERS", error.response));
 
-      const defaultAddress = user.addresses.filter(
-        (address) => address.defaultAddress === true
-      );
+    const defaultAddress = user.addresses.filter(
+      (address) => address.defaultAddress === true
+    );
     setGetDefaultAddress(defaultAddress[0]);
   }, []);
 
   const confirmCartHandle = () => {
-
     setLoader(true);
 
     let address = {
@@ -56,14 +73,18 @@ const OrdersScreen = () => {
       CP: getDefaultAddress.CP,
     };
 
-    cartService.createOrder(user, address).then((response) => {
-      setNewOtrder(response.data);
-      setModalVisible(true);
-      setLoader(false);
-      // Poner dispatch
-
-    }).catch((error) => console.log('ERROR', error.response.data.message));
-
+    cartService
+      .createOrder(user, address)
+      .then((response) => {
+        console.log("respuesta", response.data);
+        setNewOtrder(response.data);
+        setModalVisible(true);
+        setLoader(false);
+        console.log("antes del disptach");
+        dispatch(updateBasket(basket - basket));
+      })
+      .catch((error) => console.log("ERRORENCREATEORDER", error.response.data));
+    //Puede ser que el metodo delete me este provocando ese error que no me deja actualizar un producto, ver si lo podemos cambiar por el metodo PUT.
   };
 
   return (
@@ -71,7 +92,10 @@ const OrdersScreen = () => {
       <StatusBar backgroundColor="white" barStyle="dark-content" />
 
       <View style={{ marginTop: 25 }}>
-        <MenuComponent tyle={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
+        <MenuComponent
+          tyle={{ position: "absolute", top: 30 }}
+          onPress={() => navigator.goBack()}
+        />
       </View>
 
       <Text style={styles.header}>Con tu compra</Text>
@@ -165,14 +189,11 @@ const OrdersScreen = () => {
         onPress={() => confirmCartHandle()}
       >
         <View>
-
-          {
-            !loading ?
-              <Text style={styles.textStyle}>Finalizar</Text>
-              :
-              <ActivityIndicator color="#4db591" />
-          }
-
+          {!loading ? (
+            <Text style={styles.textStyle}>Finalizar</Text>
+          ) : (
+            <ActivityIndicator color="#4db591" />
+          )}
         </View>
       </Pressable>
 

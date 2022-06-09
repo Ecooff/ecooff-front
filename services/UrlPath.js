@@ -32,6 +32,7 @@ export const cartLength = URL + "cart/cartLength";
 export const openCart = URL + "cart/openCart";
 export const productLength = URL + "cart/productLength/";
 export const deleteItem = URL + "cart/deleteItem/";
+export const deleteCart = URL + "cart/deleteCart";
 export const confirmCart = URL + "cart/confirmCart";
 
 // Orders
@@ -70,12 +71,13 @@ const URLPath = {
   partialMatch,
   getByProv,
   productLength,
+  deleteCart,
   deleteItem,
   listOfOrders,
   orderById,
   confirmCart,
   editName,
-  createOrder
+  createOrder,
 };
 
 export default URLPath;

@@ -13,8 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import { commonFunctions } from "../../utils";
-import {selectBasket, updateBasket} from '../../store/basketSlice';
-
+import { selectBasket, updateBasket } from "../../store/basketSlice";
 
 {
   /* COMPONENTS */
@@ -23,8 +22,17 @@ import { MenuComponent } from "../../components";
 import CartService from "../../services/CartService";
 
 const ProductScreen = ({ route }) => {
-  const { name, expPrice, expDate, img, providerName, description, _id, providerImg, stock } =
-    route.params.product;
+  const {
+    name,
+    expPrice,
+    expDate,
+    img,
+    providerName,
+    description,
+    _id,
+    providerImg,
+    stock,
+  } = route.params.product;
 
   const dispatch = useDispatch();
 
@@ -35,17 +43,16 @@ const ProductScreen = ({ route }) => {
   const [productLenght, setProductLenght] = useState(0);
 
   useEffect(() => {
-
     (async () => {
       productLength(user, _id).then((response) => {
         setProductLenght(response.data.productLength);
-        setLoader(false);
       });
     })();
   }, []);
 
   useEffect(() => {
     productLenght > 0 && setAlreadyInCart(true);
+    setLoader(false);
   }, [productLenght]);
 
   const user = useSelector(selectUser);
@@ -54,7 +61,7 @@ const ProductScreen = ({ route }) => {
   const AddProductToCart = () => {
     addToCart(user, { productId: _id, quantity: 1 })
       .then(() => dispatch(updateBasket(basket + 1)))
-      .catch((error) => console.log("CATCH", error.response));
+      .catch((error) => console.log("CATCH", error.response.data));
     setAlreadyInCart(true);
   };
 
@@ -66,7 +73,10 @@ const ProductScreen = ({ route }) => {
         <StatusBar backgroundColor="white" barStyle="dark-content" />
 
         {/* MENU */}
-        <MenuComponent style={{ position: "absolute", top: 30 }} onPress={() => navigator.goBack()} />
+        <MenuComponent
+          style={{ position: "absolute", top: 30 }}
+          onPress={() => navigator.goBack()}
+        />
 
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -150,7 +160,6 @@ const ProductScreen = ({ route }) => {
                 {/* <Text>{seller.title}</Text> */}
                 <Text>{providerName}</Text>
               </View>
-
             </View>
 
             <View style={globalStyles.widthHalf}>
@@ -171,7 +180,7 @@ const ProductScreen = ({ route }) => {
                   globalStyles.alignItemsCenter,
                 ]}
               >
-               {stock}
+                {stock}
               </Text>
             </View>
           </View>
@@ -224,13 +233,13 @@ const styles = StyleSheet.create({
   productTitle: {
     fontSize: 38,
     width: "100%",
-    marginBottom: 40
+    marginBottom: 40,
   },
 
   productSeller: {
     width: 25,
     height: 25,
-    marginRight: 10
+    marginRight: 10,
   },
 
   productBanner: {

@@ -6,6 +6,7 @@ const CartService = {
     const data = axios.post(URLPath.addToCart, props, {
       headers: setHeader(user.token),
     });
+    console.log("respuestaAddToCart", data);
     return data;
   },
 
@@ -18,13 +19,13 @@ const CartService = {
 
   openCart: (user) => {
     console.log(URLPath.openCart);
-    console.log('User', user);
+    console.log("User", user);
     const data = axios.get(URLPath.openCart, {
       headers: setHeader(user.token),
     });
 
-    console.log('data', data);
-    console.log('----------------');
+    console.log("data", data);
+    console.log("----------------");
     return data;
   },
 
@@ -45,7 +46,12 @@ const CartService = {
     );
     return data;
   },
-
+  deleteCart: (user, props) => {
+    const data = axios.put(URLPath.deleteCart, props, {
+      headers: setHeader(user.token),
+    });
+    return data;
+  },
   confirmCart: async (user, props) => {
     const data = axios.post(URLPath.confirmCart, props, {
       headers: setHeader(user.token),
@@ -59,7 +65,6 @@ const CartService = {
     });
     return data;
   },
-
 };
 
 export default CartService;
