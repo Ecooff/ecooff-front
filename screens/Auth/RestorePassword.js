@@ -1,29 +1,72 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import globalStyles from '../../styles/styles';
 import authStyles from '../../styles/authStyles';
 import { useNavigation } from '@react-navigation/native';
 
-{/* COMPONENTS */}
-import { AuthMenuComponent } from '../../components';
+{/* COMPONENTS */ }
+import AuthMenuComponent from '../../components/AuthMenuComponent';
 
+// SERVICES
+import { AuthService } from "../../services";
 
-const RestorePassword = () => {
+const RestorePassword = ({ route }) => {
+
+    const token = route.params.token;
 
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [loader, setLoader] = useState(false);
+    let newPassword = {}
 
     const navigator = useNavigation();
 
-    const setNewPassword = () => {
+    const updatePassword = () => {
+
+        if (password === confirmPassword) {
+
+            setLoader(true);
+
+            newPassword = {
+                token: token,
+                pw: password,
+                confirmPw: confirmPassword
+            };
+
+            AuthService.updatePassword(newPassword).then((response) => {
+                if (response.message) {
+                    createAlert(response.message);
+                } else {
+                    createAlertSuccess();
+                }
+            }).catch((err) => createAlert(err)).finally(() => setLoader(false));
+
+        } else {
+            createAlert('Por favor revisa las contraseñas ingresadas');
+        }
+
+    }
+
+    const createAlert = (message) => {
         Alert.alert(
-            "Tu contrseña fué cambiada exitosamente",
-            'Ahora podes iniciar sesión con tus nuevos datos de acceso actualizados.',
+            "Las contraseñas no coinciden",
+            message,
             [
-                { text: "Iniciar sesión", onPress: () => { navigator.navigate('Login') } }
+                { text: "OK", onPress: () => {}}
             ]
-        )};
+        )
+    };
+
+    const createAlertSuccess = (message) => {
+        Alert.alert(
+            "Felicitaciones!!",
+            'Tu contraseña se cambió con exito',
+            [
+                { text: "OK", onPress: () => navigator.navigate('Login')}
+            ]
+        )
+    };
 
     return (
         <KeyboardAvoidingView
@@ -76,13 +119,22 @@ const RestorePassword = () => {
             </View>
 
             {/* BUTTON */}
-            <View style={ [styles.buttonSpace, authStyles.buttonContainer, globalStyles.widthEightyFive] }>
+            <View style={[styles.buttonSpace, authStyles.buttonContainer, globalStyles.widthEightyFive]}>
 
                 <TouchableOpacity
-                    onPress={ () => setNewPassword() }
+                    onPress={() => updatePassword()}
+                    disabled={loader || password == '' || confirmPassword == ''}
                     style={[globalStyles.button, globalStyles.primary, globalStyles.widthFluid]}
                 >
-                    <Text style={globalStyles.textWhite}>Establecer</Text>
+
+                    {loader == false < 2 ? (
+                        <View>
+                            <ActivityIndicator size="small" color="#FFF" />
+                        </View>
+                    ) : (
+                        <Text style={globalStyles.textWhite}>Cambiar contraseña</Text>
+                    )}
+
                 </TouchableOpacity>
 
             </View>

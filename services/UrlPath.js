@@ -10,6 +10,9 @@ export const signUp = URL + "users/register";
 export const validateUser = URL + "users/verifyEmail";
 export const editName = URL + "users/editName";
 export const retrieveUser = URL + "users/retrieveUser";
+export const forgotPassword = URL + "users/forgotPasswordRequest";
+export const forgotPasswordValidateToken = URL + "users/forgotPasswordTokenOnly";
+export const updatePassword = URL + "users/forgotPasswordUpdate";
 
 //Providers
 export const getAllProviders = URL + "providers/";
@@ -78,6 +81,9 @@ const URLPath = {
   confirmCart,
   editName,
   createOrder,
+  forgotPassword,
+  forgotPasswordValidateToken,
+  updatePassword,
 };
 
 export default URLPath;

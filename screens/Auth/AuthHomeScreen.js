@@ -69,7 +69,6 @@ const AuthHomeScreen = () => {
 
     }, 2000);
 
-
   }, []);
 
   const updateTokenn = async (token) => {

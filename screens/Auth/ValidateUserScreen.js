@@ -162,7 +162,6 @@ const ValidateUserScreen = () => {
       >
         <TouchableOpacity
           onPress={() => validateUser()}
-          // disabled={code1 == null || code2 == null || code3 == null || code4 == null}
           style={[
             globalStyles.button,
             globalStyles.primary,

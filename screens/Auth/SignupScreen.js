@@ -73,11 +73,12 @@ const SignupScreen = () => {
 
   return (
     <ScrollView>
+
       <KeyboardAvoidingView
         style={[globalStyles.scrollContainer]}
-        behavior={["padding", Platform.OS == "ios" ? "position" : ""]}
-        keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 1000} // nota: esta linea estaba comentada
+        // behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
+        
         {/* MENU */}
         <AuthMenuComponent />
 

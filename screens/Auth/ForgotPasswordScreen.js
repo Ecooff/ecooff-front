@@ -1,21 +1,40 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import globalStyles from '../../styles/styles';
 import authStyles from '../../styles/authStyles';
 import { useNavigation } from '@react-navigation/native';
 
-{/* COMPONENTS */}
-import { AuthMenuComponent } from '../../components';
+{/* COMPONENTS */ }
+import AuthMenuComponent from "../../components/AuthMenuComponent";
+
+// SERVICES
+import { AuthService } from "../../services";
 
 const ForgotPasswordScreen = () => {
 
     const [email, setEmail] = useState('');
+    const [loading, setLoader] = useState(false);
     const navigator = useNavigation();
 
-    const createAlert = () =>
+    const validateUser = () => {
+
+        setLoader(true);
+
+        AuthService.forgotPassword({ email: email }).then((response) => {
+            if (response.message) {
+                createAlert(response.message);
+            } else {
+                navigator.navigate('ForgotSuccess')
+            }
+
+        }).catch((err) => createAlert(err)).finally(() => setLoader(false));
+
+    }
+
+    const createAlert = (message) =>
         Alert.alert(
-            "No encontrammos tu cuenta",
+            "No encontramos tu cuenta",
             'El mail que ingresaste parece no estar registrado. Revisrá que esté bien escribo o probá con otro diferente',
             [
                 { text: "OK", onPress: () => { } }
@@ -53,25 +72,33 @@ const ForgotPasswordScreen = () => {
                         value={email}
                         keyboardType="email-address"
                         icon="mail"
-                        onChangeText={text => setEmail(text)}
+                        autoCapitalize='none'
+                        onChangeText={text => setEmail(text.toLowerCase())}
                         style={globalStyles.input}
                     />
                 </View>
 
             </View>
 
-            <View style={ [ styles.buttonContainer, authStyles.buttonContainer, globalStyles.widthEightyFive] }>
+            <View style={[styles.buttonContainer, authStyles.buttonContainer, globalStyles.widthEightyFive]}>
 
                 <TouchableOpacity
-                    onPress={ () => navigator.navigate('ForgotSuccess') }
-                    style={ [globalStyles.button, globalStyles.primary, globalStyles.widthFluid] }
+                    onPress={() => validateUser()}
+                    disabled={loading}
+                    style={[globalStyles.button, globalStyles.primary, globalStyles.widthFluid]}
                 >
-                    <Text style={ globalStyles.textWhite }>Enviar código</Text>
+                    {loading ? (
+                        <View>
+                            <ActivityIndicator size="small" color="#FFF" />
+                        </View>
+                    ) : (
+                        <Text style={globalStyles.textWhite}>Enviar código</Text>
+                    )}
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                onPress={() => navigator.navigate('Register')}
-                    style={ styles.headerContainer }
+                    onPress={() => navigator.navigate('Register')}
+                    style={styles.headerContainer}
                 >
 
                     <Text style={[styles.headerTitle, globalStyles.fontSmall]}>
@@ -101,7 +128,7 @@ const styles = StyleSheet.create({
     },
 
     headerContainer: {
-        marginTop:20
+        marginTop: 20
     }
 
 })
