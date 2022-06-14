@@ -15,7 +15,7 @@ import ordersService from "../../services/OrdersService";
 import { FooterComponent, MenuComponent } from "../../components";
 import OrderListComponent from "../../components/OrderListComponent";
 
-const OrderHistoyScreen = () => {
+const OrderHistoyScreen = ({ menu }) => {
   const user = useSelector(selectUser);
   const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState(0);
@@ -24,6 +24,7 @@ const OrderHistoyScreen = () => {
 
   useEffect(() => {
     getOrders(filter);
+    console.log(menu);
   }, []);
 
   const getFilteredData = (option) => {
@@ -45,6 +46,9 @@ const OrderHistoyScreen = () => {
 
       <ScrollView style={{ paddingBottom: 30 }}>
 
+        {
+          !menu && <MenuComponent style={{ position: "absolute", top: 30 }} onPress={() => navigator.goBack()} />
+        }
         <Text style={styles.title}>Mis pedidos</Text>
 
         {/* FILTERS */}
@@ -55,9 +59,9 @@ const OrderHistoyScreen = () => {
             onPress={() => getFilteredData(0)}
           >
 
-              <Text style={ filter == 0 && globalStyles.textWhite}>
-                En curso
-              </Text>
+            <Text style={filter == 0 && globalStyles.textWhite}>
+              En curso
+            </Text>
 
           </TouchableOpacity>
 
@@ -66,20 +70,20 @@ const OrderHistoyScreen = () => {
             onPress={() => getFilteredData(1)}
           >
 
-              <Text style={filter == 1 && globalStyles.textWhite}>
-                Completedas
-              </Text>
+            <Text style={filter == 1 && globalStyles.textWhite}>
+              Completedas
+            </Text>
 
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.buttonFilter, filter == 2 && globalStyles.secondary]}
-          onPress={() => getFilteredData(2)}     
+            onPress={() => getFilteredData(2)}
           >
 
-              <Text style={filter == 2 && globalStyles.textWhite}>
-                Todas
-              </Text>
+            <Text style={filter == 2 && globalStyles.textWhite}>
+              Todas
+            </Text>
 
           </TouchableOpacity>
 
@@ -91,18 +95,18 @@ const OrderHistoyScreen = () => {
             orders.length > 0 ?
               orders.map((order, i) => {
                 return (
-                  <View style={ { paddingHorizontal: 20 } } key={i}>
+                  <View style={{ paddingHorizontal: 20 }} key={i}>
                     <OrderListComponent order={order.order} user={user} />
                     {i == orders.length - 1 && <SafeAreaView style={{ height: 120 }}></SafeAreaView>}
                   </View>
                 )
               })
               :
-              <View key={i} style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
+              <View style={[styles.scrollTitle, globalStyles.row, globalStyles.justifyContentCenter]}>
                 <MaterialIcons name="search-off" size={200} color="lightgrey" />
               </View>
             :
-            <ActivityIndicator style={{marginTop: '30%'}} color="#4db591" />
+            <ActivityIndicator style={{ marginTop: '30%' }} color="#4db591" />
         }
 
       </ScrollView>

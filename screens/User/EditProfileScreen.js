@@ -103,7 +103,7 @@ const EditProfileScreen = () => {
             onChangeText={(text) => setEmail(text)}
           />
         </View>
-
+{/* 
         <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
           CONTRASEÑA
         </Text>
@@ -117,7 +117,7 @@ const EditProfileScreen = () => {
             style={globalStyles.input}
             secureTextEntry
           />
-        </View>
+        </View> */}
       </View>
 
       {/* BUTTON */}

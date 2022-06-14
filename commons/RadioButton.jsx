@@ -9,16 +9,16 @@ const RadioButton = ({select, style, innerStyle, userAdresses}) => {
     const [selected, setSelected] = useState(select);
     
     function adressID () {
-        let id = userAdresses.find(adress => adress.id === adress.id )
-        return id
+        // let id = userAdresses.find(adress => adress.id === adress.id )
+        // return id
     }
 
     // const addressId = userAdresses.filter(address => address.selected === true).id;
     // const addressId = userAdresses.filter(address => address.id === select)
 
     const selectFn = () => {
-        selected ? setSelected(false) : setSelected(true);
-        AdressService.changeDefaultAdress(adressID()).then(response => console.log('DATAA', response.data)).catch(error => console.log('ERROR', error.response.data.message))
+        // selected ? setSelected(false) : setSelected(true);
+        // AdressService.changeDefaultAdress(adressID()).then(response => console.log('DATAA', response.data)).catch(error => console.log('ERROR', error.response.data.message))
     }
     // const handleChangeDefaultAdress = () => {
       

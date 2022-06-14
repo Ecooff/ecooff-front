@@ -25,9 +25,8 @@ import OrderHistoryScreen from "../screens/User/OrderHistoryScreen";
 import { MenuComponent, FooterComponent } from "../components";
 
 const IndexScreen = () => {
-  const user = useSelector(selectUser);
   const [tab, setTab] = useState(<HomeScreen />);
-  const views = [<HomeScreen />, <OrderHistoryScreen />]
+  const views = [<HomeScreen />, <OrderHistoryScreen menu={true} />]
 
   const navigator = useNavigation();
 
@@ -38,7 +37,7 @@ const IndexScreen = () => {
   return (
     <View style={[styles.homeContainer]}>
 
-      <MenuComponent style={{position: "absolute", top: 30}} />
+      <MenuComponent tab={true} style={{position: "absolute", top: 30}} />
 
       {tab}
 

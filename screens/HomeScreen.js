@@ -21,6 +21,7 @@ import SplashLogo from "../assets/splash.png";
 import { BackHandler } from "react-native";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
+import { useIsFocused } from '@react-navigation/native';
 import { MaterialIcons } from "@expo/vector-icons";
 import { commonFunctions } from "../utils";
 
@@ -49,6 +50,7 @@ const HomeScreen = () => {
   const [featured, setFeatured] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const isFocused = useIsFocused();
 
   const user = useSelector(selectUser);
 
@@ -61,12 +63,25 @@ const HomeScreen = () => {
 
     forYou(user).then((response) => setFeatured(response.data));
 
-    ordersService.getListOfOrders(user, 0).then((response) => {
-      setOrder(response.data[0].order);
-    });
+    getPenddingOrders();
 
     BackHandler.removeEventListener(true);
+
   }, []);
+
+  useEffect(() => {
+
+    isFocused && getPenddingOrders();
+
+}, [isFocused]);
+
+const getPenddingOrders = () => {
+
+  ordersService.getListOfOrders(user, 0).then((response) => {
+    setOrder(response.data[0].order);
+  });
+
+}
 
   // FOR CLOSEING THE MODAL
   const callback = (param) => {
@@ -165,36 +180,39 @@ const HomeScreen = () => {
           })}
         </View>
 
-        {order != null && order.status != "Completada" ? (
-          <View style={styles.pendingOrder}>
-            <View
-              style={[
-                globalStyles.row,
-                globalStyles.justifyContentBetween,
-                globalStyles.alignItemsCenter,
-                styles.infoText,
-              ]}
-            >
-              <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
-                <View
-                  style={[
-                    styles.orderIcons,
-                    { paddingVertical: 8 },
-                    { paddingHorizontal: 5 },
-                  ]}
-                >
-                  <EvilIcons name="location" size={24} color="green" />
+        {
+          order.status == "Pendiente" ?
+            (<View style={styles.pendingOrder}>
+              <View
+                style={[
+                  globalStyles.row,
+                  globalStyles.justifyContentBetween,
+                  globalStyles.alignItemsCenter,
+                  styles.infoText,
+                ]}
+              >
+                <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
+                  <View
+                    style={[
+                      styles.orderIcons,
+                      { paddingVertical: 8 },
+                      { paddingHorizontal: 5 },
+                    ]}
+                  >
+                    <EvilIcons name="location" size={24} color="green" />
+                  </View>
+
+                  <Text>Tenés un pedido en curso</Text>
                 </View>
 
-                <Text>Tenés un pedido en curso</Text>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                  <Text style={{ textDecorationLine: "underline" }}>Ver</Text>
+                </TouchableOpacity>
               </View>
-
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Text style={{ textDecorationLine: "underline" }}>Ver</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ) : null}
+            </View>)
+            :
+            null
+        }
 
         <View style={styles.products}>
           {/* SEARCHER */}
@@ -310,27 +328,27 @@ const HomeScreen = () => {
                 );
               })
             ) : // IF I'M SEARCHING HANDLER RESULTS/ NO RESULTS
-            queryProducts.length > 0 ? (
-              queryProducts.map((product, index) => {
-                return (
-                  <ProductList
-                    key={product._id}
-                    product={product}
-                    index={index}
-                  />
-                );
-              })
-            ) : (
-              <View
-                style={[
-                  styles.scrollTitle,
-                  globalStyles.row,
-                  globalStyles.justifyContentCenter,
-                ]}
-              >
-                <MaterialIcons name="search-off" size={200} color="lightgrey" />
-              </View>
-            )
+              queryProducts.length > 0 ? (
+                queryProducts.map((product, index) => {
+                  return (
+                    <ProductList
+                      key={product._id}
+                      product={product}
+                      index={index}
+                    />
+                  );
+                })
+              ) : (
+                <View
+                  style={[
+                    styles.scrollTitle,
+                    globalStyles.row,
+                    globalStyles.justifyContentCenter,
+                  ]}
+                >
+                  <MaterialIcons name="search-off" size={200} color="lightgrey" />
+                </View>
+              )
           }
         </View>
       </ScrollView>

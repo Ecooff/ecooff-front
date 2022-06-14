@@ -103,7 +103,7 @@ const ProfileScreen = () => {
             size={24}
             style={styles.icons}
           />
-          <Text style={globalStyles.fontMedium}>Detalles del perfíl</Text>
+          <Text style={globalStyles.fontMedium}>Detalles del perfil</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => handleLogout()}

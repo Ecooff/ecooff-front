@@ -7,23 +7,24 @@ import userStyles from "../../styles/userStyles";
 import RadioButton from "../../commons/RadioButton";
 import AddAddressComponent from "../../components/AddAddressComponent";
 import AdressService from "../../services/AdressService";
-import { useSelector } from "react-redux";
-import { selectUser } from '../../store/userSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, updateAddress } from '../../store/userSlice';
 import { useNavigation } from "@react-navigation/native";
 
 const AddressesScreen = () => {
-  // const [user, setUser] = useState({});
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [userAdresses, setUserAdresses] = useState([])
   const { getUserAddresses, changeDefaultAdress } = AdressService
   const [selected, setSelected] = useState({});
- const user = useSelector(selectUser)
+  const user = useSelector(selectUser)
 
- const navigator = useNavigation();
+  const dispatch = useDispatch();
+  const navigator = useNavigation();
 
   const callback = (newAddress) => {
     // do something with value in parent component, like save to state
     setUserAdresses(userAdresses => [...userAdresses, newAddress])
+
   }
 
   useEffect(() => {
@@ -31,32 +32,37 @@ const AddressesScreen = () => {
   }, [])
 
   const selectFn = (id, i) => {
+
     selected ? setSelected(false) : setSelected(true);
-    AdressService.changeDefaultAdress(id, user).then(response => {}).catch(error => console.log('ERROR', error.response.data.message))
+
+    AdressService.changeDefaultAdress(id, user).then(response => { }).catch(error => console.log('ERROR', error.response.data.message));
     userAdresses.map(address => {
       address.defaultAddress = false;
     })
-    userAdresses[i].defaultAddress = true
-}
+    userAdresses[i].defaultAddress = true;
+
+    dispatch(updateAddress({addresses : userAdresses }))
+
+  }
 
   const MyAddresses = () => {
     return userAdresses.map((address, i) => {
       return (
         <View style={styles.mainContainer} key={i}>
           <View style={styles.container}>
-            <Ionicons name="location-outline" size={22} color="#3D9D5D" style={styles.icon}/>
+            <Ionicons name="location-outline" size={22} color="#3D9D5D" style={styles.icon} />
             <View style={styles.textContainer}>
               <Text style={styles.text}>Dirección {i + 1}</Text>
               <Text style={styles.text}>{address.street}</Text>
             </View>
           </View>
           <Pressable style={[styles.selectedFalse]} onPress={() => selectFn(address._id, i)}>
-        {
-          address.defaultAddress ?
-            <View style={[styles.selectedTrue]}/>
-            : null
-        }
-      </Pressable>
+            {
+              address.defaultAddress ?
+                <View style={[styles.selectedTrue]} />
+                : null
+            }
+          </Pressable>
         </View>
       );
     });
@@ -70,21 +76,25 @@ const AddressesScreen = () => {
             <Text style={styles.addAdressText}>Agregar dirección</Text>
           </View>
         </View>
-          <Pressable>
-            {/* <Ionicons name="add-circle-outline" size={24} color="#3D9D5D" style={styles.addIcon} onPress={() => showAddCard()}/> */}
-            <AddAddressComponent parentCallback={callback} />
-          </Pressable>
+        <Pressable>
+          {/* <Ionicons name="add-circle-outline" size={24} color="#3D9D5D" style={styles.addIcon} onPress={() => showAddCard()}/> */}
+          <AddAddressComponent parentCallback={callback} />
+        </Pressable>
       </View>
     );
   };
 
   return (
     <View style={styles.homeConteiner}>
-      <MenuComponent style={{position: "absolute", top: 30}} onPress={() => navigator.goBack()} />
+
+      <MenuComponent style={{ position: "absolute", top: 30 }} onPress={() => navigator.goBack()} />
+
       <Text style={styles.title}>Tus Direcciones</Text>
-      <ScrollView  style={styles.globalMaxHeight}>
-      <MyAddresses />
+
+      <ScrollView style={styles.globalMaxHeight}>
+        <MyAddresses />
       </ScrollView>
+
       <AddAddress />
 
     </View>
@@ -122,7 +132,7 @@ const styles = StyleSheet.create({
     padding: 4
   },
   textContainer: {
-   marginLeft: 4, 
+    marginLeft: 4,
   },
   text: {
     fontSize: 14,
@@ -147,11 +157,11 @@ const styles = StyleSheet.create({
     borderColor: '#3D9D5D',
     alignItems: 'center',
     justifyContent: 'center',
-},
-selectedTrue: {
+  },
+  selectedTrue: {
     height: 11,
     width: 11,
     borderRadius: 6,
     backgroundColor: '#3D9D5D',
-}
+  }
 });

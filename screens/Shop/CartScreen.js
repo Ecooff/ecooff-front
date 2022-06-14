@@ -43,7 +43,9 @@ const CartScreen = () => {
     openCart(user).then((response) => {
       setCartItems(response.data.listOfProducts);
     });
+    
     if (user.addresses.length > 0) {
+
       const defaultAddress = user.addresses.filter(
         (address) => address.defaultAddress === true
       );
@@ -248,7 +250,7 @@ const CartScreen = () => {
             <Text style={styles.deliveryMainText}>Delivery a dirección</Text>
             {user.addresses.length === 0 ? (
               <TouchableOpacity onPress={() => navigator.navigate("Addresses")}>
-                <Text>Crear direccion</Text>
+                <Text>Cargar direccion</Text>
               </TouchableOpacity>
             ) : (
               <View

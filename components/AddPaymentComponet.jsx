@@ -71,7 +71,8 @@ const AddPaymentComponent = () => {
         </Pressable>
         <Pressable
           style={[styles.button, styles.confirmModalButton]}
-          onPress={() => addPaymentMethod()}
+          // onPress={() => addPaymentMethod()}
+          onPress={() => {}}
         >
           <Text style={styles.textStyle}>Confirmar</Text>
         </Pressable>
@@ -102,7 +103,7 @@ const AddPaymentComponent = () => {
         </View>
       </Modal>
 
-      <Pressable onPress={() => setModalVisible(true)}>
+      <Pressable onPress={() => {}}>
         {/* <Text style={styles.textStyle}>Show Modal</Text> */}
         <Ionicons
           name="add-circle-outline"

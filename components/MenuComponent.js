@@ -10,23 +10,19 @@ import {
 } from "react-native";
 import globalStyles from "../styles/styles";
 import { Ionicons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import theIcon from "../assets/theIcon.png";
 import cartService from "../services/CartService";
-import { useState, useEffect } from "react";
-import { ActivityIndicator } from "react-native-web";
+import { useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import {selectBasket, updateBasket} from '../store/basketSlice'
 
-export const MenuComponent = ({ onPress }) => {
-  const [cartItems, setCartItems] = useState(0); // tiene que tener algo cargado para que no tome undefined o length sin nada
-  const [lenghtCart, setLenghtCart] = useState(0);
+export const MenuComponent = ({ onPress, tab }) => {
   const navigator = useNavigation();
   const user = useSelector(selectUser);
-  const { cartLength, openCart } = cartService;
+  const { cartLength } = cartService;
 
   const dispatch = useDispatch();
 
@@ -52,7 +48,10 @@ export const MenuComponent = ({ onPress }) => {
       }}
     >
       <Pressable onPress={() => navigator.navigate("Home")} />
-      <View style={{ marginTop: "3%" }}>
+      
+      {
+        !tab &&
+        <View style={{ marginTop: "3%" }}>
         <TouchableOpacity
           style={{
             backgroundColor: "rgba(77, 181, 145, 0.97)",
@@ -69,6 +68,8 @@ export const MenuComponent = ({ onPress }) => {
           />
         </TouchableOpacity>
       </View>
+      }
+      
       <Image style={styles.menuLogo} source={theIcon} />
       <View style={[globalStyles.row, globalStyles]}>
         <Pressable onPress={() => navigator.navigate("Cart")}>
