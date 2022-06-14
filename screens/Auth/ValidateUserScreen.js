@@ -54,7 +54,6 @@ const ValidateUserScreen = () => {
     let token = code1 + code2 + code3 + code4;
 
     AuthService.validateUser({ token: token }).then((response) => {
-      console.log(response);
       if (response.message) {
         createAlert(response.message);
       } else {

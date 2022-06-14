@@ -36,16 +36,12 @@ const AddAddressComponent = ({ parentCallback }) => {
       door: door,
       CP: CP,
     }, user).then(response => {
-      console.log('ENTRA Al DISPATCH', response.data)
-      console.log('kath', user)
       dispatch(updateAddress({addresses : [...user.addresses, response.data] }))
       parentCallback(response.data);
       // navigator.navigate('Cart')
     }).catch(err => console.log(err.response))
     setModalVisible(!modalVisible);
   }
-
-  console.log('UserInAddress', user)
 
   const ModalFooter = () => {
     return (

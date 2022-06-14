@@ -6,10 +6,12 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import globalStyles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import { commonFunctions } from "../../utils";
@@ -36,9 +38,10 @@ const ProductScreen = ({ route }) => {
 
   const dispatch = useDispatch();
 
-  const { addToCart, productLength } = CartService;
+  const { addToCart, productLength, deleteItem, openCart } = CartService;
 
   const [loading, setLoader] = useState(true);
+  const [loadingNumber, setLoaderNumber] = useState(false);
   const [alreadyInCart, setAlreadyInCart] = useState(false);
   const [productLenght, setProductLenght] = useState(0);
 
@@ -48,6 +51,7 @@ const ProductScreen = ({ route }) => {
         setProductLenght(response.data.productLength);
       });
     })();
+
   }, []);
 
   useEffect(() => {
@@ -59,10 +63,54 @@ const ProductScreen = ({ route }) => {
   const basket = useSelector(selectBasket);
 
   const AddProductToCart = () => {
-    addToCart(user, { productId: _id, quantity: 1 })
-      .then(() => dispatch(updateBasket(basket + 1)))
-      .catch((error) => console.log("CATCH", error.response.data));
+
+    addToCart(user, { productId: _id, quantity: 1 }).then(() => {
+
+      setProductLenght(1);
+      dispatch(updateBasket(basket + 1))
+      setLoaderNumber(false);
+
+    }).catch((error) => console.log("CATCH", error.response.data));
+
     setAlreadyInCart(true);
+
+  };
+
+  const updateQuantity = (id, quantity) => {
+
+    setLoaderNumber(true);
+
+    if (quantity == 1) {
+
+      AddProductToCart();
+
+    } else if (quantity <= stock && quantity > 0) {
+
+      addToCart(user, { productId: id, quantity: quantity }).then(() => {
+        setProductLenght(quantity);
+        setLoaderNumber(false)
+      });
+
+    } else if (quantity == 0) {
+      removeProduct();
+    }
+
+  };
+
+  const removeProduct = () => {
+
+    openCart(user).then((response) => {
+
+      let cartItem = response.data.listOfProducts.find(element => element.id == _id);
+
+      deleteItem(user, cartItem.cartId).then((response) => {
+        setProductLenght(0);
+        setAlreadyInCart(false);
+        setLoaderNumber(false)
+      }).catch((err) => console.log("Catch", err.response));
+
+    });
+
   };
 
   const navigator = useNavigation();
@@ -157,12 +205,12 @@ const ProductScreen = ({ route }) => {
                   source={{ uri: providerImg }}
                 />
 
-                {/* <Text>{seller.title}</Text> */}
                 <Text>{providerName}</Text>
               </View>
             </View>
 
             <View style={globalStyles.widthHalf}>
+
               <Text
                 style={[
                   styles.bannerSamllMargin,
@@ -170,19 +218,62 @@ const ProductScreen = ({ route }) => {
                   globalStyles.fontBold,
                 ]}
               >
-                Stock
+                Cantidad
               </Text>
+
+              <View style={[globalStyles.row, globalStyles.widthFluid, globalStyles.alignItemsCenter]}>
+
+                {/* - */}
+                <TouchableOpacity
+                  onPress={() =>
+                    updateQuantity(_id, productLenght - 1)
+                  }
+                >
+                  <FontAwesome5
+                    name="minus-square"
+                    size={20}
+                    color="#3D9D5D"
+                  />
+                </TouchableOpacity>
+
+                {
+                  loadingNumber ?
+                  <ActivityIndicator size={20} color="#3D9D5D" style={[styles.trashIcon, { marginHorizontal: 14 }]} />
+                  :
+                  <Text style={{ marginHorizontal: 20 }}>{productLenght}</Text>
+                }
+
+                {/* + */}
+                <TouchableOpacity
+                  onPress={() =>
+                    updateQuantity(_id, productLenght + 1)
+                  }
+                >
+                  <FontAwesome5
+                    name="plus-square"
+                    size={20}
+                    color="#3D9D5D"
+                  />
+                </TouchableOpacity>
+
+              </View>
 
               <Text
                 style={[
                   styles.bannerLargeMargin,
                   globalStyles.row,
                   globalStyles.alignItemsCenter,
+                  globalStyles.fontXSmall,
+                  { color: 'grey' },
+                  { marginTop: 10 },
+                  { marginLeft: 20 }
                 ]}
               >
-                {stock}
+                Stock {stock}
               </Text>
+
             </View>
+
           </View>
 
           <Text
@@ -198,8 +289,11 @@ const ProductScreen = ({ route }) => {
           <Text style={[globalStyles.fontSmall]}>{description}</Text>
 
           <View style={{ height: 180 }}></View>
+
         </ScrollView>
+
       </View>
+
       {/* BUTTON */}
       <TouchableOpacity
         onPress={() => AddProductToCart()}
@@ -240,6 +334,7 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     marginRight: 10,
+    borderRadius: 100
   },
 
   productBanner: {

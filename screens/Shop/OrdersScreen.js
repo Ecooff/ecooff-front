@@ -37,9 +37,6 @@ const OrdersScreen = () => {
 
   const basket = useSelector(selectBasket);
 
-  console.log("basketORder", basket);
-  console.log("user", user.id);
-
   const navigator = useNavigation();
 
   const callback = (param) => {
@@ -76,11 +73,9 @@ const OrdersScreen = () => {
     cartService
       .createOrder(user, address)
       .then((response) => {
-        console.log("respuesta", response.data);
         setNewOtrder(response.data);
         setModalVisible(true);
         setLoader(false);
-        console.log("antes del disptach");
         dispatch(updateBasket(basket - basket));
       })
       .catch((error) => console.log("ERRORENCREATEORDER", error.response.data));

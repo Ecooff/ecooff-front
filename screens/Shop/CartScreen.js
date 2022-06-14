@@ -34,14 +34,12 @@ const CartScreen = () => {
   useEffect(() => {
     setLoadingItems(true);
     openCart(user).then((response) => {
-      console.log("CART DATA", response.data);
       setCartItems(response.data.listOfProducts);
       setLoadingItems(false);
     });
   }, []);
 
   useEffect(() => {
-    console.log("USERINCART", user);
     openCart(user).then((response) => {
       setCartItems(response.data.listOfProducts);
     });
@@ -87,7 +85,6 @@ const CartScreen = () => {
     });
   };
 
-  console.log("cart", cartItems);
 
   const MyBasket = () => {
     {
