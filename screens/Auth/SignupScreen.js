@@ -10,15 +10,19 @@ import {
   Image,
   ActivityIndicator,
   Alert,
-  Platform
+  Platform,
+  StatusBar,
 } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import globalStyles from "../../styles/styles";
 import authStyles from "../../styles/authStyles";
 import { useNavigation } from "@react-navigation/native";
 import { commonFunctions } from "../../utils";
+import { useHeaderHeight } from "@react-navigation/elements";
 
-{ /* COMPONENTS */ }
+{
+  /* COMPONENTS */
+}
 import AuthMenuComponent from "../../components/AuthMenuComponent";
 
 // SERVICES
@@ -36,10 +40,11 @@ const SignupScreen = () => {
   const [repetePassword, setRepetePassword] = useState("");
   const [loader, setLoader] = useState(false);
 
+  const headerHeight = useHeaderHeight();
+
   const navigator = useNavigation();
 
   const signUp = () => {
-
     setLoader(true);
 
     let newUser = {
@@ -72,146 +77,143 @@ const SignupScreen = () => {
     ]);
 
   return (
-    <ScrollView>
+    <KeyboardAvoidingView
+      style={[globalStyles.scrollContainer, { flex: 1 }]}
+      keyboardVerticalOffset={headerHeight}
+      // behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior="padding"
+    >
+      {/* MENU */}
+      <AuthMenuComponent />
 
-      <KeyboardAvoidingView
-        style={[globalStyles.scrollContainer]}
-        // behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        
-        {/* MENU */}
-        <AuthMenuComponent />
+      {/* WELCOME MESSAGE */}
+      <View style={authStyles.titleContainer}>
+        <Text style={[authStyles.title, globalStyles.fontLarge]}>Registro</Text>
+        <Text style={[authStyles.subTitle, globalStyles.fontMedium]}>
+          Crea tu cuenta
+        </Text>
+      </View>
 
-        {/* WELCOME MESSAGE */}
-        <View style={authStyles.titleContainer}>
-          <Text style={[authStyles.title, globalStyles.fontLarge]}>
-            Registro
-          </Text>
-          <Text style={[authStyles.subTitle, globalStyles.fontMedium]}>
-            Crea tu cuenta
-          </Text>
-        </View>
+      {/* INPUTS */}
+      <View style={globalStyles.widthEightyFive}>
+        <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
+          NOMBRE Y APELLIDO
+        </Text>
 
-        {/* INPUTS */}
-        <View style={globalStyles.widthEightyFive}>
-          <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
-            NOMBRE Y APELLIDO
-          </Text>
-
-          <View style={styles.inputColsContainter}>
-            <View style={styles.inputCols}>
-              <AntDesign name="user" style={globalStyles.icons} />
-              <TextInput
-                placeholder="Nombre"
-                value={firstName}
-                keyboardType="email-address"
-                icon="mail"
-                onChangeText={(text) => setFirstName(commonFunctions.capitalize(text))}
-                style={globalStyles.input}
-              />
-            </View>
-
-            <View style={styles.inputCols}>
-              <TextInput
-                placeholder="Apellido"
-                value={lastName}
-                keyboardType="email-address"
-                icon="mail"
-                onChangeText={(text) => setLastName(commonFunctions.capitalize(text))}
-                style={globalStyles.input}
-              />
-            </View>
-          </View>
-
-          <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
-            EMAIL
-          </Text>
-          <View style={globalStyles.inputRow}>
-            <AntDesign name="mail" style={globalStyles.icons} />
+        <View style={styles.inputColsContainter}>
+          <View style={styles.inputCols}>
+            <AntDesign name="user" style={globalStyles.icons} />
             <TextInput
-              placeholder="Email"
-              value={email}
+              placeholder="Nombre"
+              value={firstName}
               keyboardType="email-address"
-              autoCapitalize='none'
               icon="mail"
-              onChangeText={(text) => setEmail(text.toLowerCase())}
+              onChangeText={(text) =>
+                setFirstName(commonFunctions.capitalize(text))
+              }
               style={globalStyles.input}
             />
           </View>
 
-          <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
-            CONTRASEÑA
-          </Text>
-          <View style={globalStyles.inputRow}>
-            <AntDesign name="lock" style={globalStyles.icons} />
+          <View style={styles.inputCols}>
             <TextInput
-              placeholder="Contraseña"
-              value={password}
-              onChangeText={(text) => setPassword(text)}
+              placeholder="Apellido"
+              value={lastName}
+              keyboardType="email-address"
+              icon="mail"
+              onChangeText={(text) =>
+                setLastName(commonFunctions.capitalize(text))
+              }
               style={globalStyles.input}
-              secureTextEntry
-            />
-          </View>
-
-          <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
-            REPETIR CONTRASEÑA
-          </Text>
-          <View style={globalStyles.inputRow}>
-            <AntDesign name="lock" style={globalStyles.icons} />
-            <TextInput
-              placeholder="Repetí tu contraseña"
-              value={repetePassword}
-              onChangeText={(text) => setRepetePassword(text)}
-              style={globalStyles.input}
-              secureTextEntry
             />
           </View>
         </View>
 
-        {/* BUTTONS */}
-        <View
-          style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}
-        >
-          <TouchableOpacity
-            onPress={() => signUp()}
-            // disabled={firstName != null && lastName != null && email != null && password != null && repetePassword != null && loader != null}
-            style={[
-              globalStyles.button,
-              globalStyles.primary,
-              globalStyles.widthFluid,
-            ]}
-          >
-            {loader == false < 2 ? (
-              <View style={[globalStyles.container, globalStyles.horizontal]}>
-                <ActivityIndicator size="small" color="#FFF" />
-              </View>
-            ) : (
-              <Text style={[styles.loginText, globalStyles.textWhite]}>
-                Resgistrarme
-              </Text>
-            )}
-          </TouchableOpacity>
+        <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
+          EMAIL
+        </Text>
+        <View style={globalStyles.inputRow}>
+          <AntDesign name="mail" style={globalStyles.icons} />
+          <TextInput
+            placeholder="Email"
+            value={email}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            icon="mail"
+            onChangeText={(text) => setEmail(text.toLowerCase())}
+            style={globalStyles.input}
+          />
         </View>
 
-        {/* FINAL LABEL */}
+        <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
+          CONTRASEÑA
+        </Text>
+        <View style={globalStyles.inputRow}>
+          <AntDesign name="lock" style={globalStyles.icons} />
+          <TextInput
+            placeholder="Contraseña"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            style={globalStyles.input}
+            secureTextEntry
+          />
+        </View>
+
+        <Text style={[globalStyles.inputLabel, globalStyles.fontSmall]}>
+          REPETIR CONTRASEÑA
+        </Text>
+        <View style={globalStyles.inputRow}>
+          <AntDesign name="lock" style={globalStyles.icons} />
+          <TextInput
+            placeholder="Repetí tu contraseña"
+            value={repetePassword}
+            onChangeText={(text) => setRepetePassword(text)}
+            style={globalStyles.input}
+            secureTextEntry
+          />
+        </View>
+      </View>
+
+      {/* BUTTONS */}
+      <View style={[authStyles.buttonContainer, globalStyles.widthEightyFive]}>
         <TouchableOpacity
-          onPress={() => navigator.navigate("Login")}
-          style={[styles.finalLabel, authStyles.registerContainter]}
+          onPress={() => signUp()}
+          // disabled={firstName != null && lastName != null && email != null && password != null && repetePassword != null && loader != null}
+          style={[
+            globalStyles.button,
+            globalStyles.primary,
+            globalStyles.widthFluid,
+          ]}
         >
-          <Text style={[authStyles.headerTitle, globalStyles.fontSmall]}>
-            ¿Ya tenés cuenta?
-            <Text style={globalStyles.fontBold}> Inicia sesión</Text>
-          </Text>
+          {loader == false < 2 ? (
+            <View style={[globalStyles.container, globalStyles.horizontal]}>
+              <ActivityIndicator size="small" color="#FFF" />
+            </View>
+          ) : (
+            <Text style={[styles.loginText, globalStyles.textWhite]}>
+              Resgistrarme
+            </Text>
+          )}
         </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </ScrollView>
+      </View>
+
+      {/* FINAL LABEL */}
+      <TouchableOpacity
+        onPress={() => navigator.navigate("Login")}
+        style={[styles.finalLabel, authStyles.registerContainter]}
+      >
+        <Text style={[authStyles.headerTitle, globalStyles.fontSmall]}>
+          ¿Ya tenés cuenta?
+          <Text style={globalStyles.fontBold}> Inicia sesión</Text>
+        </Text>
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
   );
 };
 
 export default SignupScreen;
 
 const styles = StyleSheet.create({
-
   arrowSpace: {
     marginBottom: 10,
   },
