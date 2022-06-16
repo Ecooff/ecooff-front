@@ -20,28 +20,30 @@ const AddressesScreen = () => {
 
   const dispatch = useDispatch();
   const navigator = useNavigation();
+  
 
   const callback = (newAddress) => {
     // do something with value in parent component, like save to state
     setUserAdresses(userAdresses => [...userAdresses, newAddress])
-
+    
   }
 
   useEffect(() => {
     getUserAddresses(user).then(response => setUserAdresses(response.data[0].addresses))
+    console.log('profile',user)
   }, [])
 
   const selectFn = (id, i) => {
 
     selected ? setSelected(false) : setSelected(true);
 
-    AdressService.changeDefaultAdress(id, user).then(response => { }).catch(error => console.log('ERROR', error.response.data.message));
+    AdressService.changeDefaultAdress(id, user).then(response => {dispatch(updateAddress({ addresses: [user.addresses, response.data] })) }).catch(error => console.log('ERROR', error.response.data.message));
     userAdresses.map(address => {
       address.defaultAddress = false;
     })
     userAdresses[i].defaultAddress = true;
 
-    dispatch(updateAddress({addresses : userAdresses }))
+    
 
   }
 
